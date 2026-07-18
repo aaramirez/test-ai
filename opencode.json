@@ -55,7 +55,7 @@
     },
     "plan": {
       "description": "Generate a detailed requirements plan in plans/ with TDD philosophy",
-      "template": "Create a detailed implementation plan for: $ARGUMENTS. Follow the TDD process: understand the request, research the codebase, create a plan document in plans/<feature-slug>.md with objective, requirements, architecture decisions, file changes, TDD flow, and verification steps. Write failing tests first, then implement, then verify."
+      "template": "Create a detailed implementation plan for: $ARGUMENTS. Follow the TDD process: understand the request, research the codebase, create a plan document in plans/<auto-number>-<feature-slug>-<YYYY-MM-DD>.md with objective, requirements, architecture decisions, file changes, TDD flow, and verification steps. The auto-number is the next sequential number in plans/, and the date is today's date. Write failing tests first, then implement, then verify."
     },
     "quiz-create": {
       "description": "Create a new question bank for quizzes or surveys",
