@@ -1,0 +1,37 @@
+{
+  "session_id": "q-1784395597461-wlgjdz",
+  "date": "2026-07-18T17:26:37.467Z",
+  "mode": "live",
+  "bank": "git.json",
+  "bank_version": "1.0.0",
+  "participant": {
+    "id": "STU-001",
+    "name": "Jane Doe",
+    "email": "jane@example.com"
+  },
+  "questions": [
+    {
+      "id": "git-001",
+      "type": "single",
+      "selected": [
+        1
+      ],
+      "correct": true
+    },
+    {
+      "id": "git-002",
+      "type": "single",
+      "selected": [
+        1
+      ],
+      "correct": true
+    }
+  ],
+  "score": {
+    "correct": 2,
+    "total": 2,
+    "percentage": 100
+  },
+  "evaluated": true,
+  "sent": false
+}

@@ -1,5 +1,21 @@
 {
-  "sessions": {},
-  "by_participant": {},
-  "by_bank": {}
+  "sessions": {
+    "q-1784395597461-wlgjdz": {
+      "participant_id": "STU-001",
+      "bank": "git.json",
+      "mode": "live",
+      "date": "2026-07-18T17:26:37.467Z",
+      "file": "git/2026-07-18_q-1784395597461-wlgjdz.json"
+    }
+  },
+  "by_participant": {
+    "STU-001": [
+      "q-1784395597461-wlgjdz"
+    ]
+  },
+  "by_bank": {
+    "git.json": [
+      "q-1784395597461-wlgjdz"
+    ]
+  }
 }

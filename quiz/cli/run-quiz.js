@@ -10,13 +10,10 @@
  * Cross-platform: macOS, Linux, Windows — zero external dependencies.
  */
 
-import { readFileSync, readdirSync, existsSync } from 'fs';
+import { existsSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { loadBank, loadKey, listBanks } from '../lib/schema.js';
-import { findParticipant, registerParticipant } from '../lib/participant.js';
-import { saveResult, generateSessionId } from '../lib/session.js';
-import { calculateResults } from '../lib/scorer.js';
+import { loadBank, listBanks } from '../lib/schema.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);

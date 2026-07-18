@@ -47,15 +47,14 @@ export function saveResult(session) {
 }
 
 export function loadResult(sessionId) {
-  for (const bankDir of readdirSync(RESULTS_DIR)) {
-    const dirPath = join(RESULTS_DIR, bankDir);
-    if (!existsSync(dirPath) || !join(dirPath, `${sessionId}.json`)) continue;
-    const filePath = join(dirPath, `${sessionId}.json`);
-    if (existsSync(filePath)) {
-      return JSON.parse(readFileSync(filePath, 'utf-8'));
-    }
-  }
-  return null;
+  const index = loadIndex();
+  const entry = index.sessions[sessionId];
+  if (!entry) return null;
+
+  const filePath = join(RESULTS_DIR, entry.file);
+  if (!existsSync(filePath)) return null;
+
+  return JSON.parse(readFileSync(filePath, 'utf-8'));
 }
 
 export function loadIndex() {
@@ -113,11 +112,19 @@ export function createSession({ mode, bank, bankVersion, difficulty, participant
   const session_id = generateSessionId(mode);
   const date = new Date().toISOString();
 
-  let result;
-  if (mode === 'survey') {
-    result = { questions: selections };
+  let questionsResult;
+  let scoreResult;
+  if (mode === 'practice') {
+    const result = calculateResults(questions, selections, key);
+    questionsResult = result.questions;
+    scoreResult = result.score;
   } else {
-    result = calculateResults(questions, selections, key);
+    questionsResult = questions.map((q, i) => ({
+      id: q.id,
+      type: q.type,
+      selected: Array.isArray(selections[i]) ? selections[i] : [selections[i]],
+    }));
+    scoreResult = null;
   }
 
   const session = {
@@ -128,11 +135,12 @@ export function createSession({ mode, bank, bankVersion, difficulty, participant
     bank_version: bankVersion,
     difficulty: difficulty || undefined,
     participant,
-    ...result,
+    questions: questionsResult,
+    score: scoreResult,
   };
 
   if (mode === 'live') {
-    session.evaluated = true;
+    session.evaluated = false;
     session.sent = false;
   }
 

@@ -5,6 +5,10 @@
  * Usage:
  *   node evaluate.js --session results/javascript/q-2026-07-15-abc123.json
  *   node evaluate.js --bank javascript.json --all
+ *   node evaluate.js --bank javascript.json --all --score-only
+ *
+ * --score-only: computes aggregate score but does NOT store per-question
+ *   correct/incorrect fields (Mode B). Default is Mode A (full evaluation).
  *
  * Cross-platform: macOS, Linux, Windows — zero external dependencies.
  */
@@ -25,9 +29,10 @@ for (let i = 0; i < args.length; i++) {
   if (args[i] === '--session' && args[i + 1]) opts.session = args[++i];
   else if (args[i] === '--bank' && args[i + 1]) opts.bank = args[++i];
   else if (args[i] === '--all') opts.all = true;
+  else if (args[i] === '--score-only') opts.scoreOnly = true;
 }
 
-function evaluateSession(session, key) {
+function evaluateSessionModeA(session, key) {
   if (!session.questions || session.mode === 'survey') return session;
   for (const q of session.questions) {
     if (q.correct !== undefined) continue;
@@ -48,6 +53,37 @@ function evaluateSession(session, key) {
   };
   session.evaluated = true;
   return session;
+}
+
+function evaluateSessionModeB(session, key) {
+  if (!session.questions || session.mode === 'survey') return session;
+  let correctCount = 0;
+  let total = 0;
+  for (const q of session.questions) {
+    if (q.type === 'survey') continue;
+    total++;
+    const result = scoreQuestion(
+      { id: q.id, type: q.type },
+      q.selected,
+      key
+    );
+    if (result.correct) correctCount++;
+    // Mode B: do NOT set q.correct
+  }
+  session.score = {
+    correct: correctCount,
+    total,
+    percentage: total > 0 ? Math.round((correctCount / total) * 100) : 0,
+  };
+  session.evaluated = true;
+  return session;
+}
+
+function evaluateSession(session, key) {
+  if (opts.scoreOnly) {
+    return evaluateSessionModeB(session, key);
+  }
+  return evaluateSessionModeA(session, key);
 }
 
 if (opts.session) {
@@ -81,6 +117,6 @@ if (opts.session) {
   }
   console.log(`Total evaluated: ${count}`);
 } else {
-  console.error('Usage: node evaluate.js --session PATH | --bank BANK --all');
+  console.error('Usage: node evaluate.js --session PATH | --bank BANK --all [--score-only]');
   process.exit(1);
 }

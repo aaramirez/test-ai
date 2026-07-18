@@ -5,7 +5,7 @@
  * Cross-platform: macOS, Linux, Windows — zero external dependencies.
  */
 
-import { readFileSync, readdirSync, existsSync } from 'fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -26,7 +26,7 @@ function loadResultsForParticipant(participantId) {
   const results = [];
   for (const bankDir of readdirSync(RESULTS_DIR)) {
     const dir = join(RESULTS_DIR, bankDir);
-    if (!existsSync(dir) || bankDir === '_index.json') continue;
+    if (!existsSync(dir) || !statSync(dir).isDirectory()) continue;
     for (const f of readdirSync(dir)) {
       if (!f.endsWith('.json') || f.startsWith('_')) continue;
       const session = JSON.parse(readFileSync(join(dir, f), 'utf-8'));
@@ -44,12 +44,16 @@ export function perQuestionStats(results) {
     if (!session.questions) continue;
     for (const q of session.questions) {
       if (!stats[q.id]) {
-        stats[q.id] = { id: q.id, type: q.type, total: 0, correct: 0, selections: {} };
+        stats[q.id] = { id: q.id, type: q.type, total: 0, correct: 0, hasCorrectData: false, selections: {} };
       }
       stats[q.id].total++;
-      if (q.correct === true) stats[q.id].correct++;
+      if (q.correct !== undefined) {
+        stats[q.id].hasCorrectData = true;
+        if (q.correct === true) stats[q.id].correct++;
+      }
       for (const s of (q.selected || [])) {
-        stats[q.id].selections[s] = (stats[q.id].selections[s] || 0) + 1;
+        const key = String(s);
+        stats[q.id].selections[key] = (stats[q.id].selections[key] || 0) + 1;
       }
     }
   }
@@ -88,8 +92,12 @@ export function formatReport(bankName, results, options = {}) {
   lines.push('');
 
   for (const [id, stat] of Object.entries(qStats)) {
-    const pct = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
-    lines.push(`${id} (${stat.type || 'single'}): ${pct}% correct (${stat.correct}/${stat.total})`);
+    if (stat.hasCorrectData) {
+      const pct = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+      lines.push(`${id} (${stat.type || 'single'}): ${pct}% correct (${stat.correct}/${stat.total})`);
+    } else {
+      lines.push(`${id} (${stat.type || 'single'}): (score-only mode — per-question data not available)`);
+    }
     for (const [sel, count] of Object.entries(stat.selections)) {
       const selPct = Math.round((count / stat.total) * 100);
       lines.push(`  [${sel}] ${selPct}% (${count})`);

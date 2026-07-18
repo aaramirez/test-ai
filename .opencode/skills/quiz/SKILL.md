@@ -26,7 +26,7 @@ If the participant is already registered, their info is auto-filled from `quiz/p
 | Mode | Feedback | Saved | Use Case |
 |------|----------|-------|----------|
 | **Practice** | ✅ Immediate per question | ✅ As practice | Learn and prepare |
-| **Live** | ❌ Only final score | ✅ As live | Submit real results |
+| **Live** | ❌ Never shown | ✅ As live | Submit real results for admin evaluation |
 
 ### 3. Select Bank
 
@@ -52,13 +52,32 @@ At the end, show final score and encourage trying live.
 ### 6. Live Mode Flow
 
 No feedback during quiz. After all questions:
-- Show final score (quiz) or thank-you (survey)
+- Show **"Thank you, your responses have been recorded"** — do NOT show any score or results
 - Save result to `quiz/results/<bank>/q-<session>.json`
 - Update `quiz/results/_index.json`
+- Results are evaluated later by an admin
 
 ## Result Formats
 
-### Live Quiz Result
+### Live Quiz Result (before admin evaluation)
+```json
+{
+  "session_id": "q-2026-07-15-a1b2c3",
+  "date": "2026-07-15T10:00:00Z",
+  "mode": "live",
+  "bank": "javascript.json",
+  "bank_version": "1.0.0",
+  "participant": { "id": "STU-001", "name": "Jane Doe", "email": "jane@example.com" },
+  "questions": [
+    { "id": "js-001", "type": "single", "selected": [1] }
+  ],
+  "score": null,
+  "evaluated": false,
+  "sent": false
+}
+```
+
+### Live Quiz Result (after admin evaluation — Mode A)
 ```json
 {
   "session_id": "q-2026-07-15-a1b2c3",
@@ -75,6 +94,23 @@ No feedback during quiz. After all questions:
   "sent": false
 }
 ```
+
+### Live Quiz Result (after admin evaluation — Mode B, score-only)
+```json
+{
+  "session_id": "q-2026-07-15-a1b2c3",
+  "date": "2026-07-15T10:00:00Z",
+  "mode": "live",
+  "bank": "javascript.json",
+  "bank_version": "1.0.0",
+  "participant": { "id": "STU-001", "name": "Jane Doe", "email": "jane@example.com" },
+  "questions": [
+    { "id": "js-001", "type": "single", "selected": [1] }
+  ],
+  "score": { "correct": 1, "total": 3, "percentage": 33 },
+  "evaluated": true,
+  "sent": false
+}
 
 ### Practice Result
 Same structure but `mode: "practice"` and no `evaluated`/`sent` fields.

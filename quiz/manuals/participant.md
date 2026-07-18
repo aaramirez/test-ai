@@ -29,8 +29,9 @@
 3. Select the topic (bank)
 4. Select difficulty and count
 5. Answer all questions — no feedback during the quiz
-6. At the end, see your final score
-7. Results are saved and submitted to the admin
+6. After submitting, you'll see a confirmation message — **no score is shown**
+7. Results are saved and submitted to the admin for later evaluation
+8. Your admin will send you your results once they've been evaluated
 
 ## Taking a Survey
 

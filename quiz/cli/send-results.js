@@ -10,7 +10,7 @@
  * Cross-platform: macOS, Linux, Windows — zero external dependencies.
  */
 
-import { readFileSync, readdirSync, existsSync } from 'fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { loadResult } from '../lib/session.js';
@@ -51,8 +51,8 @@ if (opts.list && opts.bank) {
 } else if (opts.session) {
   for (const bankDir of readdirSync(RESULTS_DIR)) {
     const dir = join(RESULTS_DIR, bankDir);
-    if (!existsSync(dir)) continue;
-    const filePath = join(dir, opts.session);
+    if (!existsSync(dir) || !statSync(dir).isDirectory()) continue;
+    const filePath = join(dir, opts.session + '.json');
     if (existsSync(filePath)) {
       const session = JSON.parse(readFileSync(filePath, 'utf-8'));
       const payload = buildEmailPayload(session, session.bank);
