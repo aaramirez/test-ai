@@ -87,12 +87,29 @@ This:
 - Updates `surveys/_index.json` for lookup
 - Updates `surveys/registry.json` marking this bank as taken by this participant
 
-### 5. Confirm
+### 5. Confirm & Upload
 
 Show the user:
 ```
 Your responses have been recorded. Thank you for completing the survey!
 ```
+
+Then ask:
+> ¿Deseas subir tus resultados por git?
+
+If yes, use the git-results module to commit and push:
+
+```javascript
+import { commitAndPushResult } from './quiz/lib/git-results.js';
+const sessionPath = `surveys/results/${bank}/${session.session_id}.json`;
+const result = commitAndPushResult(sessionPath, 'survey');
+```
+
+Report the result:
+- committed + pushed: "Resultados subidos exitosamente."
+- committed but push failed: "Commiteado localmente, pero falló el push: <error>"
+- not committed (already committed): "Los resultados ya fueron commiteados."
+- error: "No se pudieron subir los resultados: <error>"
 
 Ask if they'd like to take another pending survey. If yes, loop back to step 2. If no, end.
 

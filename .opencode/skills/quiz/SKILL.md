@@ -57,6 +57,25 @@ No feedback during quiz. After all questions:
 - Update `quiz/results/_index.json`
 - Results are evaluated later by an admin
 
+### 7. Upload Results (Optional)
+
+After confirming the quiz is saved, ask the user:
+> ¿Deseas subir tus resultados por git?
+
+If yes, use the git-results module:
+
+```javascript
+import { commitAndPushResult } from './quiz/lib/git-results.js';
+const sessionPath = `quiz/results/${bank}/${session.session_id}.json`;
+const result = commitAndPushResult(sessionPath, 'quiz');
+```
+
+Report the result:
+- committed + pushed: "Resultados subidos exitosamente."
+- committed but push failed: "Commiteado localmente, pero falló el push: <error>"
+- not committed (already committed): "Los resultados ya fueron commiteados."
+- error: "No se pudieron subir los resultados: <error>"
+
 ## Result Formats
 
 ### Live Quiz Result (before admin evaluation)
