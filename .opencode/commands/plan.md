@@ -61,3 +61,4 @@ plans/002-another-feature-2026-07-19.md
 - Tests MUST fail before implementation (red-green-refactor)
 - Update AGENTS.md/README.md if adding new agents/skills/scripts
 - Cross-platform: Node.js only, no shell dependencies
+- Allow user to review plan. Do not execute unless told.
