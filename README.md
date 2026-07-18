@@ -21,6 +21,7 @@ This project uses Node.js built-in test runner (`node:test` + `node:assert/stric
 | `quiz/tests/scorer.test.js` | Scoring engine for single, multiple, and survey questions (11 tests) |
 | `quiz/tests/session.test.js` | Session ID generation and uniqueness (5 tests) |
 | `quiz/tests/participant.test.js` | Registration, search, CSV import (11 tests) |
+| `quiz/tests/survey-session.test.js` | Survey session management — registry, pending, save (17 tests) |
 
 ### Running Tests
 
@@ -69,12 +70,14 @@ BANKS (shareable) + KEYS (secret)   --->   QUIZ SESSION   --->   RESULTS   ---> 
 | `quiz/tests/` | Test suites | Yes |
 | `quiz/manuals/` | Documentation | Yes |
 | `quiz/templates/` | Email templates | Yes |
+| `surveys/` | Survey results, registry, index | Yes |
 
 **Data flow:**
 
 1. Admin creates banks (`quiz/banks/`) and answer keys (`quiz/keys/`)
 2. Participants run quizzes, results saved to `quiz/results/`
 3. Admin evaluates results, generates reports, emails scores
+4. Surveys use a separate flow: questions from `quiz/banks/`, answers saved to `surveys/results/`, completion tracked in `surveys/registry.json`
 
 ### Quick Start
 
@@ -114,6 +117,9 @@ node quiz/cli/manage-participants.js --add --id STU-001 --name "Jane" --email ja
 | `/quiz-report` | Admin reports and participant stats | [quiz-admin] |
 | `/quiz-send` | Email session results | [quiz-results] |
 | `/quiz-migrate` | Migrate legacy bank to new format | [quiz-bank] |
+| `/quiz-install` | Install quiz & testing system to a directory | [quiz-install] |
+| `/quiz-install-update` | Update existing installation | [quiz-install] |
+| `/survey` | Check and take pending surveys | [survey] |
 
 ### CLI Scripts
 
@@ -239,6 +245,34 @@ node quiz/cli/send-results.js --bank javascript.json --all
 node quiz/cli/send-results.js --bank javascript.json --session q-1234567890
 ```
 
+#### Surveys
+
+```bash
+# Using the /survey command via opencode (interactive)
+/survey
+
+# List pending surveys for a participant
+/survey participant=STU-001
+
+# Take a specific survey
+/survey participant=STU-001 bank=feedback-survey
+
+# Survey session management (programmatic)
+node -e "import('./quiz/lib/survey-session.js').then(m => m.getPendingSurveys('STU-001', ['feedback-survey.json'], '.'))"
+```
+
+### Survey System
+
+The survey subsystem stores all data separately from quiz data:
+
+| Path | Purpose |
+|------|---------|
+| `surveys/registry.json` | Completion tracking: `{ participant_id: { bank_name: { taken, session_id, date } } }` |
+| `surveys/_index.json` | Session index for lookup by session ID, participant, or bank |
+| `surveys/results/<bank>/` | Per-bank survey result files (`s-YYYY-MM-DD-xxxxxx.json`) |
+
+Survey banks are regular banks in `quiz/banks/` with `type: "survey"` questions. They require no answer key.
+
 ### Session ID Format
 
 | Prefix | Mode |
@@ -334,6 +368,26 @@ Generated automatically when a quiz is completed.
 }
 ```
 
+#### Survey Result (`surveys/results/<bank>/*.json`)
+
+No scoring — just question answers with `score: null`:
+
+```json
+{
+  "session_id": "s-2026-07-18-abc123",
+  "date": "2026-07-18T10:00:00.000Z",
+  "mode": "survey",
+  "bank": "feedback-survey.json",
+  "bank_version": "1.0.0",
+  "participant": { "id": "STU-001", "name": "Jane Doe", "email": "jane@example.com" },
+  "questions": [
+    { "id": "srv-001", "type": "survey", "selected": [0] },
+    { "id": "srv-002", "type": "survey", "selected": [2] }
+  ],
+  "score": null
+}
+```
+
 ### Workflows
 
 #### Admin Setup
@@ -352,6 +406,13 @@ Generated automatically when a quiz is completed.
 1. Participants run: `node quiz/cli/run-quiz.js --bank topic.json --mode live --participant-id STU-001`
 2. Results auto-save to `quiz/results/`
 3. Admin pulls latest: `git pull`
+
+#### Running a Survey
+
+1. Open opencode and run `/survey` (interactive)
+2. System identifies participant, checks `surveys/registry.json` for pending surveys
+3. Select a pending survey → answer questions → results saved to `surveys/results/<bank>/`
+4. Registry is updated to mark survey as completed
 
 #### Daily Operations
 
