@@ -1,1 +1,14 @@
-{}
+{
+  "10488134": {
+    "feedback-survey.json": {
+      "taken": true,
+      "session_id": "s-2026-07-18-610a66",
+      "date": "2026-07-18T21:55:23.035Z"
+    },
+    "experiencia-encuesta.json": {
+      "taken": true,
+      "session_id": "s-2026-07-18-4f1d13",
+      "date": "2026-07-18T21:59:19.548Z"
+    }
+  }
+}

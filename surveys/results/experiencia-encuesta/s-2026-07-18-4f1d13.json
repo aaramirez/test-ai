@@ -1,0 +1,75 @@
+{
+  "session_id": "s-2026-07-18-4f1d13",
+  "date": "2026-07-18T21:59:19.548Z",
+  "mode": "survey",
+  "bank": "experiencia-encuesta.json",
+  "bank_version": "1.0.0",
+  "participant": {
+    "id": "10488134",
+    "name": "Alexander Ramírez",
+    "email": "aramirez@grupoconex.net"
+  },
+  "questions": [
+    {
+      "id": "srv-exp-001",
+      "type": "survey",
+      "selected": [
+        {
+          "id": "srv-exp-001",
+          "selected": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srv-exp-002",
+      "type": "survey",
+      "selected": [
+        {
+          "id": "srv-exp-002",
+          "selected": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srv-exp-003",
+      "type": "survey",
+      "selected": [
+        {
+          "id": "srv-exp-003",
+          "selected": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srv-exp-004",
+      "type": "survey",
+      "selected": [
+        {
+          "id": "srv-exp-004",
+          "selected": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srv-exp-005",
+      "type": "survey",
+      "selected": [
+        {
+          "id": "srv-exp-005",
+          "selected": [
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "score": null
+}

@@ -1,6 +1,6 @@
 {
   "name": "Git",
-  "description": "Git version control concepts",
+  "description": "Conceptos de control de versiones Git",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [

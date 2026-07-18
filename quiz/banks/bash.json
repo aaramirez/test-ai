@@ -1,6 +1,6 @@
 {
   "name": "Bash",
-  "description": "Bash command line concepts",
+  "description": "Conceptos de línea de comandos Bash",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [

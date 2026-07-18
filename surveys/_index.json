@@ -1,1 +1,32 @@
-{"sessions":{},"by_participant":{},"by_bank":{}}
+{
+  "sessions": {
+    "s-2026-07-18-610a66": {
+      "participant_id": "10488134",
+      "bank": "feedback-survey.json",
+      "mode": "survey",
+      "date": "2026-07-18T21:55:23.035Z",
+      "file": "feedback-survey/s-2026-07-18-610a66.json"
+    },
+    "s-2026-07-18-4f1d13": {
+      "participant_id": "10488134",
+      "bank": "experiencia-encuesta.json",
+      "mode": "survey",
+      "date": "2026-07-18T21:59:19.548Z",
+      "file": "experiencia-encuesta/s-2026-07-18-4f1d13.json"
+    }
+  },
+  "by_participant": {
+    "10488134": [
+      "s-2026-07-18-610a66",
+      "s-2026-07-18-4f1d13"
+    ]
+  },
+  "by_bank": {
+    "feedback-survey.json": [
+      "s-2026-07-18-610a66"
+    ],
+    "experiencia-encuesta.json": [
+      "s-2026-07-18-4f1d13"
+    ]
+  }
+}

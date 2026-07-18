@@ -1,6 +1,6 @@
 {
   "name": "Python",
-  "description": "Python fundamentals",
+  "description": "Fundamentos de Python",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [

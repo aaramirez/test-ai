@@ -1,31 +1,31 @@
 {
-  "name": "Course Feedback",
-  "description": "Post-course satisfaction survey",
+  "name": "Encuesta de Satisfacción",
+  "description": "Encuesta de satisfacción post-curso",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [
     {
       "id": "srv-001",
       "type": "survey",
-      "question": "How satisfied are you with the course?",
+      "question": "¿Qué tan satisfecho estás con el curso?",
       "options": [
-        { "label": "Very satisfied" },
-        { "label": "Satisfied" },
+        { "label": "Muy satisfecho" },
+        { "label": "Satisfecho" },
         { "label": "Neutral" },
-        { "label": "Dissatisfied" },
-        { "label": "Very dissatisfied" }
+        { "label": "Insatisfecho" },
+        { "label": "Muy insatisfecho" }
       ]
     },
     {
       "id": "srv-002",
       "type": "survey",
-      "question": "How likely are you to recommend this course?",
+      "question": "¿Qué tan probable es que recomiendes este curso?",
       "options": [
-        { "label": "Very likely" },
-        { "label": "Likely" },
+        { "label": "Muy probable" },
+        { "label": "Probable" },
         { "label": "Neutral" },
-        { "label": "Unlikely" },
-        { "label": "Very unlikely" }
+        { "label": "Improbable" },
+        { "label": "Muy improbable" }
       ]
     }
   ]

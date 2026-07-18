@@ -1,0 +1,68 @@
+{
+  "name": "Encuesta de Experiencia",
+  "description": "Encuesta de experiencia general del curso",
+  "version": "1.0.0",
+  "randomize": { "questions": false, "options": false },
+  "questions": [
+    {
+      "id": "srv-exp-001",
+      "type": "survey",
+      "question": "¿Cómo calificarías el contenido del curso?",
+      "options": [
+        { "label": "Excelente" },
+        { "label": "Bueno" },
+        { "label": "Regular" },
+        { "label": "Malo" },
+        { "label": "Muy malo" }
+      ]
+    },
+    {
+      "id": "srv-exp-002",
+      "type": "survey",
+      "question": "¿Qué tan probable es que recomiendes este curso a un colega?",
+      "options": [
+        { "label": "Muy probable" },
+        { "label": "Probable" },
+        { "label": "Neutral" },
+        { "label": "Improbable" },
+        { "label": "Muy improbable" }
+      ]
+    },
+    {
+      "id": "srv-exp-003",
+      "type": "survey",
+      "question": "¿El ritmo del curso fue adecuado?",
+      "options": [
+        { "label": "Demasiado rápido" },
+        { "label": "Un poco rápido" },
+        { "label": "Adecuado" },
+        { "label": "Un poco lento" },
+        { "label": "Demasiado lento" }
+      ]
+    },
+    {
+      "id": "srv-exp-004",
+      "type": "survey",
+      "question": "¿Los ejercicios prácticos fueron útiles para tu aprendizaje?",
+      "options": [
+        { "label": "Muy útiles" },
+        { "label": "Útiles" },
+        { "label": "Neutrales" },
+        { "label": "Poco útiles" },
+        { "label": "Para nada útiles" }
+      ]
+    },
+    {
+      "id": "srv-exp-005",
+      "type": "survey",
+      "question": "¿Qué tan satisfecho estás con el soporte recibido del instructor?",
+      "options": [
+        { "label": "Muy satisfecho" },
+        { "label": "Satisfecho" },
+        { "label": "Neutral" },
+        { "label": "Insatisfecho" },
+        { "label": "Muy insatisfecho" }
+      ]
+    }
+  ]
+}

@@ -30,9 +30,9 @@ export function formatQuizEmail(session, bankName) {
 
   for (const q of session.questions) {
     if (q.correct === true) {
-      lines.push(`✅ ${q.id}: Correct`);
+      lines.push(`✅ ${q.id}: Correcto`);
     } else {
-      lines.push(`❌ ${q.id}: Incorrect`);
+      lines.push(`❌ ${q.id}: Incorrecto`);
     }
   }
 

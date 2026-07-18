@@ -45,6 +45,13 @@
       "metadata": {
         "group": "cohorte-A"
       }
+    },
+    "10488134": {
+      "id": "10488134",
+      "name": "Alexander Ramírez",
+      "email": "aramirez@grupoconex.net",
+      "registered_at": "2026-07-18T00:00:00.000Z",
+      "metadata": {}
     }
   },
   "groups": {

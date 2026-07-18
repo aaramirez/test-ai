@@ -1,0 +1,39 @@
+{
+  "session_id": "s-2026-07-18-610a66",
+  "date": "2026-07-18T21:55:23.035Z",
+  "mode": "survey",
+  "bank": "feedback-survey.json",
+  "bank_version": "1.0.0",
+  "participant": {
+    "id": "10488134",
+    "name": "Alexander Ramírez",
+    "email": "aramirez@grupoconex.net"
+  },
+  "questions": [
+    {
+      "id": "srv-001",
+      "type": "survey",
+      "selected": [
+        {
+          "id": "srv-001",
+          "selected": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srv-002",
+      "type": "survey",
+      "selected": [
+        {
+          "id": "srv-002",
+          "selected": [
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "score": null
+}
