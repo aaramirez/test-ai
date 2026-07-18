@@ -121,7 +121,7 @@ if (isFile(join(ROOT, 'shared', 'brand.json'))) {
 }
 
 // ── Wikilinks in tutorials ──
-const tutorialsDir = join(ROOT, 'tutoriales-arai');
+const tutorialsDir = join(ROOT, 'tutorials');
 if (isDir(tutorialsDir)) {
   const mdFiles = [];
   function collectMd(dir) {

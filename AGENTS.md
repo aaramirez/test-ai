@@ -2,8 +2,7 @@
 
 test-ia — AI-enhanced project
 
-This repository uses **arai** (open-code AI configuration manager) for multi-agent configuration.
-Skills, scripts, and prompts are installed from the [aramirez-ai](https://github.com/aaramirez/aramirez-ai) repository.
+Multi-agent configuration managed through opencode (opencode.json).
 
 ## Repository structure
 
@@ -28,6 +27,7 @@ test-ia/
   │   ├── manuals/  User documentation
   │   ├── templates/  Email templates
   │   └── tests/  Test suites
+  ├── plans/  Implementation plans
   ├── opencode.json
   ├── package.json
   └── repos.json
@@ -38,8 +38,151 @@ test-ia/
 - **OpenCode only**: All agent configuration is managed through opencode (opencode.json).
 - **Skills live in `.opencode/skills/<name>/SKILL.md`** with YAML frontmatter.
 - **Cross-Platform Compatibility**: All code, scripts, and tools must run on both macOS and Windows.
-- **Per-project installs**: `arai install` copies files locally — projects are self-contained.
+- **Self-contained**: All configuration lives in `.opencode/` — projects are portable.
 - **Zero npm dependencies**: All quiz system code uses Node.js built-in modules only.
+
+## Testing with OpenCode TUI
+
+### Quick Start
+
+1. Open opencode in the project directory
+2. Type `/test` to run all tests
+3. Or ask the tester agent: "Run all tests and report results"
+
+### Writing Tests
+
+This project uses Node.js built-in test runner (`node:test` + `node:assert/strict`).
+
+**Test file location:** `quiz/tests/*.test.js`
+
+**Basic test structure:**
+```javascript
+#!/usr/bin/env node
+import { describe, it } from 'node:test';
+import assert from 'node:assert/strict';
+import { myFunction } from '../lib/my-module.js';
+
+describe('myFunction', () => {
+  it('returns expected value', () => {
+    assert.equal(myFunction(input), expected);
+  });
+
+  it('handles edge case', () => {
+    assert.throws(() => myFunction(badInput), /error message/);
+  });
+});
+```
+
+### Running Tests
+
+```bash
+# Single file
+node --test quiz/tests/scorer.test.js
+
+# All quiz tests
+node --test quiz/tests/*.test.js
+
+# Auto-discover all tests
+node --test
+```
+
+### TDD Workflow
+
+1. **RED** — Write failing test first
+2. **GREEN** — Implement minimum code to pass
+3. **REFACTOR** — Clean up while keeping tests green
+
+Use `/plan` command to create implementation plans before coding.
+
+## Creating Skills
+
+### Skill Format
+
+Skills live in `.opencode/skills/<name>/SKILL.md` with YAML frontmatter:
+
+```markdown
+---
+name: skill-name
+description: Short description of what this skill does.
+license: MIT
+scripts:
+  - ../../path/to/script.js
+---
+
+# Skill Title
+
+Detailed workflow instructions here.
+```
+
+### Creating a Testing Skill
+
+1. Create directory: `.opencode/skills/testing/`
+2. Create `SKILL.md` with YAML frontmatter
+3. Add `name`, `description`, `license` fields
+4. Reference relevant scripts in `scripts` array
+5. Document the workflow in the body
+
+### Example: testing skill
+
+See `.opencode/skills/testing/SKILL.md` for a complete example.
+
+## Creating Agents
+
+### Agent Format
+
+Agents are defined in `opencode.json` under the `agent` key, with optional detailed instructions in `.opencode/agents/<name>.md`:
+
+```json
+{
+  "agent": {
+    "agent-name": {
+      "mode": "primary|subagent",
+      "description": "Short description",
+      "permission": {
+        "bash": "allow|deny|ask",
+        "edit": "allow|deny|ask"
+      }
+    }
+  }
+}
+```
+
+### Creating a Testing Agent
+
+1. Define agent in `opencode.json` with permissions
+2. Create `.opencode/agents/<name>.md` with detailed instructions
+3. Include frontmatter: `description`, `mode`, `model`, `permission`
+4. Document the workflow, commands, and patterns
+
+### Example: tester agent
+
+See `.opencode/agents/tester.md` for a complete example.
+
+## Creating Commands
+
+### Command Format
+
+Commands are defined in `.opencode/commands/<name>.md`:
+
+```markdown
+---
+description: Short description of what this command does.
+---
+
+Detailed instructions for the command.
+Use $ARGUMENTS for user input.
+```
+
+### Creating a Test Command
+
+1. Create `.opencode/commands/<name>.md`
+2. Add YAML frontmatter with `description`
+3. Write detailed template in the body
+4. Reference skills, scripts, or agents as needed
+
+### Example: test command
+
+See `.opencode/commands/test.md` for a complete example.
 
 ## Available agents
 
@@ -47,9 +190,8 @@ test-ia/
 |-------|------|-------------|
 | **build** (default) | primary | — |
 | **plan** | primary | edit: deny |
-| **plan-arai** | primary | — |
 | **reviewer** | subagent | edit: deny |
-| **tester** | subagent | bash: allow |
+| **tester** | subagent | bash: allow, edit: allow |
 | **docs** | subagent | edit: allow, bash: deny |
 | **quiz-admin** | subagent | bash: allow |
 
@@ -75,6 +217,7 @@ test-ia/
 | quiz-participant | Register, list, find, and manage quiz participants. |
 | quiz-results | Send personalized quiz results to participants via email. |
 | repos-sync | Synchronize reference repositories for knowledge sharing and dependency management. |
+| **testing** | **Testing workflows for OpenCode TUI — write, run, and debug tests using Node.js built-in test runner.** |
 | vault-pdf-export | Exporta contenido del vault Obsidian curso-ia a PDF profesional usando el pipeline document-generation. |
 | youtube | Use for fetching and processing YouTube video transcriptions to feed into AI models, generate summaries, create course notes, or analyze video content. |
 
@@ -82,6 +225,8 @@ test-ia/
 
 | Command | Description |
 |---------|-------------|
+| `/test` | Run the test suite for the current project |
+| `/plan` | Generate a detailed requirements plan in plans/ with TDD philosophy |
 | `/quiz-create` | Create a new question bank |
 | `/quiz-register` | Register quiz participants |
 | `/quiz-practice` | Practice quiz with immediate feedback |
@@ -167,24 +312,17 @@ node quiz/cli/send-results.js --bank javascript.json --all
 | `p-` | Practice |
 | `s-` | Survey |
 
-## CLI quick reference
 
-| Command | Description |
-|---------|-------------|
-| `arai init <dir>` | Scaffold new project (`--template minimal\|full`, `--description`) |
-| `arai install` | Install opencode platform in project |
-| `arai install <type> <name>` | Install component: skill, agent, script, prompt, rule |
-| `arai uninstall` | Uninstall opencode platform from project |
-| `arai uninstall <type> <name>` | Uninstall a specific component |
-| `arai status` | Show installation status in current directory |
-| `arai list skills\|agents\|scripts\|templates\|commands\|mcp` | List resources |
 
 ## When working
 
 - Follow the existing code style (see `.opencode/rules/code-style.md`)
+- Follow testing conventions (see `.opencode/rules/testing.md`)
 - Use conventional commits (`<type>(<scope>): <description>`)
 - Keep skills in SKILL.md format with YAML frontmatter
 - Add new skills as `.opencode/skills/<name>/SKILL.md`
+- Write tests before implementation (TDD)
+- Run `/test` before commits to verify
 
 Skills provide specialized instructions and workflows for specific tasks.
 Use the skill tool to load a skill when a task matches its description.

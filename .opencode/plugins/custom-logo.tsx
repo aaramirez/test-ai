@@ -12,13 +12,13 @@ const FULL_ART = [
   "(____  /__|  (____  /__|",
   "     \\/           \\/    ",
   "",
-  "               aramirez-ai              ",
-  " opencode AI harness configuration manager",
+  "                  test-ia                ",
+  "       AI-enhanced multi-agent project   ",
   "",
-  "       ─── Shared · Reusable · AI ───    ",
+  "       ─── Skills · Agents · Tests ───   ",
 ]
 
-const COMPACT_ART = "✦ arai ── aramirez-ai Multi-Agent Platform ──"
+const COMPACT_ART = "✦ test-ia ── AI-Enhanced Multi-Agent Platform ──"
 
 const Logo = (props: { theme: TuiThemeCurrent }) => {
   const dim = useTerminalDimensions()
@@ -53,7 +53,7 @@ const Logo = (props: { theme: TuiThemeCurrent }) => {
 
 const tui: TuiPlugin = async (api) => {
   api.slots.register({
-    id: "arai-logo",
+    id: "test-ia-logo",
     order: 50,
     slots: {
       home_logo(ctx) {
@@ -63,5 +63,5 @@ const tui: TuiPlugin = async (api) => {
   })
 }
 
-const plugin = { id: "arai-logo", tui }
+const plugin = { id: "test-ia-logo", tui }
 export default plugin

@@ -17,11 +17,7 @@
       "description": "Planning agent for architecture and design",
       "permission": { "edit": "deny" }
     },
-    "plan-arai": {
-      "mode": "primary",
-      "description": "Plan mode que documenta en plans/",
-      "path": ".opencode/agents/plan-arai.md"
-    },
+
     "reviewer": {
       "mode": "subagent",
       "description": "Code review specialist. Use for PR reviews and quality checks.",

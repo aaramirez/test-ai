@@ -59,7 +59,7 @@ async function main() {
   const args = process.argv.slice(2);
   const quick = args.includes('--quick');
 
-  console.log('=== Validaci\u00f3n docgen (aramirez-ai) ===\n');
+  console.log('=== Validaci\u00f3n docgen (test-ia) ===\n');
 
   check(`Repo root: ${REPO_ROOT}`, existsSync(REPO_ROOT));
   check(`Docgen dir: ${DOCGEN_DIR}`, existsSync(DOCGEN_DIR));
