@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "title": "Estatus Semanal — Semana 27",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/weekly-status-deck.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Estatus Semanal — Semana 27",
+      "subtitulo": "Equipo de Plataforma · 28 de junio de 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Métricas Clave de la Semana",
+      "indice": "SEMANA 27"
+    },
+    {
+      "type": "kpis",
+      "titulo": "Indicadores de Rendimiento",
+      "kpis": [
+        {
+          "valor": "38",
+          "etiqueta": "Puntos de historia completados"
+        },
+        {
+          "valor": "92%",
+          "etiqueta": "Porcentaje de completitud del sprint"
+        },
+        {
+          "valor": "87%",
+          "etiqueta": "Cobertura de pruebas unitarias"
+        },
+        {
+          "valor": "2",
+          "etiqueta": "Bloqueantes activos por resolver"
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Velocidad del Equipo por Semana",
+      "chart": {
+        "tipo": "lineas",
+        "datos": [
+          [
+            "S21",
+            22
+          ],
+          [
+            "S22",
+            28
+          ],
+          [
+            "S23",
+            34
+          ],
+          [
+            "S24",
+            30
+          ],
+          [
+            "S25",
+            36
+          ],
+          [
+            "S26",
+            32
+          ],
+          [
+            "S27",
+            38
+          ]
+        ]
+      }
+    },
+    {
+      "type": "bullets",
+      "titulo": "Logros y Entregables de la Semana",
+      "items": [
+        "Implementación de autenticación OAuth 2.0 con flujo PKCE completada al 100%",
+        "API REST v3 publicada con rate limiting y documentación OpenAPI",
+        "Dashboard de monitoreo en tiempo real con métricas de latencia y errores",
+        "Migración de base de datos de PostgreSQL 14 a 16 ejecutada sin incidentes"
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Riesgos y Bloqueantes Activos",
+      "headers": [
+        "Riesgo",
+        "Impacto",
+        "Probabilidad",
+        "Estado",
+        "Responsable"
+      ],
+      "filas": [
+        [
+          "Revisión de seguridad por equipo externo",
+          "Alto",
+          "Media",
+          "En espera — solicitud enviada",
+          "Tech Lead"
+        ],
+        [
+          "Dependencia del proveedor de SMS",
+          "Medio",
+          "Baja",
+          "Monitoreo activo — SLA vigente",
+          "DevOps"
+        ],
+        [
+          "Actualización del certificado TLS",
+          "Bajo",
+          "Alta",
+          "Programado para el miércoles",
+          "DevOps"
+        ]
+      ]
+    },
+    {
+      "type": "cita",
+      "texto": "Estamos en buen rumbo. Cerramos la semana con la migración de BD completa y sin regresiones. El equipo mantuvo un ritmo sólido.",
+      "autor": "— Ana García, Tech Lead"
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Plan para la Próxima Semana",
+      "columnas": [
+        {
+          "titulo": "Prioridades Altas",
+          "items": [
+            "Completar dashboard de métricas en tiempo real (frontend)",
+            "Integrar proveedor de respaldo para SMS",
+            "Pruebas de carga con 50 000 peticiones concurrentes"
+          ]
+        },
+        {
+          "titulo": "Mejoras Continuas",
+          "items": [
+            "Documentar guía de migración para consumidores de la API v2",
+            "Refactorizar sistema de reintentos con backoff exponencial",
+            "Actualizar playbooks de respuesta a incidentes"
+          ]
+        }
+      ]
+    }
+  ]
+}

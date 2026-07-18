@@ -1,0 +1,11 @@
+{
+  "date": "2026-07-15T00:00:00Z",
+  "category": "javascript",
+  "difficulty": "easy+medium",
+  "results": [
+    { "id": "js-001", "correct": false, "answer": 0 },
+    { "id": "js-002", "correct": false, "answer": 1 },
+    { "id": "js-003", "correct": true, "answer": 1 }
+  ],
+  "score": { "correct": 1, "total": 3, "percentage": 33 }
+}

@@ -1,0 +1,64 @@
+{
+  "output": "assets/docs/sow.pdf",
+  "meta": {
+    "title": "Declaración de Trabajo",
+    "subtitle": "Migración a Plataforma Unificada v2",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Project Manager",
+    "date": "28 Jun 2026",
+    "classification": "Confidencial"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Resumen Ejecutivo" },
+    { "type": "text", "parrafos": [
+      "El presente documento formaliza el alcance, entregables, cronograma y recursos para la migración de la plataforma legacy hacia una arquitectura basada en microservicios. El proyecto tiene una duración estimada de 12 semanas e involucra a 6 personas de equipo multidisciplinario.",
+      "Se migrarán 3 servicios críticos, se implementará autenticación OAuth 2.0 y se consolidará la base de datos en PostgreSQL 16. El presupuesto total asignado asciende a $180,000 USD."
+    ]},
+    { "type": "table", "headers": ["Entregable", "Responsable", "Fecha Estimada", "Criterio de Aceptación"], "filas": [
+      ["Arquitectura aprobada", "Arquitecto", "15 Jul 2026", "Documento firmado por stakeholders"],
+      ["API REST v2 completa", "Backend", "15 Ago 2026", "100% pruebas E2E superadas"],
+      ["Migración de datos", "DevOps", "01 Sep 2026", "Verificación de integridad al 100%"],
+      ["Dashboard de monitoreo", "Frontend", "10 Sep 2026", "Métricas en tiempo real operativas"],
+      ["Go-Live", "Todo el equipo", "15 Sep 2026", "Producción estable por 24 horas"]
+    ]},
+    { "type": "bullets", "items": [
+      "Recursos: 1 PM, 1 Arquitecto, 4 Desarrolladores, 1 QA, 1 DevOps",
+      "Presupuesto: $180,000 USD distribuidos en 4 fases",
+      "Duración total: 12 semanas (24 Jun — 15 Sep 2026)",
+      "Stack tecnológico: Node.js, PostgreSQL 16, RabbitMQ, Docker, Kubernetes"
+    ]},
+    { "type": "section", "titulo": "2. Plan de Ejecución" },
+    { "type": "roadmap", "fases": [
+      { "periodo": "Semanas 1–2", "foco": "Diseño y definición", "entregables": ["Documento de arquitectura", "Plan de migración", "Entorno de staging aprovisionado"] },
+      { "periodo": "Semanas 3–8", "foco": "Desarrollo de microservicios", "entregables": ["API REST v2", "Autenticación OAuth 2.0", "Migración de esquemas"] },
+      { "periodo": "Semanas 9–10", "foco": "Migración y pruebas", "entregables": ["Migración de datos en vivo", "Pruebas de integración", "Pruebas de carga"] },
+      { "periodo": "Semanas 11–12", "foco": "Estabilización y go-live", "entregables": ["Monitoreo en producción", "Rollback plan", "Documentación final"] }
+    ]},
+    { "type": "table", "headers": ["Fase", "Duración", "Costo Estimado", "Recursos"], "filas": [
+      ["Fase 1: Diseño", "2 semanas", "$25,000 USD", "1 Arquitecto, 1 PM"],
+      ["Fase 2: Desarrollo", "6 semanas", "$100,000 USD", "4 Devs, 1 QA, 1 PM"],
+      ["Fase 3: Migración", "2 semanas", "$35,000 USD", "2 Devs, 1 DevOps, 1 PM"],
+      ["Fase 4: Estabilización", "2 semanas", "$20,000 USD", "2 Devs, 1 QA, 1 DevOps, 1 PM"]
+    ]},
+    { "type": "section", "titulo": "3. Riesgos y Mitigación" },
+    { "type": "callout", "headline": "Riesgo Principal", "parrafos": [
+      "La migración de la base de datos en vivo representa el mayor riesgo del proyecto. Se recomienda ejecutar en ventana de mantenimiento de 8 horas y contar con un plan de reversión probado."
+    ]},
+    { "type": "recommendation", "titulo": "Plan de Mitigación", "problema": "La migración en vivo podría exceder la ventana de mantenimiento", "recomendacion": "Ejecutar migración en seco dos semanas antes del corte definitivo", "acciones": [
+      "Programar migración en seco para la semana 8",
+      "Automatizar validación de integridad post-migración",
+      "Preparar script de rollback con verificación de consistencia",
+      "Realizar prueba de carga del proceso completo en staging"
+    ]},
+    { "type": "section", "titulo": "4. Criterios de Éxito" },
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Cobertura de pruebas", "metrica": "API y frontend", "meta": "≥ 85%" },
+      { "dominio": "Disponibilidad", "metrica": "Post-migración", "meta": "99.9%" },
+      { "dominio": "Latencia promedio", "metrica": "API v2", "meta": "< 200ms" },
+      { "dominio": "Satisfacción", "metrica": "Encuesta post-migración", "meta": "≥ 4.0 / 5.0" }
+    ]},
+    { "type": "section", "titulo": "5. Próximos Pasos" },
+    { "type": "closing", "parrafos": ["Firmado: _________________  Cliente: _________________  Fecha: 28 Jun 2026"] }
+  ]
+}

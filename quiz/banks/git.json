@@ -1,0 +1,32 @@
+{
+  "name": "Git",
+  "description": "Git version control concepts",
+  "version": "1.0.0",
+  "randomize": { "questions": false, "options": false },
+  "questions": [
+    {
+      "id": "git-001",
+      "difficulty": "easy",
+      "type": "single",
+      "question": "¿Qué hace git commit --amend?",
+      "options": [
+        { "label": "Elimina el último commit" },
+        { "label": "Modifica el último commit sin crear uno nuevo" },
+        { "label": "Crea un commit vacío" },
+        { "label": "Fusiona dos commits" }
+      ]
+    },
+    {
+      "id": "git-002",
+      "difficulty": "medium",
+      "type": "single",
+      "question": "¿Qué hace git rebase?",
+      "options": [
+        { "label": "Fusiona dos ramas creando un merge commit" },
+        { "label": "Reaplica commits de una rama sobre otra, reescribiendo historial" },
+        { "label": "Elimina commits duplicados" },
+        { "label": "Descarga cambios del remoto" }
+      ]
+    }
+  ]
+}

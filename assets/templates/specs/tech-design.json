@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "title": "Diseño Técnico: Arquitectura del Sistema de Notificaciones",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/tech-design.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Diseño Técnico: Arquitectura del Sistema de Notificaciones",
+      "subtitulo": "Propuesta técnica · Julio 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Visión General de la Arquitectura",
+      "indice": "ARQUITECTURA"
+    },
+    {
+      "type": "bullets",
+      "titulo": "Requerimientos del Sistema",
+      "items": [
+        "Procesar 15 000 notificaciones diarias por canales: email, SMS y push",
+        "Latencia máxima de 3 segundos para notificaciones en tiempo real",
+        "Soporte para plantillas dinámicas con variables por usuario",
+        "Reintentos automáticos con backoff exponencial y cola de mensajes fallidos",
+        "Auditoría completa con trazabilidad de cada notificación"
+      ]
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Enfoque Síncrono vs Arquitectura Orientada a Eventos",
+      "columnas": [
+        {
+          "titulo": "Síncrono (HTTP directo)",
+          "items": [
+            "Implementación inmediata sin infraestructura adicional",
+            "Riesgo de bloqueo del hilo principal en picos de tráfico",
+            "Sin tolerancia a fallos: si el canal falla, se pierde la notificación",
+            "Escalabilidad limitada: depende del servidor principal"
+          ]
+        },
+        {
+          "titulo": "Orientado a Eventos (RabbitMQ)",
+          "items": [
+            "Desacoplamiento total entre servicios productores y consumidores",
+            "Escalabilidad horizontal: añadir workers según demanda",
+            "Tolerancia a fallos con colas persistentes y reintentos",
+            "Requiere mantenimiento de infraestructura de mensajería"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Comparación Técnica por Dimensión",
+      "chart": {
+        "tipo": "radar",
+        "categorias": [
+          "Rendimiento",
+          "Escalabilidad",
+          "Mantenibilidad",
+          "Costo Operativo",
+          "Complejidad",
+          "Tolerancia a Fallos"
+        ],
+        "series": [
+          [
+            "Síncrono",
+            [
+              4,
+              2,
+              4,
+              5,
+              5,
+              1
+            ]
+          ],
+          [
+            "Orientado a Eventos",
+            [
+              3,
+              5,
+              3,
+              2,
+              3,
+              5
+            ]
+          ],
+          [
+            "Híbrido",
+            [
+              4,
+              4,
+              4,
+              3,
+              4,
+              4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "tabla",
+      "titulo": "Análisis Comparativo de Enfoques",
+      "headers": [
+        "Criterio",
+        "Síncrono",
+        "Orientado a Eventos",
+        "Híbrido"
+      ],
+      "filas": [
+        [
+          "Latencia promedio",
+          "< 80 ms",
+          "< 1.2 s",
+          "< 400 ms"
+        ],
+        [
+          "Throughput máximo",
+          "300 msg/s",
+          "12 000 msg/s",
+          "8 000 msg/s"
+        ],
+        [
+          "Costo mensual infraestructura",
+          "$0",
+          "$350/mes",
+          "$180/mes"
+        ],
+        [
+          "Esfuerzo de implementación",
+          "Bajo (2 semanas)",
+          "Medio (5 semanas)",
+          "Medio (4 semanas)"
+        ],
+        [
+          "Disponibilidad",
+          "99%",
+          "99.95%",
+          "99.9%"
+        ]
+      ]
+    },
+    {
+      "type": "proceso",
+      "titulo": "Flujo de Procesamiento Propuesto",
+      "pasos": [
+        {
+          "numero": "1",
+          "titulo": "Recepción",
+          "descripcion": "API Gateway recibe la solicitud de notificación y valida el payload"
+        },
+        {
+          "numero": "2",
+          "titulo": "Encolado",
+          "descripcion": "Mensaje publicado en RabbitMQ con prioridad y metadatos de enrutamiento"
+        },
+        {
+          "numero": "3",
+          "titulo": "Renderizado",
+          "descripcion": "Worker consume el mensaje, obtiene la plantilla y renderiza con datos del usuario"
+        },
+        {
+          "numero": "4",
+          "titulo": "Entrega",
+          "descripcion": "Notificación enviada por el canal correspondiente: email, SMS o push"
+        },
+        {
+          "numero": "5",
+          "titulo": "Registro",
+          "descripcion": "Resultado de la entrega persistido en PostgreSQL con timestamp y estado"
+        }
+      ]
+    },
+    {
+      "type": "destacado",
+      "valor": "Híbrido",
+      "titulo": "Recomendación: Arquitectura Híbrida",
+      "subtitulo": "Notificaciones urgentes por HTTP directo, el resto por colas. Mejor relación costo-beneficio."
+    },
+    {
+      "type": "faq",
+      "titulo": "Preguntas Frecuentes sobre el Diseño",
+      "items": [
+        {
+          "pregunta": "¿Qué pasa si RabbitMQ se cae?",
+          "respuesta": "Se activa el modo de degradación: notificaciones críticas se envían por HTTP directo y el resto se almacenan en una cola en disco para reprocesar cuando el servicio se restablezca."
+        },
+        {
+          "pregunta": "¿Cómo se manejan las notificaciones fallidas?",
+          "respuesta": "Después de 3 reintentos con backoff exponencial (1s, 5s, 30s), la notificación se mueve a una cola de mensajes fallidos para revisión manual y alerta al operador."
+        },
+        {
+          "pregunta": "¿Qué latencia tiene el envío por cola?",
+          "respuesta": "El tiempo promedio de encolado más procesamiento es de 800 ms. El percentil 99 se mantiene por debajo de 2 segundos en condiciones normales de carga."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,646 @@
+/*
+  Estilo de marca para documentos/reportes ejecutivos (motor build-report).
+  Formato Letter (8.5x11in). Cada slide se renderiza como una página individual
+  (misma filosofía que deck.css pero para documentos).
+  Pie de página configurable desde brand.json y meta.organization.
+  Este archivo se embebe automáticamente al generar el PDF.
+*/
+:root {
+  --line: #d9dee8;
+  --shadow-sm: 0 2px 8px rgba(35,38,79,0.08);
+  --radius: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: var(--font-body, Helvetica, Arial, "Helvetica Neue", sans-serif);
+  color: var(--body);
+  font-size: 10pt;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6, .section-block h2, .cover-page h1 {
+  font-family: var(--font-heading, inherit);
+}
+@page {
+  size: letter;
+  margin: 0;
+}
+
+/* ---- Página individual — contenido fluye naturalmente ---- */
+.page {
+  width: 8.5in;
+  min-height: 11in;
+  position: relative;
+  page-break-after: always;
+  background: var(--bg);
+}
+.page:last-child { page-break-after: auto; }
+
+/* ---- Header (logo + clasificación) — se repite en cada página impresa ---- */
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.65in;
+  padding: 0.18in 0.75in 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  background: var(--bg);
+  z-index: 10;
+}
+.page-header .header-classification {
+  font-size: 7.5pt;
+  color: var(--muted);
+  padding-bottom: 3px;
+}
+.page-header .header-logo img {
+  width: 145px;
+  display: block;
+}
+
+/* ---- Footer (organización + número de página) ---- */
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0.55in;
+  padding: 0 0.75in 0.18in;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  background: var(--bg);
+  z-index: 10;
+}
+.page-footer .footer-org {
+  font-size: 7.5pt;
+  color: var(--muted);
+}
+/* ---- Área de contenido ---- */
+.page-body {
+  position: relative;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 1in 0.75in 0.85in;
+}
+
+/* ---- Portada ---- */
+.cover-page .page-header { display: none; }
+.cover-page .page-footer { display: none; }
+.cover-page.page {
+  height: 11in;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.cover-page .page-body {
+  padding: 0.5in 0.75in;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.cover-page .cover-logo { margin-bottom: 50px; }
+.cover-page .cover-logo img { width: 280px; }
+.cover-page h1 {
+  font-size: 28pt;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  margin-bottom: 8px;
+}
+.cover-page .cover-subtitle {
+  font-size: 11pt;
+  color: var(--muted);
+  margin-bottom: 44px;
+  max-width: 480px;
+}
+.cover-page .cover-meta {
+  border-collapse: collapse;
+  font-size: 9pt;
+  text-align: left;
+}
+.cover-page .cover-meta td {
+  padding: 6px 13px;
+  vertical-align: top;
+  border: 0.5px solid var(--line);
+}
+.cover-page .cover-meta td:first-child {
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--bg-soft);
+  white-space: nowrap;
+  width: 120px;
+}
+.cover-page .cover-meta td:last-child {
+  color: var(--body-light);
+  min-width: 240px;
+}
+
+/* ---- Sección ---- */
+.section-block { margin: 16px 0 10px; }
+.section-bar {
+  display: inline-block;
+  width: 44px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--accent);
+  margin-bottom: 8px;
+}
+.section-block h2 {
+  font-size: 16pt;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.section-block .section-sub {
+  font-size: 9.5pt;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* ---- Texto ---- */
+.body-text { margin: 8px 0; }
+.body-text p {
+  margin-bottom: 8px;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--body-light);
+}
+
+/* ---- Callout ---- */
+.callout-box {
+  background: var(--bg-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 18px 22px;
+  margin: 14px 0;
+}
+.callout-box .callout-headline {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+.callout-box .callout-body p {
+  font-size: 9.5pt;
+  color: var(--body-light);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+/* ---- Viñetas ---- */
+.bullet-list { margin: 8px 0 8px 16px; }
+.bullet-list li {
+  position: relative;
+  list-style: none;
+  padding-left: 20px;
+  margin-bottom: 6px;
+  font-size: 9.5pt;
+  color: var(--body-light);
+  line-height: 1.4;
+}
+.bullet-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ---- Tabla genérica ---- */
+.data-table { margin: 10px 0; width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.data-table thead th {
+  text-align: left;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 8px 11px;
+  font-size: 8pt;
+}
+.data-table thead th:first-child { border-top-left-radius: 7px; }
+.data-table thead th:last-child { border-top-right-radius: 7px; }
+.data-table tbody td {
+  padding: 7px 11px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+.data-table tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.data-table tbody tr:last-child td:first-child { border-bottom-left-radius: 7px; }
+.data-table tbody tr:last-child td:last-child { border-bottom-right-radius: 7px; }
+
+/* ---- Recomendación ---- */
+.recommendation {
+  border: 0.6px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 14px 18px;
+  margin: 10px 0;
+  box-shadow: var(--shadow-sm);
+}
+.recommendation h3 {
+  font-size: 11pt;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+.recommendation .rec-field {
+  margin-top: 6px;
+  font-size: 9pt;
+  line-height: 1.4;
+  color: var(--body-light);
+}
+.recommendation .rec-field strong { color: var(--ink); }
+.recommendation .rec-actions { margin: 6px 0 0 13px; }
+.recommendation .rec-actions li {
+  list-style: none;
+  padding-left: 14px;
+  margin-bottom: 3px;
+  font-size: 8.5pt;
+  color: var(--body-light);
+  position: relative;
+}
+.recommendation .rec-actions li::before {
+  content: "\2192";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ---- Roadmap ---- */
+.roadmap-table { margin: 10px 0; width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.roadmap-table thead th {
+  text-align: left;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 8px 11px;
+  font-size: 8pt;
+}
+.roadmap-table thead th:first-child { border-top-left-radius: 7px; }
+.roadmap-table thead th:last-child { border-top-right-radius: 7px; }
+.roadmap-table tbody td {
+  padding: 9px 11px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+.roadmap-table tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.roadmap-table tbody td:first-child { font-weight: 700; color: var(--ink); white-space: nowrap; }
+.roadmap-table tbody td:nth-child(2) { font-weight: 600; color: var(--body); }
+
+/* ---- KPIs ---- */
+.kpi-table { margin: 10px 0; width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.kpi-table thead th {
+  text-align: left;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 8px 11px;
+  font-size: 8pt;
+}
+.kpi-table thead th:first-child { border-top-left-radius: 7px; }
+.kpi-table thead th:last-child { border-top-right-radius: 7px; }
+.kpi-table tbody td {
+  padding: 8px 11px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+}
+.kpi-table tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.kpi-table tbody td:last-child { font-weight: 700; color: var(--accent); text-align: center; }
+
+/* ---- Cierre ---- */
+.closing-block {
+  margin: 24px 0;
+  text-align: center;
+  padding: 24px 30px;
+  border-top: 1px solid var(--line);
+}
+.closing-block .closing-icon {
+  font-size: 40pt;
+  color: var(--accent);
+  line-height: 0.6;
+  margin-bottom: 10px;
+  opacity: 0.35;
+}
+.closing-block p {
+  font-size: 10.5pt;
+  color: var(--ink);
+  line-height: 1.45;
+  margin-bottom: 8px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- Descripción en portada ---- */
+.cover-description {
+  font-size: 9.5pt;
+  color: var(--body-light);
+  line-height: 1.5;
+  max-width: 480px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* ---- Change Log ---- */
+.change-log { margin: 10px 0; width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.change-log thead th {
+  text-align: left;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 8px 11px;
+  font-size: 8pt;
+}
+.change-log thead th:first-child { border-top-left-radius: 7px; }
+.change-log thead th:last-child { border-top-right-radius: 7px; }
+.change-log tbody td {
+  padding: 7px 11px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+.change-log tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.change-log tbody td:first-child {
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.change-log tbody td:nth-child(2) {
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 8pt;
+}
+
+/* ---- Conventions Table ---- */
+.conventions-table { margin: 10px 0; width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.conventions-table thead th {
+  text-align: left;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 8px 11px;
+  font-size: 8pt;
+}
+.conventions-table thead th:first-child { border-top-left-radius: 7px; }
+.conventions-table thead th:last-child { border-top-right-radius: 7px; }
+.conventions-table tbody td {
+  padding: 7px 11px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+.conventions-table tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.conventions-table tbody td:last-child {
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  font-size: 8pt;
+  color: var(--accent);
+}
+.conventions-title {
+  font-size: 9pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* ---- Endpoint Summary ---- */
+.endpoint-summary { margin: 10px 0; width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.endpoint-summary thead th {
+  text-align: left;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 8px 11px;
+  font-size: 8pt;
+}
+.endpoint-summary thead th:first-child { border-top-left-radius: 7px; }
+.endpoint-summary thead th:last-child { border-top-right-radius: 7px; }
+.endpoint-summary tbody td {
+  padding: 7px 11px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+.endpoint-summary tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.endpoint-summary tbody td:nth-child(2) {
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  font-size: 8pt;
+}
+.endpoint-summary tbody td:nth-child(3) {
+  color: var(--body);
+}
+
+/* ---- Method Badges ---- */
+.method-badge {
+  display: inline-block;
+  font-size: 7.5pt;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #fff;
+  letter-spacing: 0.03em;
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+}
+.method-badge--GET { background: #2e7d32; }
+.method-badge--POST { background: #1565c0; }
+.method-badge--PATCH { background: #e65100; }
+.method-badge--PUT { background: #ef6c00; }
+.method-badge--DELETE { background: #c62828; }
+
+/* ---- Endpoint Detail ---- */
+.endpoint-detail {
+  margin: 12px 0;
+}
+.endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.endpoint-header .endpoint-path {
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--ink);
+}
+.endpoint-detail .endpoint-desc {
+  font-size: 9pt;
+  color: var(--body-light);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.endpoint-detail h4 {
+  font-size: 9pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 10px 0 4px;
+}
+
+/* Location & Required badges */
+.loc-badge {
+  display: inline-block;
+  font-size: 7pt;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: #fff;
+}
+.loc-badge--path { background: #37474f; }
+.loc-badge--query { background: #546e7a; }
+.loc-badge--header { background: #78909c; }
+.req-badge {
+  display: inline-block;
+  font-size: 7pt;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.req-badge--yes { background: #e8f5e9; color: #2e7d32; }
+.req-badge--no { background: #fce4ec; color: #c62828; }
+
+/* Parameters table inside endpoint detail */
+.param-table { margin: 4px 0 8px; width: 100%; border-collapse: collapse; font-size: 8pt; }
+.param-table thead th {
+  text-align: left;
+  background: var(--bg-soft);
+  color: var(--ink);
+  font-weight: 700;
+  padding: 6px 9px;
+  font-size: 7.5pt;
+  border-bottom: 1.5px solid var(--line);
+}
+.param-table tbody td {
+  padding: 5px 9px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+.param-table tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.param-table tbody td:first-child {
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.param-table tbody td:nth-child(2) {
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  font-size: 7.5pt;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Response entries */
+.response-list { margin: 4px 0 8px; }
+.response-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 0.5px solid var(--line);
+  font-size: 8.5pt;
+}
+.response-item:last-child { border-bottom: none; }
+.response-item .response-detail {
+  color: var(--body-light);
+  line-height: 1.4;
+}
+.response-item .response-detail strong {
+  color: var(--body);
+}
+.status-badge {
+  display: inline-block;
+  font-size: 7.5pt;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  white-space: nowrap;
+  color: #fff;
+  min-width: 28px;
+  text-align: center;
+}
+.status-badge--2xx { background: #2e7d32; }
+.status-badge--4xx { background: #e65100; }
+.status-badge--5xx { background: #c62828; }
+
+/* ---- Code block ---- */
+.code-block {
+  margin: 8px 0;
+  background: #f4f5f9;
+  border: 0.5px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  font-size: 7.5pt;
+  line-height: 1.5;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+.code-block .code-tag {
+  color: #0550ae;
+}
+.code-block .code-string {
+  color: #0a3069;
+}
+.code-block .code-key {
+  color: #cf222e;
+}
+.code-block .code-comment {
+  color: #6e7781;
+  font-style: italic;
+}
+
+/* ---- HTTP codes table ---- */
+.http-codes { margin: 8px 0; width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.http-codes thead th {
+  text-align: left;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  padding: 7px 10px;
+  font-size: 8pt;
+}
+.http-codes thead th:first-child { border-top-left-radius: 7px; }
+.http-codes thead th:last-child { border-top-right-radius: 7px; }
+.http-codes tbody td {
+  padding: 6px 10px;
+  color: var(--body-light);
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+.http-codes tbody tr:nth-child(even) td { background: var(--bg-soft); }
+.http-codes tbody td:first-child {
+  font-family: var(--font-mono, "SF Mono", "Cascadia Code", "Fira Code", monospace);
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  text-align: center;
+}
+.http-codes tbody td:nth-child(2) {
+  font-weight: 600;
+  color: var(--body);
+}
+
+/* ---- Salto de página forzado ---- */
+.page-break { page-break-before: always; }

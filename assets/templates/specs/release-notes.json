@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "title": "Notas de Versión v3.0.0",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/release-notes.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Notas de Versión v3.0.0",
+      "subtitulo": "Plataforma Unificada · Publicada el 28 de junio de 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Novedades y Cambios Principales",
+      "indice": "VERSIÓN 3.0.0"
+    },
+    {
+      "type": "bullets",
+      "titulo": "Nuevas Funcionalidades Incorporadas",
+      "items": [
+        "Autenticación OAuth 2.0 con proveedores Google, GitHub y Microsoft",
+        "API REST v3 con soporte completo para JSON:API y rate limiting por usuario",
+        "Dashboard de métricas en tiempo real con actualización cada 5 segundos",
+        "Exportación de reportes en formatos PDF, CSV y Excel con programación automática",
+        "Sistema de plantillas dinámicas para notificaciones con variables contextuales"
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Correcciones de Errores Incluidas",
+      "headers": [
+        "Incidencia",
+        "Descripción",
+        "Módulo",
+        "Severidad"
+      ],
+      "filas": [
+        [
+          "#312",
+          "Error 500 al consultar GET /usuarios/{id} con identificador inválido",
+          "API",
+          "Crítica"
+        ],
+        [
+          "#318",
+          "Límite de tasa no se reiniciaba correctamente al expirar la ventana",
+          "Middleware",
+          "Alta"
+        ],
+        [
+          "#325",
+          "Dashboard no cargaba gráficos en navegadores Safari versión 17",
+          "Frontend",
+          "Media"
+        ],
+        [
+          "#329",
+          "Notificaciones push duplicadas cuando el worker se reiniciaba",
+          "Notificaciones",
+          "Alta"
+        ],
+        [
+          "#334",
+          "Campo de fecha en reportes no respetaba la zona horaria del usuario",
+          "Exportación",
+          "Media"
+        ]
+      ]
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Cambios Rupturistas Respecto a v2",
+      "columnas": [
+        {
+          "titulo": "Ruta Anterior (v2 — Deprecada)",
+          "items": [
+            "GET /api/v2/usuarios — respuesta plana",
+            "Autenticación solo por API Key en header",
+            "Formato de error: { \"error\": \"mensaje\" }",
+            "Sin paginación estándar en listados"
+          ]
+        },
+        {
+          "titulo": "Ruta Nueva (v3 — Activa)",
+          "items": [
+            "GET /api/v3/usuarios — respuesta JSON:API compuesta",
+            "Autenticación JWT + OAuth 2.0 con refresh token",
+            "Formato de error: { \"errors\": [{ \"status\", \"detail\" }] }",
+            "Paginación con cursor-based mediante tokens"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cita",
+      "texto": "Este release representa un salto en madurez y escalabilidad. Agradecemos profundamente a cada persona del equipo por su compromiso y dedicación.",
+      "autor": "— Dirección de Ingeniería"
+    },
+    {
+      "type": "tarjetas",
+      "titulo": "Contribuidores del Release",
+      "tarjetas": [
+        {
+          "titulo": "Ana García",
+          "texto": "Tech Lead · Arquitectura de API v3"
+        },
+        {
+          "titulo": "Carlos López",
+          "texto": "Frontend · Dashboard en tiempo real"
+        },
+        {
+          "titulo": "María Torres",
+          "texto": "Backend · OAuth 2.0 y autenticación"
+        },
+        {
+          "titulo": "José Rivera",
+          "texto": "QA · Pruebas de regresión y carga"
+        },
+        {
+          "titulo": "Laura Méndez",
+          "texto": "DevOps · Pipeline de CI/CD y monitoreo"
+        },
+        {
+          "titulo": "Pedro Sánchez",
+          "texto": "Product Owner · Gestión del backlog"
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Distribución de Incidencias por Tipo",
+      "chart": {
+        "tipo": "pastel",
+        "datos": [
+          [
+            "Nueva funcionalidad",
+            12
+          ],
+          [
+            "Corrección de error",
+            8
+          ],
+          [
+            "Mejora técnica",
+            6
+          ],
+          [
+            "Documentación",
+            3
+          ],
+          [
+            "Seguridad",
+            2
+          ]
+        ]
+      }
+    }
+  ]
+}

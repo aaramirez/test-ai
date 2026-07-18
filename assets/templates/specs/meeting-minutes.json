@@ -1,0 +1,47 @@
+{
+  "output": "assets/docs/meeting-minutes.pdf",
+  "meta": {
+    "title": "Minutas de Reunión: Planeación del Sprint",
+    "subtitle": "Sprint 8 — Equipo Plataforma",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Scrum Master",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Agenda y Asistentes" },
+    { "type": "table", "headers": ["Tema", "Responsable", "Duración"], "filas": [
+      ["Revisión de métricas del Sprint 7", "Scrum Master", "10 min"],
+      ["Presentación de objetivos del Sprint 8", "Product Owner", "15 min"],
+      ["Desglose y estimación de historias de usuario", "Equipo", "30 min"],
+      ["Identificación de riesgos y dependencias", "Equipo", "10 min"],
+      ["Compromiso del Sprint y definición de meta", "Equipo", "5 min"]
+    ]},
+    { "type": "text", "parrafos": [
+      "Asistentes: Product Owner, Scrum Master, 5 desarrolladores, 2 QA, 1 DevOps. Ausentes: ninguno.",
+      "La reunión se realizó de forma presencial en la sala de conferencias con opción remota vía Google Meet."
+    ]},
+    { "type": "section", "titulo": "2. Resultados de la Revisión" },
+    { "type": "table", "headers": ["Métrica", "Valor", "vs. Sprint 7", "Estado"], "filas": [
+      ["Velocidad del equipo", "32 puntos de historia", "28 en Sprint 7", "Mejorada"],
+      ["Tasa de finalización", "89 %", "85 %", "Estable"],
+      ["Deuda técnica añadida", "2 horas", "5 horas", "Reducida"],
+      ["Incidentes reportados", "1", "3", "Mejorada"]
+    ]},
+    { "type": "section", "titulo": "3. Acuerdos y Próximos Pasos" },
+    { "type": "bullets", "items": [
+      "Se acordó limitar el trabajo en progreso (WIP) a 2 historias por desarrollador para reducir la multitarea",
+      "La daily meeting se moverá a las 9:30 AM (antes 9:00) para mejor disponibilidad del equipo",
+      "Se agregará una sesión de refinamiento semanal los miércoles de 11:00 a 12:00",
+      "La meta del Sprint 8 es completar el módulo de notificaciones y la integración con RabbitMQ"
+    ]},
+    { "type": "table", "headers": ["Acción", "Responsable", "Fecha Límite"], "filas": [
+      ["Realizar spike técnico de rate limiting para API v2", "Carlos López", "01 Jul 2026"],
+      ["Actualizar tablero Kanban con límites de WIP configurados", "Scrum Master", "28 Jun 2026"],
+      ["Preparar backlog refinado para Sprint 9", "Product Owner", "30 Jun 2026"],
+      ["Documentar decisión técnica sobre cola de mensajería (ADR)", "Arquitecto", "02 Jul 2026"]
+    ]},
+    { "type": "closing", "parrafos": ["Próxima reunión: Daily — 29 de junio de 2026 a las 9:30 AM. Próxima planeación: 12 de julio de 2026."] }
+  ]
+}

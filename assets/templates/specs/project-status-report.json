@@ -1,0 +1,44 @@
+{
+  "output": "assets/docs/project-status-report.pdf",
+  "meta": {
+    "title": "Reporte de Estatus del Proyecto",
+    "subtitle": "Plataforma Unificada — Junio 2026",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Gerente de Proyecto",
+    "date": "28 Jun 2026",
+    "classification": "Confidencial"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Estado General del Proyecto" },
+    { "type": "text", "parrafos": [
+      "El proyecto Plataforma Unificada se encuentra actualmente en la Fase 2 (desarrollo de API).",
+      "El cronograma presenta un desvío de 2 semanas debido a retrasos en la auditoría de seguridad externa, la cual era requisito para iniciar las pruebas de integración.",
+      "Se ha solicitado una reprogramación de la auditoría para la primera semana de julio y se están evaluando opciones para recuperar el tiempo perdido."
+    ]},
+    { "type": "table", "headers": ["Fase", "Avance", "Fecha Estimada de Finalización", "Estado"], "filas": [
+      ["Fase 1: Fundamentos y Base", "100 %", "15 May 2026", "Completado"],
+      ["Fase 2: Desarrollo de API", "70 %", "15 Jul 2026", "En progreso"],
+      ["Fase 3: Frontend", "30 %", "15 Ago 2026", "En progreso"],
+      ["Fase 4: Aseguramiento de Calidad", "0 %", "01 Sep 2026", "No iniciado"],
+      ["Fase 5: Despliegue a Producción", "0 %", "15 Sep 2026", "No iniciado"]
+    ]},
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Cronograma", "metrica": "Variación del cronograma", "meta": "≤ 0 días", "valor": "+14 días", "estado": "fail" },
+      { "dominio": "Presupuesto", "metrica": "Presupuesto ejecutado", "meta": "75 %", "valor": "68 %", "estado": "warning" },
+      { "dominio": "Calidad", "metrica": "Cobertura de pruebas unitarias", "meta": "80 %", "valor": "76 %", "estado": "warning" },
+      { "dominio": "Rendimiento", "metrica": "Tiempo de respuesta promedio", "meta": "< 300 ms", "valor": "245 ms", "estado": "success" }
+    ]},
+    { "type": "callout", "headline": "Riesgo Crítico: Dependencia Externa", "parrafos": [
+      "La auditoría de seguridad externa es un requisito obligatorio para la publicación de la API pública. El retraso en esta auditoría puede impactar la fecha de go-live estimada para septiembre.",
+      "Se recomienda agendar la auditoría con al menos 3 semanas de anticipación y considerar un proveedor alternativo si el actual no puede cumplir con los plazos."
+    ]},
+    { "type": "bullets", "items": [
+      "Se completó la migración del entorno de desarrollo a Kubernetes",
+      "El equipo frontend finalizó el diseño de los nuevos componentes de la interfaz de usuario",
+      "La integración con RabbitMQ está en fase de pruebas de carga: se alcanzaron 8,000 notificaciones/hora sin degradación",
+      "Quedan 3 historias de usuario por completar en la Fase 2 antes de pasar a QA"
+    ]},
+    { "type": "closing", "parrafos": ["Próximo hito crítico: liberación de API v2 programada para el 15 de julio de 2026. Próxima actualización de estatus: 5 de julio de 2026."] }
+  ]
+}

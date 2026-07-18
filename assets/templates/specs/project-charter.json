@@ -1,0 +1,52 @@
+{
+  "output": "assets/docs/project-charter.pdf",
+  "meta": {
+    "title": "Acta de Constitución del Proyecto",
+    "subtitle": "Plataforma Unificada v2 — Migración a Microservicios",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Patrocinador del Proyecto",
+    "date": "28 Jun 2026",
+    "classification": "Confidencial"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Visión y Objetivos" },
+    { "type": "text", "parrafos": [
+      "Migrar la plataforma legacy a una arquitectura moderna de microservicios con el objetivo de mejorar la escalabilidad, mantenibilidad y seguridad del sistema.",
+      "El proyecto abarca la reescritura de los módulos críticos, la migración de datos y la puesta en producción con esquema de cero tiempo de inactividad.",
+      "Se espera reducir el tiempo de despliegue de 4 horas a 15 minutos y mejorar la cobertura de pruebas al 85 %."
+    ]},
+    { "type": "table", "headers": ["Interesado", "Rol", "Expectativas Clave"], "filas": [
+      ["Director de TI", "Patrocinador", "Reducción de costos operativos en un 30 % anual"],
+      ["Gerente de Plataforma", "Product Owner", "Tiempo de despliegue reducido y estabilidad del sistema"],
+      ["Arquitecto de Software", "Líder Técnico", "Modernización del stack tecnológico y documentación"],
+      ["Usuarios Finales", "Beneficiarios", "Mejor experiencia de usuario y menor tiempo de respuesta"],
+      ["Auditoría Interna", "Supervisor", "Cumplimiento de políticas de seguridad y gobierno de datos"]
+    ]},
+    { "type": "section", "titulo": "2. Riesgos y Plan de Trabajo" },
+    { "type": "table", "headers": ["Riesgo", "Probabilidad", "Impacto", "Estrategia de Mitigación"], "filas": [
+      ["Pérdida de datos durante la migración", "Baja", "Crítico", "Backups completos, verificación por fases y pruebas de restauración"],
+      ["Retraso en el cronograma por dependencias externas", "Media", "Alto", "Buffer de 2 semanas en el cronograma, planes de contingencia"],
+      ["Resistencia al cambio por parte del equipo", "Media", "Medio", "Plan de comunicación, capacitación y sesiones de feedback"],
+      ["Problemas de rendimiento en la nueva arquitectura", "Media", "Alto", "Pruebas de carga desde la fase de desarrollo"]
+    ]},
+    { "type": "roadmap", "fases": [
+      { "periodo": "Julio 2026", "foco": "Diseño y Planificación", "entregables": ["Arquitectura aprobada por comité", "Plan detallado de migración por fases"] },
+      { "periodo": "Agosto 2026", "foco": "Desarrollo de API y Frontend", "entregables": ["API v2 implementada", "Nuevo dashboard de usuario"] },
+      { "periodo": "Septiembre 2026", "foco": "Migración y Estabilización", "entregables": ["Datos migrados y validados", "Go-Live oficial de la plataforma"] }
+    ]},
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Presupuesto", "metrica": "Ejecución presupuestal", "meta": "$172,000 USD" },
+      { "dominio": "Cronograma", "metrica": "Desviación del plan", "meta": "≤ 0 días" },
+      { "dominio": "Calidad", "metrica": "Cobertura de pruebas", "meta": "≥ 85 %" },
+      { "dominio": "Rendimiento", "metrica": "Tiempo de respuesta API", "meta": "< 200 ms" }
+    ]},
+    { "type": "bullets", "items": [
+      "Presupuesto total aprobado: $180,000 USD (incluye $8,000 de contingencia)",
+      "Duración estimada: 12 semanas a partir del 1 de julio de 2026",
+      "Equipo asignado: 8 personas (5 desarrolladores, 1 QA, 1 DevOps, 1 Scrum Master)",
+      "Autorización oficial: Director de TI, 28 de junio de 2026"
+    ]},
+    { "type": "closing", "parrafos": ["Acta de constitución aprobada. Próximo paso: conformar el equipo de trabajo y celebrar la reunión de inicio (kickoff) el 1 de julio de 2026."] }
+  ]
+}

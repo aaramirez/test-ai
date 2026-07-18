@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "title": "Arquitectura del Sistema: Plataforma Unificada",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/system-architecture.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Arquitectura del Sistema: Plataforma Unificada",
+      "subtitulo": "Diagrama de componentes, flujos y tecnologías · Versión 2.1"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Arquitectura General",
+      "indice": "ARQUITECTURA"
+    },
+    {
+      "type": "bullets",
+      "titulo": "Componentes Principales del Sistema",
+      "items": [
+        "API Gateway (Fastify 5) — Punto de entrada único con rate limiting y autenticación",
+        "Servicio de Autenticación — OAuth 2.0 + JWT con soporte para proveedores externos",
+        "Servicio de Usuarios — CRUD completo con caché Redis y búsqueda elástica",
+        "Servicio de Notificaciones — Colas RabbitMQ para email, push y SMS",
+        "Frontend SPA — React 19 + Vite + Tailwind CSS 4 con modo oscuro",
+        "Base de Datos — PostgreSQL 16 con replicación en lectura y conexiones pool"
+      ]
+    },
+    {
+      "type": "imagen",
+      "titulo": "Diagrama de Arquitectura",
+      "src": "assets/images/architecture-diagram.png"
+    },
+    {
+      "type": "tarjetas",
+      "titulo": "Stack Tecnológico",
+      "subtitulo": "Tecnologías seleccionadas por capa",
+      "tarjetas": [
+        {
+          "titulo": "Frontend",
+          "subtitulo": "SPA Moderna",
+          "items": [
+            "React 19 con Server Components",
+            "Vite 6 como bundler",
+            "Tailwind CSS 4 + shadcn/ui",
+            "React Query para gestión de estado"
+          ]
+        },
+        {
+          "titulo": "Backend",
+          "subtitulo": "API Gateway + Microservicios",
+          "items": [
+            "Node.js 22 LTS",
+            "Fastify 5 con plugins",
+            "TypeScript 5.5 estricto",
+            "OpenAPI 3.1 para documentación"
+          ]
+        },
+        {
+          "titulo": "Base de Datos",
+          "subtitulo": "Persistencia + Búsqueda",
+          "items": [
+            "PostgreSQL 16 con pgvector",
+            "Redis 7 para caché y sesiones",
+            "Elasticsearch para búsqueda",
+            "Migraciones con Flyway"
+          ]
+        },
+        {
+          "titulo": "Infraestructura",
+          "subtitulo": "Nube AWS + Contenedores",
+          "items": [
+            "Docker + Kubernetes (EKS)",
+            "RabbitMQ para mensajería asíncrona",
+            "Datadog para monitoreo",
+            "GitHub Actions para CI/CD"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Evolución de la Arquitectura",
+      "chart": {
+        "tipo": "timeline",
+        "hitos": [
+          [
+            "Q1 2026",
+            "MVP Monolítico con Express.js y PostgreSQL"
+          ],
+          [
+            "Q2 2026",
+            "Migración a Microservicios con Fastify y Docker"
+          ],
+          [
+            "Q3 2026",
+            "Arquitectura Orientada a Eventos con RabbitMQ"
+          ],
+          [
+            "Q4 2026",
+            "Arquitectura Final: API Gateway + Colas + CQRS"
+          ]
+        ]
+      }
+    },
+    {
+      "type": "proceso",
+      "titulo": "Flujo de una Solicitud Típica",
+      "pasos": [
+        {
+          "titulo": "Cliente Realiza Solicitud",
+          "descripcion": "El navegador del usuario envía una petición al API Gateway (Fastify)"
+        },
+        {
+          "titulo": "Autenticación y Autorización",
+          "descripcion": "El gateway valida el token JWT y verifica permisos del usuario"
+        },
+        {
+          "titulo": "Enrutamiento al Servicio",
+          "descripcion": "El gateway enruta la solicitud al microservicio correspondiente (usuarios, facturación, etc.)"
+        },
+        {
+          "titulo": "Procesamiento del Negocio",
+          "descripcion": "El servicio aplica lógica de negocio, consulta PostgreSQL y caché Redis"
+        },
+        {
+          "titulo": "Eventos Asíncronos",
+          "descripcion": "Si aplica, el servicio publica un evento en RabbitMQ para notificaciones o actualizaciones"
+        },
+        {
+          "titulo": "Respuesta al Cliente",
+          "descripcion": "El servicio devuelve la respuesta al gateway, que la transforma y envía al frontend"
+        }
+      ]
+    },
+    {
+      "type": "comparativa",
+      "titulo": "Comparativa: Arquitectura Anterior vs. Nueva",
+      "columnas": [
+        {
+          "titulo": "Arquitectura Anterior (Monolito)",
+          "tag": "LEGADO",
+          "items": [
+            "Express.js 4 sin tipado",
+            "Base de datos MySQL 8",
+            "Despliegue manual en VPS",
+            "Sin cola de mensajería",
+            "Escalado vertical únicamente",
+            "Monitoreo básico con logs",
+            "Tiempo de despliegue: 2 horas"
+          ]
+        },
+        {
+          "titulo": "Arquitectura Nueva (Microservicios)",
+          "tag": "DESTINO",
+          "items": [
+            "Fastify 5 con TypeScript estricto",
+            "PostgreSQL 16 con replicación",
+            "Despliegue automático con K8s",
+            "RabbitMQ para eventos asíncronos",
+            "Escalado horizontal automático",
+            "Monitoreo completo con Datadog",
+            "Tiempo de despliegue: 5 minutos"
+          ]
+        }
+      ]
+    }
+  ]
+}

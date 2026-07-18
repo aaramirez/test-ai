@@ -1,0 +1,51 @@
+{
+  "output": "assets/docs/weekly-status.pdf",
+  "meta": {
+    "title": "Reporte Semanal",
+    "subtitle": "Semana 26 — Equipo Plataforma",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Tech Lead",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Resumen de la Semana" },
+    { "type": "text", "parrafos": [
+      "Durante la semana 26 se completó la integración de OAuth 2.0 con Google y GitHub, y se avanzó en la migración de la API REST a v2 con rate limiting funcional. El equipo de frontend inició el desarrollo del dashboard de usuarios conectados. Se actualizó la documentación técnica en el wiki interno."
+    ]},
+    { "type": "table", "headers": ["Área", "Avance", "Responsable", "Próximos Pasos"], "filas": [
+      ["Autenticación OAuth", "100%", "Backend", "Pruebas de carga en staging"],
+      ["API REST v2", "70%", "Backend", "Faltan 3 endpoints de usuarios"],
+      ["Frontend — Dashboard", "50%", "Frontend", "Integrar con API v2 esta semana"],
+      ["Infraestructura", "80%", "DevOps", "Migración a PostgreSQL 16 completada"],
+      ["Documentación", "90%", "Backend", "Actualizar guías de despliegue"]
+    ]},
+    { "type": "table", "headers": ["Riesgo", "Probabilidad", "Impacto", "Plan de Mitigación"], "filas": [
+      ["Aprobación de seguridad pendiente", "Alta", "Alto", "Escalar con líder de seguridad el miércoles"],
+      ["Retraso en endpoints de API v2", "Media", "Alto", "Repriorizar historias en el sprint review"],
+      ["Dashboard no alcanza la definición de terminado", "Baja", "Medio", "Ajustar alcance en la planificación"]
+    ]},
+    { "type": "bullets", "items": [
+      "Se desbloqueó el issue de autenticación con refresh tokens tras la revisión del equipo de seguridad",
+      "Se actualizó la documentación de la API en el wiki interno con ejemplos de uso",
+      "El equipo completó 32 horas de desarrollo sin interrupciones críticas",
+      "Se identificó una mejora en el pipeline de CI/CD que reduce el tiempo de build en un 40%"
+    ]},
+    { "type": "callout", "headline": "Bloqueante: Aprobación de Seguridad", "parrafos": [
+      "Los endpoints de los microservicios en producción requieren aprobación explícita del equipo de seguridad. La solicitud fue enviada el viernes anterior. Si no se recibe respuesta antes del miércoles, se escalará con el liderazgo de seguridad."
+    ]},
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Velocidad semanal", "metrica": "Story Points completados", "meta": "12 (vs 15 planificados)" },
+      { "dominio": "Cobertura de pruebas", "metrica": "Porcentaje global", "meta": "82%" },
+      { "dominio": "Deuda técnica", "metrica": "Issues abiertos", "meta": "8 (objetivo: < 10)" },
+      { "dominio": "Disponibilidad", "metrica": "Entornos de desarrollo", "meta": "99.5%" }
+    ]},
+    { "type": "recommendation", "titulo": "Agendar Sesión de Seguimiento con Seguridad Informática", "problema": "La aprobación de seguridad para endpoints productivos está retrasando la puesta en producción de los microservicios de autenticación", "recomendacion": "Agendar una reunión de seguimiento con el equipo de seguridad informática para el miércoles y presentar el plan de pruebas de seguridad completado", "acciones": [
+      "Enviar recordatorio con la documentación de seguridad actualizada",
+      "Preparar demo del flujo de autenticación con reporte de vulnerabilidades",
+      "Establecer SLA de 48 horas para revisiones de seguridad críticas"
+    ]},
+    { "type": "closing", "parrafos": ["Progreso general dentro de lo esperado. Próxima semana: finalizar API v2 e iniciar integración completa del frontend. Se debe destrabar la aprobación de seguridad antes del miércoles para no afectar el cronograma."] }
+  ]
+}

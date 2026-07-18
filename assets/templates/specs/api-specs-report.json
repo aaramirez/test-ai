@@ -1,0 +1,973 @@
+{
+  "output": "assets/docs/api-specs-report.pdf",
+  "meta": {
+    "title": "ApiConex V2",
+    "subtitle": "Referencia de endpoints de API — Middleware orquestador central para Fibex Telecom",
+    "description": "Definir una API REST consistente, evolutiva y verificable, en la que las rutas representen entidades e identificadores, los atributos estén en query parameters o cuerpos y los contratos de datos sean uniformes.",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Equipo API",
+    "date": "18 de junio de 2026",
+    "classification": "Confidencial",
+    "custom_fields": [
+      {
+        "label": "Versión del documento",
+        "value": "2.1.0"
+      },
+      {
+        "label": "Estado",
+        "value": "Propuesta corregida"
+      },
+      {
+        "label": "Protocolo",
+        "value": "HTTPS"
+      },
+      {
+        "label": "Formato",
+        "value": "JSON"
+      },
+      {
+        "label": "Seguridad",
+        "value": "API Key y scopes"
+      }
+    ]
+  },
+  "slides": [
+    {
+      "type": "doc-cover"
+    },
+    {
+      "type": "section",
+      "titulo": "Control de cambios"
+    },
+    {
+      "type": "change-log",
+      "entries": [
+        {
+          "version": "2.1.0",
+          "date": "2026-06-18",
+          "change": "Normalización de rutas, diccionario, respuestas, métodos y códigos HTTP. Incorporación de GET /rates/{forex_id}."
+        },
+        {
+          "version": "2.0.0",
+          "date": "2026-06-18",
+          "change": "Versión base sometida a revisión."
+        },
+        {
+          "version": "1.0.0",
+          "date": "2026-03-01",
+          "change": "Versión inicial como borrador interno."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "titulo": "1.1 URL base y diseño de rutas"
+    },
+    {
+      "type": "text",
+      "parrafos": [
+        "URL base: https://{host}/v2. La versión mayor forma parte de la ruta. Los cambios incompatibles se publicarán bajo una nueva versión mayor; las ampliaciones compatibles conservarán la versión vigente."
+      ]
+    },
+    {
+      "type": "bullets",
+      "items": [
+        "Cada segmento de la ruta representa una colección de entidades o el identificador de una entidad.",
+        "Las colecciones se expresan mediante sustantivos plurales, en inglés y con kebab-case cuando contienen más de una palabra.",
+        "Los identificadores se expresan con llaves: {company_id}; no se mezcla esta convención con :company_id.",
+        "Cuando una entidad depende del contexto de otra, la entidad más general aparece primero de izquierda a derecha.",
+        "Los atributos, filtros, ordenamiento, expansión y paginación no forman parte de la ruta; se envían como query parameters o en el cuerpo.",
+        "No se incluyen verbos como get, create, update o delete en la ruta. La acción está determinada por el método HTTP."
+      ]
+    },
+    {
+      "type": "section",
+      "titulo": "1.2 Autenticación y convención de nombres"
+    },
+    {
+      "type": "text",
+      "parrafos": [
+        "Todas las operaciones, excepto la consulta pública de tasas si así se configura, requieren una API Key válida. Se envía mediante el header x-api-key o Authorization: Bearer. Los scopes determinan qué operaciones puede ejecutar cada clave. Esta versión define los scopes: sae:read, sae:write y admin."
+      ]
+    },
+    {
+      "type": "conventions-table",
+      "title": "Convención de nombres",
+      "headers": [
+        "Elemento",
+        "Convención",
+        "Ejemplo"
+      ],
+      "rows": [
+        [
+          "Rutas",
+          "Inglés, plural, kebab-case",
+          "/api-keys"
+        ],
+        [
+          "Atributos JSON",
+          "Inglés, snake_case",
+          "created_at"
+        ],
+        [
+          "Identificadores",
+          "<entity>_id",
+          "customer_id"
+        ],
+        [
+          "Fechas y horas",
+          "ISO-8601 UTC",
+          "2026-06-18T15:30:00Z"
+        ],
+        [
+          "Monedas",
+          "ISO-4217",
+          "USD"
+        ],
+        [
+          "Enumeraciones",
+          "snake_case",
+          "in_progress"
+        ]
+      ]
+    },
+    {
+      "type": "section",
+      "titulo": "1.3 Parámetros comunes y códigos HTTP"
+    },
+    {
+      "type": "text",
+      "parrafos": [
+        "Parámetros comunes a todos los endpoints:"
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nombre",
+        "Tipo",
+        "Por defecto",
+        "Descripción"
+      ],
+      "filas": [
+        [
+          "page",
+          "integer",
+          "1",
+          "Número de página para paginación"
+        ],
+        [
+          "limit",
+          "integer",
+          "20",
+          "Elementos por página (máx. 100)"
+        ],
+        [
+          "sort",
+          "string",
+          "-created_at",
+          "Campo y dirección de ordenamiento (prefix - para descendente)"
+        ],
+        [
+          "fields",
+          "string",
+          "—",
+          "Campos específicos a incluir en la respuesta, separados por coma"
+        ],
+        [
+          "expand",
+          "string",
+          "—",
+          "Relaciones a expandir en la respuesta"
+        ]
+      ]
+    },
+    {
+      "type": "code-block",
+      "title": "Envoltura de éxito",
+      "code": "{\n  \"data\": [\n    { \"id\": \"abc123\", \"name\": \"Ejemplo\", \"status\": \"active\" }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 142\n  }\n}"
+    },
+    {
+      "type": "code-block",
+      "title": "Envoltura de error",
+      "code": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Uno o más campos no son válidos\",\n    \"details\": [\n      { \"field\": \"email\", \"reason\": \"formato inválido\" }\n    ]\n  }\n}"
+    },
+    {
+      "type": "http-codes",
+      "headers": [
+        "Código",
+        "Nombre",
+        "Descripción"
+      ],
+      "codes": [
+        {
+          "code": 200,
+          "name": "OK",
+          "description": "Éxito en operaciones de lectura o modificación"
+        },
+        {
+          "code": 201,
+          "name": "Created",
+          "description": "Recurso creado correctamente"
+        },
+        {
+          "code": 204,
+          "name": "No Content",
+          "description": "Operación exitosa sin contenido en la respuesta"
+        },
+        {
+          "code": 400,
+          "name": "Bad Request",
+          "description": "Solicitud mal formada o parámetros inválidos"
+        },
+        {
+          "code": 401,
+          "name": "Unauthorized",
+          "description": "API Key ausente o inválida"
+        },
+        {
+          "code": 403,
+          "name": "Forbidden",
+          "description": "El scope no permite la operación"
+        },
+        {
+          "code": 404,
+          "name": "Not Found",
+          "description": "El recurso solicitado no existe"
+        },
+        {
+          "code": 409,
+          "name": "Conflict",
+          "description": "Conflicto con el estado actual del recurso"
+        },
+        {
+          "code": 422,
+          "name": "Unprocessable Entity",
+          "description": "Los datos enviados no cumplen las reglas de negocio"
+        },
+        {
+          "code": 429,
+          "name": "Too Many Requests",
+          "description": "Se excedió el límite de tasa de peticiones"
+        },
+        {
+          "code": 500,
+          "name": "Internal Server Error",
+          "description": "Error inesperado en el servidor"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "titulo": "2. Resumen de endpoints"
+    },
+    {
+      "type": "endpoint-summary",
+      "headers": [
+        "Método",
+        "Ruta relativa a /v2",
+        "Propósito",
+        "Scope"
+      ],
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/customers",
+          "purpose": "Listar o buscar clientes",
+          "scope": "customers:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/customers/{customer_id}",
+          "purpose": "Obtener un cliente",
+          "scope": "customers:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/customers/{customer_id}/contracts",
+          "purpose": "Listar contratos del cliente",
+          "scope": "customers:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/contracts/{contract_id}",
+          "purpose": "Obtener un contrato",
+          "scope": "contracts:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/products",
+          "purpose": "Listar productos",
+          "scope": "products:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/products/{product_id}",
+          "purpose": "Obtener un producto",
+          "scope": "products:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/orders",
+          "purpose": "Listar órdenes",
+          "scope": "orders:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/orders/{order_id}",
+          "purpose": "Obtener una orden",
+          "scope": "orders:read"
+        },
+        {
+          "method": "PATCH",
+          "path": "/companies/{company_id}/orders/{order_id}",
+          "purpose": "Modificar una orden",
+          "scope": "orders:write"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/payments",
+          "purpose": "Obtener pagos hechos",
+          "scope": "payments:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/payments/{payment_id}",
+          "purpose": "Obtener un pago",
+          "scope": "payments:read"
+        },
+        {
+          "method": "POST",
+          "path": "/companies/{company_id}/payments",
+          "purpose": "Registrar un pago",
+          "scope": "payments:write"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/claims",
+          "purpose": "Listar reclamos",
+          "scope": "claims:read"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/claims/{claim_id}",
+          "purpose": "Obtener un reclamo",
+          "scope": "claims:read"
+        },
+        {
+          "method": "POST",
+          "path": "/companies/{company_id}/claims",
+          "purpose": "Crear un reclamo",
+          "scope": "claims:write"
+        },
+        {
+          "method": "GET",
+          "path": "/companies/{company_id}/devices",
+          "purpose": "Listar o buscar dispositivos",
+          "scope": "devices:read"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "titulo": "3. Clientes"
+    },
+    {
+      "type": "endpoint-detail",
+      "method": "GET",
+      "path": "/companies/{company_id}/customers",
+      "description": "Listar o buscar clientes. Retorna una lista paginada de clientes. Se puede filtrar por estado, tipo de documento o rango de fechas.",
+      "parameters": [
+        {
+          "name": "company_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID de la compañía"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Filtrar por estado: active, inactive, suspended"
+        },
+        {
+          "name": "document_type",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Tipo de documento: dni, ruc, passport"
+        },
+        {
+          "name": "document_number",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Número de documento (búsqueda exacta)"
+        },
+        {
+          "name": "created_from",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Fecha de creación desde (ISO-8601)"
+        },
+        {
+          "name": "created_to",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Fecha de creación hasta (ISO-8601)"
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": 200,
+          "description": "Lista de clientes",
+          "details": "Array de objetos Customer con id, name, email, status, document_type, document_number, created_at, updated_at"
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "details": "Parámetros de filtro no válidos"
+        },
+        {
+          "status": 401,
+          "description": "No autorizado",
+          "details": "API Key ausente o inválida"
+        },
+        {
+          "status": 403,
+          "description": "Prohibido",
+          "details": "El scope no permite la operación"
+        }
+      ]
+    },
+    {
+      "type": "endpoint-detail",
+      "method": "GET",
+      "path": "/companies/{company_id}/customers/{customer_id}",
+      "description": "Obtener un cliente específico por su identificador único.",
+      "parameters": [
+        {
+          "name": "company_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID de la compañía"
+        },
+        {
+          "name": "customer_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID del cliente"
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": 200,
+          "description": "Cliente encontrado",
+          "details": "Objeto Customer con todos sus atributos"
+        },
+        {
+          "status": 401,
+          "description": "No autorizado",
+          "details": "API Key ausente o inválida"
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "details": "El cliente no existe o no pertenece a la compañía"
+        }
+      ]
+    },
+    {
+      "type": "endpoint-detail",
+      "method": "GET",
+      "path": "/companies/{company_id}/customers/{customer_id}/contracts",
+      "description": "Listar los contratos asociados a un cliente. Incluye contratos activos, finalizados y suspendidos.",
+      "parameters": [
+        {
+          "name": "company_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID de la compañía"
+        },
+        {
+          "name": "customer_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID del cliente"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Filtrar por estado: active, terminated, suspended"
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": 200,
+          "description": "Lista de contratos",
+          "details": "Array de objetos Contract con id, plan_name, status, start_date, end_date, monthly_fee"
+        },
+        {
+          "status": 401,
+          "description": "No autorizado",
+          "details": "API Key ausente o inválida"
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "details": "El cliente no existe"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "titulo": "4. Pagos"
+    },
+    {
+      "type": "endpoint-detail",
+      "method": "GET",
+      "path": "/companies/{company_id}/payments",
+      "description": "Obtener el historial de pagos realizados por los clientes de una compañía. Los resultados se pueden filtrar por rango de fechas, método de pago y estado.",
+      "parameters": [
+        {
+          "name": "company_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID de la compañía"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Filtrar por estado: completed, pending, failed, refunded"
+        },
+        {
+          "name": "payment_method",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Método de pago: card, transfer, cash, debit"
+        },
+        {
+          "name": "date_from",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Fecha de pago desde (ISO-8601)"
+        },
+        {
+          "name": "date_to",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Fecha de pago hasta (ISO-8601)"
+        }
+      ],
+      "requestBody": null,
+      "responses": [
+        {
+          "status": 200,
+          "description": "Lista de pagos",
+          "details": "Array de objetos Payment con id, customer_id, amount, currency, method, status, reference, paid_at"
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "details": "Fechas mal formadas o rango inválido"
+        },
+        {
+          "status": 401,
+          "description": "No autorizado",
+          "details": "API Key ausente o inválida"
+        }
+      ]
+    },
+    {
+      "type": "endpoint-detail",
+      "method": "POST",
+      "path": "/companies/{company_id}/payments",
+      "description": "Registrar un nuevo pago. El pago puede ser asociado a una orden existente o realizarse de forma independiente.",
+      "parameters": [
+        {
+          "name": "company_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID de la compañía"
+        }
+      ],
+      "requestBody": {
+        "contentType": "application/json",
+        "fields": [
+          {
+            "name": "customer_id",
+            "type": "string",
+            "required": true,
+            "description": "ID del cliente que realiza el pago"
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "required": true,
+            "description": "Monto del pago en la moneda base"
+          },
+          {
+            "name": "currency",
+            "type": "string",
+            "required": false,
+            "description": "Código ISO-4217 de la moneda (default: USD)"
+          },
+          {
+            "name": "method",
+            "type": "string",
+            "required": true,
+            "description": "Método de pago: card, transfer, cash, debit"
+          },
+          {
+            "name": "reference",
+            "type": "string",
+            "required": false,
+            "description": "Referencia externa del pago"
+          },
+          {
+            "name": "order_id",
+            "type": "string",
+            "required": false,
+            "description": "ID de la orden asociada (opcional)"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "description": "Pago registrado",
+          "details": "Objeto Payment con id asignado, status pending y timestamp created_at"
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "details": "Datos faltantes o inválidos en el cuerpo"
+        },
+        {
+          "status": 401,
+          "description": "No autorizado",
+          "details": "API Key ausente o inválida"
+        },
+        {
+          "status": 403,
+          "description": "Prohibido",
+          "details": "El scope payments:write no está asignado a la API Key"
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "details": "El customer_id no existe"
+        },
+        {
+          "status": 422,
+          "description": "Entidad no procesable",
+          "details": "El monto excede el límite permitido o la moneda no es soportada"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "titulo": "5. Prueba de paginación — EP extenso"
+    },
+    {
+      "type": "text",
+      "parrafos": [
+        "Este endpoint de prueba contiene suficientes parámetros, campos de solicitud y respuestas para ocupar varias páginas, validando que el contenido fluye correctamente a través de múltiples páginas sin ser recortado."
+      ]
+    },
+    {
+      "type": "endpoint-detail",
+      "method": "POST",
+      "path": "/companies/{company_id}/customers/{customer_id}/orders/{order_id}/fulfillment",
+      "description": "Procesar la orden de fulfillment completa, incluyendo validación de inventario, cálculo de impuestos y tarifas, selección de método de envío, generación de guías, notificación al cliente y actualización de estados en los sistemas downstream (WMS, facturación, contabilidad).",
+      "parameters": [
+        {
+          "name": "company_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID de la compañía propietaria de la orden"
+        },
+        {
+          "name": "customer_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID del cliente que realizó la orden"
+        },
+        {
+          "name": "order_id",
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "ID único de la orden a procesar"
+        },
+        {
+          "name": "warehouse_id",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "ID del almacén desde el cual se despachará (default: el asignado a la compañía)"
+        },
+        {
+          "name": "carrier",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Transportista preferido: dhl, fedex, estafeta, redpack (default: el de menor costo)"
+        },
+        {
+          "name": "shipping_type",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Tipo de envío: standard, express, same_day, scheduled"
+        },
+        {
+          "name": "scheduled_date",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Fecha agendada para envíos tipo scheduled (ISO-8601)"
+        },
+        {
+          "name": "scheduled_window",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Ventana horaria para envíos agendados, ej. 09:00-13:00"
+        },
+        {
+          "name": "gift_wrap",
+          "type": "boolean",
+          "location": "query",
+          "required": false,
+          "description": "Indica si los artículos deben envolverse para regalo"
+        },
+        {
+          "name": "gift_message",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Mensaje personalizado para incluir en el regalo"
+        },
+        {
+          "name": "insurance_amount",
+          "type": "number",
+          "location": "query",
+          "required": false,
+          "description": "Monto de seguro adicional en la moneda base"
+        },
+        {
+          "name": "signature_required",
+          "type": "boolean",
+          "location": "query",
+          "required": false,
+          "description": "Requiere firma al momento de la entrega"
+        },
+        {
+          "name": "notify_customer",
+          "type": "boolean",
+          "location": "query",
+          "required": false,
+          "description": "Enviar notificaciones al cliente sobre el estado del envío"
+        },
+        {
+          "name": "notify_channels",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Canales de notificación: email, sms, push (separados por coma)"
+        },
+        {
+          "name": "priority",
+          "type": "string",
+          "location": "query",
+          "required": false,
+          "description": "Prioridad de procesamiento: normal, high, urgent"
+        },
+        {
+          "name": "dry_run",
+          "type": "boolean",
+          "location": "query",
+          "required": false,
+          "description": "Si es true, solo valida sin ejecutar el fulfillment"
+        },
+        {
+          "name": "idempotency_key",
+          "type": "string",
+          "location": "header",
+          "required": true,
+          "description": "Clave de idempotencia para evitar procesamiento duplicado"
+        }
+      ],
+      "requestBody": {
+        "contentType": "application/json",
+        "fields": [
+          {
+            "name": "items",
+            "type": "array",
+            "required": true,
+            "description": "Lista de artículos a procesar, cada uno con sku, quantity y unit_price"
+          },
+          {
+            "name": "items[].sku",
+            "type": "string",
+            "required": true,
+            "description": "Código SKU del artículo"
+          },
+          {
+            "name": "items[].quantity",
+            "type": "integer",
+            "required": true,
+            "description": "Cantidad del artículo a despachar"
+          },
+          {
+            "name": "items[].unit_price",
+            "type": "number",
+            "required": false,
+            "description": "Precio unitario para facturación (default: el del catálogo)"
+          },
+          {
+            "name": "shipping_address",
+            "type": "object",
+            "required": true,
+            "description": "Dirección completa de envío"
+          },
+          {
+            "name": "shipping_address.street",
+            "type": "string",
+            "required": true,
+            "description": "Calle y número"
+          },
+          {
+            "name": "shipping_address.colony",
+            "type": "string",
+            "required": true,
+            "description": "Colonia o barrio"
+          },
+          {
+            "name": "shipping_address.city",
+            "type": "string",
+            "required": true,
+            "description": "Ciudad"
+          },
+          {
+            "name": "shipping_address.state",
+            "type": "string",
+            "required": true,
+            "description": "Estado o provincia"
+          },
+          {
+            "name": "shipping_address.zip",
+            "type": "string",
+            "required": true,
+            "description": "Código postal"
+          },
+          {
+            "name": "shipping_address.country",
+            "type": "string",
+            "required": true,
+            "description": "Código ISO-3166 del país"
+          },
+          {
+            "name": "shipping_address.references",
+            "type": "string",
+            "required": false,
+            "description": "Referencias adicionales para la dirección"
+          },
+          {
+            "name": "coupon_code",
+            "type": "string",
+            "required": false,
+            "description": "Código de cupón aplicable al envío"
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "required": false,
+            "description": "Notas internas para el equipo de logística"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 200,
+          "description": "Fulfillment procesado exitosamente",
+          "details": "Objeto Fulfillment con id, status, tracking_number, carrier, estimated_delivery, total_cost"
+        },
+        {
+          "status": 201,
+          "description": "Fulfillment creado y pendiente de procesar",
+          "details": "Para procesos asíncronos, el status será pending y se procesará en background"
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "details": "Datos faltantes o inválidos en el cuerpo o query parameters"
+        },
+        {
+          "status": 401,
+          "description": "No autorizado",
+          "details": "API Key ausente o inválida"
+        },
+        {
+          "status": 403,
+          "description": "Prohibido",
+          "details": "El scope fulfillment:write no está asignado"
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "details": "La orden, compañía o cliente no existe"
+        },
+        {
+          "status": 409,
+          "description": "Conflicto",
+          "details": "La orden ya fue procesada o está cancelada"
+        },
+        {
+          "status": 422,
+          "description": "Entidad no procesable",
+          "details": "Inventario insuficiente para uno o más artículos. Ver details[].sku y details[].available"
+        },
+        {
+          "status": 429,
+          "description": "Too Many Requests",
+          "details": "Se excedió el límite de tasa. Reintentar con backoff exponencial."
+        },
+        {
+          "status": 500,
+          "description": "Error interno del servidor",
+          "details": "Error inesperado durante el procesamiento del fulfillment"
+        }
+      ]
+    },
+    {
+      "type": "closing",
+      "parrafos": [
+        "Este documento constituye la referencia oficial de la API REST v2. Los cambios a esta especificación deben ser revisados y aprobados antes de su publicación. Para reportar inconsistencias o solicitar mejoras, contactar al equipo API."
+      ]
+    }
+  ]
+}

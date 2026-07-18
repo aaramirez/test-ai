@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "Revisión del Sprint 7",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/sprint-review.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Revisión del Sprint 7",
+      "subtitulo": "Equipo Plataforma · 15 al 28 de Junio de 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Resumen del Sprint",
+      "indice": "RESUMEN"
+    },
+    {
+      "type": "kpis",
+      "titulo": "Métricas Clave del Sprint",
+      "kpis": [
+        {
+          "valor": "32",
+          "etiqueta": "Story Points Completados"
+        },
+        {
+          "valor": "89%",
+          "etiqueta": "Tasa de Finalización"
+        },
+        {
+          "valor": "12",
+          "etiqueta": "Errores Corregidos"
+        },
+        {
+          "valor": "4.5",
+          "etiqueta": "Velocidad Promedio (Sprints 5-7)"
+        },
+        {
+          "valor": "8.2",
+          "etiqueta": "Satisfacción del Equipo (/10)"
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Burndown del Sprint",
+      "chart": {
+        "tipo": "lineas",
+        "datos": [
+          [
+            "Día 1",
+            32
+          ],
+          [
+            "Día 3",
+            28
+          ],
+          [
+            "Día 5",
+            25
+          ],
+          [
+            "Día 7",
+            20
+          ],
+          [
+            "Día 10",
+            12
+          ],
+          [
+            "Día 12",
+            5
+          ],
+          [
+            "Día 14",
+            3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "bullets",
+      "titulo": "Entregas Completadas",
+      "items": [
+        "Autenticación OAuth 2.0 con proveedores Google y GitHub",
+        "API REST de usuarios versión 2 con rate limiting por API key",
+        "Dashboard de métricas del sistema en tiempo real (WebSocket)",
+        "Migración exitosa de base de datos de PostgreSQL 15 a 16",
+        "Pipeline CI/CD actualizado con escaneo de vulnerabilidades",
+        "Documentación técnica de la API v2 en Swagger/OpenAPI"
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Distribución de Tickets por Estado",
+      "headers": [
+        "Estado",
+        "Cantidad",
+        "Porcentaje"
+      ],
+      "filas": [
+        [
+          "Completado",
+          18,
+          "75%"
+        ],
+        [
+          "En Progreso",
+          3,
+          "12.5%"
+        ],
+        [
+          "Bloqueado",
+          1,
+          "4%"
+        ],
+        [
+          "No Iniciado",
+          2,
+          "8.5%"
+        ]
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Distribución del Trabajo por Área",
+      "chart": {
+        "tipo": "donut",
+        "datos": [
+          [
+            "Backend",
+            14
+          ],
+          [
+            "Frontend",
+            10
+          ],
+          [
+            "QA",
+            5
+          ],
+          [
+            "DevOps",
+            3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "cita",
+      "texto": "Este ha sido el mejor sprint del trimestre. El equipo mantuvo un enfoque excepcional y la calidad del código entregado es la más alta que hemos visto. La migración a PostgreSQL 16 fue particularmente limpia.",
+      "autor": "— Tech Lead del Equipo"
+    }
+  ]
+}

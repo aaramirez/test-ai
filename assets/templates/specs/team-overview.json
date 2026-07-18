@@ -1,0 +1,174 @@
+{
+  "meta": {
+    "title": "Vista General del Equipo",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/team-overview.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Vista General del Equipo",
+      "subtitulo": "Nombre de la Organización · Julio 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Nuestra Identidad y Propósito",
+      "indice": "EQUIPO"
+    },
+    {
+      "type": "cita",
+      "texto": "Construir la plataforma tecnológica más confiable, escalable y segura para impulsar todos los productos digitales de la organización.",
+      "autor": "— Misión del Equipo de Plataforma"
+    },
+    {
+      "type": "tarjetas",
+      "titulo": "Integrantes del Equipo",
+      "tarjetas": [
+        {
+          "titulo": "Ana García",
+          "texto": "Tech Lead · 8 años de experiencia · Arq. de soluciones"
+        },
+        {
+          "titulo": "Carlos López",
+          "texto": "Frontend Senior · React, Vue, TypeScript"
+        },
+        {
+          "titulo": "María Torres",
+          "texto": "Backend Senior · Node.js, Python, PostgreSQL"
+        },
+        {
+          "titulo": "José Rivera",
+          "texto": "QA Engineer · Automatización, Playwright, K6"
+        },
+        {
+          "titulo": "Laura Méndez",
+          "texto": "DevOps · Docker, Kubernetes, AWS, Terraform"
+        },
+        {
+          "titulo": "Pedro Sánchez",
+          "texto": "Product Owner · Gestión ágil, JIRA, análisis de negocio"
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Competencias Técnicas del Equipo",
+      "chart": {
+        "tipo": "radar",
+        "categorias": [
+          "Desarrollo Backend",
+          "Desarrollo Frontend",
+          "Infraestructura DevOps",
+          "Aseguramiento de Calidad",
+          "Arquitectura de Software",
+          "Gestión de Producto"
+        ],
+        "series": [
+          [
+            "Nivel actual",
+            [
+              4,
+              3,
+              4,
+              3,
+              3,
+              2
+            ]
+          ],
+          [
+            "Objetivo Q4 2026",
+            [
+              5,
+              4,
+              5,
+              4,
+              4,
+              3
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "n-columnas",
+      "titulo": "Stack Tecnológico del Equipo",
+      "numero_columnas": 4,
+      "columnas": [
+        {
+          "titulo": "Frontend",
+          "items": [
+            "React 19",
+            "Vite 6",
+            "Tailwind CSS 4",
+            "TypeScript 5.5"
+          ]
+        },
+        {
+          "titulo": "Backend",
+          "items": [
+            "Node.js 22",
+            "Fastify 5",
+            "PostgreSQL 16",
+            "Redis 7"
+          ]
+        },
+        {
+          "titulo": "Infraestructura",
+          "items": [
+            "Docker",
+            "Kubernetes",
+            "AWS EKS",
+            "Terraform"
+          ]
+        },
+        {
+          "titulo": "Herramientas",
+          "items": [
+            "JIRA",
+            "GitHub Actions",
+            "Grafana",
+            "Datadog"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "personas",
+      "titulo": "Rol y Especialidad de Cada Integrante",
+      "personas": [
+        {
+          "nombre": "Ana García",
+          "rol": "Tech Lead — Arquitectura"
+        },
+        {
+          "nombre": "Carlos López",
+          "rol": "Frontend Senior"
+        },
+        {
+          "nombre": "María Torres",
+          "rol": "Backend Senior"
+        },
+        {
+          "nombre": "José Rivera",
+          "rol": "QA Engineer"
+        },
+        {
+          "nombre": "Laura Méndez",
+          "rol": "DevOps Engineer"
+        },
+        {
+          "nombre": "Pedro Sánchez",
+          "rol": "Product Owner"
+        }
+      ]
+    },
+    {
+      "type": "imagen",
+      "titulo": "Organigrama del Equipo",
+      "src": "assets/images/team-org-chart.png",
+      "subtitulo": "Estructura organizacional del equipo de plataforma"
+    }
+  ]
+}

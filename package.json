@@ -1,0 +1,10 @@
+{
+  "name": "test-ia",
+  "version": "1.0.0",
+  "description": "test-ia — AI-enhanced project",
+  "type": "module",
+  "scripts": {},
+  "engines": {
+    "node": ">=18"
+  }
+}

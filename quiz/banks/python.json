@@ -1,0 +1,32 @@
+{
+  "name": "Python",
+  "description": "Python fundamentals",
+  "version": "1.0.0",
+  "randomize": { "questions": false, "options": false },
+  "questions": [
+    {
+      "id": "py-001",
+      "difficulty": "easy",
+      "type": "single",
+      "question": "¿Cómo se define una lista por comprensión en Python?",
+      "options": [
+        { "label": "[x for x in range(10)]" },
+        { "label": "for x in range(10): list.add(x)" },
+        { "label": "list(range(10)).map(x => x)" },
+        { "label": "list{for x in range(10)}" }
+      ]
+    },
+    {
+      "id": "py-002",
+      "difficulty": "medium",
+      "type": "single",
+      "question": "¿Qué diferencia hay entre una tupla y una lista?",
+      "options": [
+        { "label": "La tupla es mutable, la lista es inmutable" },
+        { "label": "La lista es mutable, la tupla es inmutable" },
+        { "label": "La tupla solo almacena números" },
+        { "label": "No hay diferencia" }
+      ]
+    }
+  ]
+}

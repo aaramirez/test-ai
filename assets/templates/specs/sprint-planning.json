@@ -1,0 +1,220 @@
+{
+  "meta": {
+    "title": "Planificación del Sprint 8",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/sprint-planning.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Planificación del Sprint 8",
+      "subtitulo": "Equipo Plataforma · 29 de Junio al 12 de Julio de 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Objetivos del Sprint",
+      "indice": "OBJETIVOS"
+    },
+    {
+      "type": "bullets",
+      "titulo": "Metas del Sprint",
+      "items": [
+        "Completar todos los endpoints de la API REST v2 (6 endpoints pendientes)",
+        "Integrar el dashboard de administración con la API v2",
+        "Alcanzar el 85% de cobertura de pruebas automatizadas",
+        "Resolver las 3 deudas técnicas priorizadas en la retrospectiva anterior",
+        "Preparar el entorno de staging para pruebas de aceptación con el cliente"
+      ]
+    },
+    {
+      "type": "tarjetas",
+      "titulo": "Capacidad del Equipo",
+      "subtitulo": "Distribución de días-hombre disponibles",
+      "tarjetas": [
+        {
+          "titulo": "Frontend",
+          "subtitulo": "2 desarrolladores",
+          "items": [
+            "Ana: 10 días",
+            "Carlos: 10 días",
+            "Total: 20 días-hombre"
+          ]
+        },
+        {
+          "titulo": "Backend",
+          "subtitulo": "2 desarrolladores",
+          "items": [
+            "María: 10 días",
+            "Luis: 8 días (1 día off)",
+            "Total: 18 días-hombre"
+          ]
+        },
+        {
+          "titulo": "QA",
+          "subtitulo": "1 desarrollador",
+          "items": [
+            "Sofía: 10 días",
+            "Total: 10 días-hombre"
+          ]
+        },
+        {
+          "titulo": "DevOps",
+          "subtitulo": "1 desarrollador",
+          "items": [
+            "Pedro: 5 días (soporte parcial)",
+            "Total: 5 días-hombre"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Backlog Priorizado",
+      "headers": [
+        "Prioridad",
+        "Historia de Usuario",
+        "Puntos",
+        "Responsable",
+        "Estado"
+      ],
+      "filas": [
+        [
+          "Crítica",
+          "Endpoint GET /api/v2/usuarios con paginación y filtros",
+          5,
+          "Backend",
+          "🔨 En curso"
+        ],
+        [
+          "Alta",
+          "Dashboard de usuarios conectados en tiempo real",
+          8,
+          "Frontend",
+          "📋 Por iniciar"
+        ],
+        [
+          "Alta",
+          "Endpoint POST /api/v2/usuarios con validación",
+          3,
+          "Backend",
+          "📋 Por iniciar"
+        ],
+        [
+          "Media",
+          "Implementar rate limiting por API key",
+          3,
+          "Backend",
+          "📋 Por iniciar"
+        ],
+        [
+          "Media",
+          "Pruebas de integración para módulo de usuarios",
+          5,
+          "QA",
+          "📋 Por iniciar"
+        ],
+        [
+          "Baja",
+          "Documentación Swagger para endpoints v2",
+          2,
+          "Backend",
+          "📋 Por iniciar"
+        ],
+        [
+          "Baja",
+          "Corregir vulnerabilidad CSRF en formularios",
+          2,
+          "Frontend",
+          "📋 Por iniciar"
+        ]
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Capacidad por Área (días-hombre)",
+      "chart": {
+        "tipo": "barras",
+        "datos": [
+          [
+            "Frontend",
+            20
+          ],
+          [
+            "Backend",
+            18
+          ],
+          [
+            "QA",
+            10
+          ],
+          [
+            "DevOps",
+            5
+          ]
+        ]
+      }
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Riesgos y Mitigaciones",
+      "columnas": [
+        {
+          "titulo": "Riesgos Identificados",
+          "items": [
+            "Dependencia del equipo de seguridad para revisión de autenticación",
+            "Vacaciones de Luis reduce capacidad de backend en 2 días",
+            "Posible cambio de alcance solicitado por el cliente",
+            "Integración con sistema legacy puede requerir más tiempo del estimado"
+          ]
+        },
+        {
+          "titulo": "Plan de Mitigación",
+          "items": [
+            "Solicitar revisión de seguridad al inicio del sprint",
+            "Reasignar tarea de autenticación a María",
+            "Congelar alcance aprobado por el Product Owner",
+            "Reservar 2 días de buffer para integración legacy"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "destacado",
+      "valor": "28",
+      "titulo": "Story Points Comprometidos",
+      "subtitulo": "Capacidad total estimada del equipo para el Sprint 8"
+    },
+    {
+      "type": "proceso",
+      "titulo": "Flujo de Trabajo del Sprint",
+      "pasos": [
+        {
+          "titulo": "Planificación",
+          "descripcion": "Reunión de planificación con PO para refinar y estimar el backlog"
+        },
+        {
+          "titulo": "Desarrollo",
+          "descripcion": "Implementación de historias por orden de prioridad con pair programming"
+        },
+        {
+          "titulo": "Revisión de Código",
+          "descripcion": "Pull requests revisados por al menos 2 miembros del equipo antes de merge"
+        },
+        {
+          "titulo": "Pruebas",
+          "descripcion": "QA ejecuta pruebas funcionales, de regresión y de integración"
+        },
+        {
+          "titulo": "Despliegue",
+          "descripcion": "Release a staging cada 2 días; release a producción al final del sprint"
+        },
+        {
+          "titulo": "Retrospectiva",
+          "descripcion": "Análisis de métricas, identificación de mejoras para el próximo sprint"
+        }
+      ]
+    }
+  ]
+}

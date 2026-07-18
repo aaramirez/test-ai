@@ -1,0 +1,54 @@
+{
+  "output": "assets/docs/incident-postmortem.pdf",
+  "meta": {
+    "title": "Postmortem de Incidente: INC-2026-042",
+    "subtitle": "Interrupción del servicio de autenticación",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Equipo SRE",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Resumen del Incidente" },
+    { "type": "text", "parrafos": [
+      "El 27 de junio de 2026, de 14:30 a 16:15 UTC, el servicio de autenticación experimentó una interrupción total que afectó a todos los usuarios del sistema.",
+      "Severidad: CRÍTICA. Duración: 105 minutos. Servicios afectados: Auth Service, API Gateway, Portal Web.",
+      "Usuarios impactados: aproximadamente 12,500 usuarios activos durante la ventana del incidente."
+    ]},
+    { "type": "section", "titulo": "2. Línea de Tiempo" },
+    { "type": "table", "headers": ["Hora (UTC)", "Evento", "Responsable"], "filas": [
+      ["14:25", "Despliegue de nueva versión del Auth Service", "DevOps"],
+      ["14:30", "Alertas de error 503 en API Gateway desde múltiples regiones", "SRE"],
+      ["14:35", "Se detecta pico anómalo de conexiones a la base de datos", "SRE"],
+      ["14:40", "Se escala a liderazgo técnico; se declara incidente crítico", "SRE Líder"],
+      ["14:45", "Rollback de Auth Service iniciado", "DevOps"],
+      ["15:00", "Rollback completado, servicio restablecido parcialmente", "DevOps"],
+      ["15:15", "Se identifica pool de conexiones agotado, se fuerza reinicio de BD", "DBA"],
+      ["15:30", "Caché de tokens purgado manualmente", "SRE"],
+      ["16:15", "Todos los servicios verificados como operativos", "SRE"]
+    ]},
+    { "type": "callout", "headline": "Análisis de Causa Raíz", "parrafos": [
+      "El despliegue incluyó un cambio en la configuración del pool de conexiones a la base de datos (max_connections de 50 a 200) que no fue detectado en el entorno de staging.",
+      "La causa directa fue la saturación de la base de datos al exceder el límite de conexiones concurrentes permitidas por el motor."
+    ]},
+    { "type": "recommendation", "titulo": "Acciones Correctivas", "problema": "Despliegue sin validación de configuración crítica de base de datos", "recomendacion": "Implementar validación automática de configuración en el pipeline de CI/CD", "acciones": [
+      "Agregar prueba de conexión a base de datos en el pipeline de CI con la configuración propuesta",
+      "Configurar alertas de conexiones activas en Grafana con umbral de 80% del máximo",
+      "Implementar feature flags para cambios de configuración de infraestructura",
+      "Establecer revisión obligatoria de cambios de configuración por al menos dos ingenieros"
+    ]},
+    { "type": "bullets", "items": [
+      "Lección aprendida: los cambios de configuración de infraestructura requieren el mismo nivel de revisión que los cambios de código",
+      "Se actualizará el checklist de despliegue para incluir validación de configuración de BD",
+      "El runbook de respuesta a incidentes se actualizará con el procedimiento de purga de caché"
+    ]},
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Tiempo de Detección", "metrica": "TTD (Time to Detect)", "meta": "< 5 min", "valor": "5 min", "estado": "success" },
+      { "dominio": "Tiempo de Respuesta", "metrica": "TTR (Time to Respond)", "meta": "< 15 min", "valor": "10 min", "estado": "success" },
+      { "dominio": "Tiempo de Resolución", "metrica": "TTF (Time to Fix)", "meta": "< 60 min", "valor": "105 min", "estado": "fail" },
+      { "dominio": "Disponibilidad", "metrica": "SLA Mensual", "meta": "99.9%", "valor": "99.88%", "estado": "warning" }
+    ]},
+    { "type": "closing", "parrafos": ["Postmortem revisado y aprobado por el equipo SRE el 28 de junio de 2026. Las acciones correctivas se integrarán en el backlog del siguiente sprint con prioridad crítica."] }
+  ]
+}

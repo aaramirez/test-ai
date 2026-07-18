@@ -1,0 +1,33 @@
+{
+  "output": "assets/docs/release-notes-report.pdf",
+  "meta": {
+    "title": "Release Notes — v2.0.0",
+    "subtitle": "Plataforma Unificada",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Release Manager",
+    "date": "28 Jun 2026",
+    "classification": "Público"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Nuevas Funcionalidades" },
+    { "type": "bullets", "items": [
+      "Autenticación OAuth 2.0 con Google y GitHub",
+      "API REST v2 con rate limiting por usuario",
+      "Dashboard de métricas en tiempo real",
+      "Exportación de reportes en PDF y CSV"
+    ]},
+    { "type": "section", "titulo": "2. Correcciones" },
+    { "type": "table", "headers": ["Issue", "Descripción", "Módulo"], "filas": [
+      ["#234", "Error 500 en GET /users/:id", "API"],
+      ["#237", "Rate limit no se resetaba", "Middleware"],
+      ["#241", "Dashboard no cargaba en Safari", "Frontend"]
+    ]},
+    { "type": "section", "titulo": "3. Issues Conocidos" },
+    { "type": "bullets", "items": [
+      "El dashboard tiene latencia de hasta 2s en datasets grandes (>10k registros)",
+      "La exportación CSV no incluye caracteres acentuados correctamente"
+    ]},
+    { "type": "closing", "parrafos": ["Upgrade recomendado. Ver documentación de migración en /docs/migration-v2."] }
+  ]
+}

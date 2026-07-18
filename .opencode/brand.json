@@ -1,0 +1,19 @@
+{
+  "brand": {
+    "name": "test-ia",
+    "colors": {
+      "primary": "#1a365d",
+      "secondary": "#2b6cb0",
+      "accent": "#e53e3e",
+      "text": "#1a202c",
+      "background": "#ffffff",
+      "light-bg": "#f7fafc"
+    },
+    "logo": "assets/images/logo.svg",
+    "logo_white": "assets/images/logo-white.svg",
+    "fonts": {
+      "heading": "Inter, sans-serif",
+      "body": "Inter, sans-serif"
+    }
+  }
+}

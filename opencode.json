@@ -1,0 +1,134 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/big-pickle",
+  "small_model": "anthropic/claude-haiku-4-5",
+  "default_agent": "build",
+  "shell": "/bin/zsh",
+
+  "instructions": ["AGENTS.md"],
+
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "description": "Default build agent for coding tasks"
+    },
+    "plan": {
+      "mode": "primary",
+      "description": "Planning agent for architecture and design",
+      "permission": { "edit": "deny" }
+    },
+    "plan-arai": {
+      "mode": "primary",
+      "description": "Plan mode que documenta en plans/",
+      "path": ".opencode/agents/plan-arai.md"
+    },
+    "reviewer": {
+      "mode": "subagent",
+      "description": "Code review specialist. Use for PR reviews and quality checks.",
+      "permission": { "edit": "deny" }
+    },
+    "tester": {
+      "mode": "subagent",
+      "description": "Testing specialist. Use for writing and running tests.",
+      "permission": { "bash": "allow" }
+    },
+    "docs": {
+      "mode": "subagent",
+      "description": "Documentation specialist. Use for README, docs, and changelogs.",
+      "permission": { "edit": "allow", "bash": "deny" }
+    },
+    "quiz-admin": {
+      "mode": "subagent",
+      "description": "Quiz admin specialist. Use for evaluating sessions, generating reports, and sending results.",
+      "permission": { "bash": "allow" }
+    }
+  },
+
+  "command": {
+    "test": {
+      "description": "Run test suite for current project",
+      "template": "Run the test suite for this project. First detect the test framework, then run all tests and report results."
+    },
+    "deploy": {
+      "description": "Deploy current project",
+      "template": "Deploy the current project. Check the project type and deployment config, then execute the appropriate deploy command."
+    },
+    "commit": {
+      "description": "Create a conventional commit",
+      "template": "Stage all changes and create a conventional commit with an appropriate type and scope based on the changes."
+    },
+    "plan": {
+      "description": "Generate a detailed requirements plan in plans/ with TDD philosophy",
+      "template": "Create a detailed implementation plan for: $ARGUMENTS. Follow the TDD process: understand the request, research the codebase, create a plan document in plans/<feature-slug>.md with objective, requirements, architecture decisions, file changes, TDD flow, and verification steps. Write failing tests first, then implement, then verify."
+    },
+    "quiz-create": {
+      "description": "Create a new question bank for quizzes or surveys",
+      "template": "Load the quiz-bank skill and create a new question bank. Ask for: bank name, ID, version, and whether it's a quiz or survey. Initialize the bank file in quiz/banks/."
+    },
+    "quiz-register": {
+      "description": "Register quiz participants",
+      "template": "Load the quiz-participant skill and register participants. Offer single registration or bulk CSV import."
+    },
+    "quiz-practice": {
+      "description": "Run a practice quiz with immediate feedback",
+      "template": "Load the quiz skill and run a practice quiz. Identify the participant, select bank and difficulty, present questions one by one with immediate feedback after each answer. Save results as practice mode."
+    },
+    "quiz-run": {
+      "description": "Run a live quiz with results saved",
+      "template": "Load the quiz skill and run a live quiz. Identify the participant, select bank and difficulty, present questions one by one with no feedback. Save results as live mode for evaluation."
+    },
+    "quiz-report": {
+      "description": "Generate admin report for quiz sessions",
+      "template": "Load the quiz-admin skill and generate a report. Ask which bank to report on, show per-question stats and participant scores."
+    },
+    "quiz-send": {
+      "description": "Send quiz results to participants via email",
+      "template": "Load the quiz-results skill and send results. Ask which bank/session, list recipients, confirm before sending."
+    },
+    "quiz-migrate": {
+      "description": "Migrate a legacy bank.json into the new bank/key format",
+      "template": "Load the quiz-bank skill and migrate a legacy bank. Read bank.json, split into banks/ and keys/ files, validate both."
+    }
+  },
+
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "-y", "@playwright/mcp"],
+      "enabled": false,
+      "env": {}
+    },
+    "github": {
+      "type": "remote",
+      "url": "https://api.github.com/mcp",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {env:GITHUB_TOKEN}"
+      }
+    }
+  },
+
+  "permission": {
+    "bash": {
+      "git *": "allow",
+      "npm *": "allow",
+      "npx *": "ask",
+      "*": "ask"
+    },
+    "edit": "ask",
+    "read": "allow"
+  },
+
+  "formatter": true,
+  "lsp": true,
+
+  "compaction": {
+    "auto": true,
+    "tail_turns": 10
+  },
+
+  "tool_output": {
+    "max_lines": 1000,
+    "max_bytes": 40960
+  }
+}

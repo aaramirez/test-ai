@@ -1,0 +1,204 @@
+{
+  "meta": {
+    "title": "Dashboard Ejecutivo — Junio 2026",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/exec-dashboard.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Dashboard Ejecutivo — Junio 2026",
+      "subtitulo": "Plataforma Unificada · Indicadores Clave de Desempeño"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Resumen Ejecutivo",
+      "indice": "KPI"
+    },
+    {
+      "type": "kpis",
+      "titulo": "KPIs del Proyecto",
+      "kpis": [
+        {
+          "valor": "68%",
+          "etiqueta": "Presupuesto Ejecutado"
+        },
+        {
+          "valor": "+2 sem",
+          "etiqueta": "Variación de Cronograma"
+        },
+        {
+          "valor": "A",
+          "etiqueta": "Calidad (SonarQube)"
+        },
+        {
+          "valor": "3",
+          "etiqueta": "Riesgos Activos"
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Velocidad del Equipo por Sprint",
+      "chart": {
+        "tipo": "barras",
+        "datos": [
+          [
+            "Sprint 1",
+            28
+          ],
+          [
+            "Sprint 2",
+            32
+          ],
+          [
+            "Sprint 3",
+            25
+          ],
+          [
+            "Sprint 4",
+            35
+          ],
+          [
+            "Sprint 5",
+            30
+          ],
+          [
+            "Sprint 6",
+            32
+          ]
+        ]
+      }
+    },
+    {
+      "type": "grafico",
+      "titulo": "Distribución de Horas por Área",
+      "chart": {
+        "tipo": "donut",
+        "datos": [
+          [
+            "Backend",
+            240
+          ],
+          [
+            "Frontend",
+            180
+          ],
+          [
+            "QA",
+            90
+          ],
+          [
+            "DevOps",
+            50
+          ]
+        ]
+      }
+    },
+    {
+      "type": "tarjetas",
+      "titulo": "Métricas de Calidad",
+      "tarjetas": [
+        {
+          "titulo": "Cobertura de Tests",
+          "texto": "82% — Objetivo: 85%"
+        },
+        {
+          "titulo": "Deuda Técnica",
+          "texto": "12 horas estimadas"
+        },
+        {
+          "titulo": "Bugs Abiertos",
+          "texto": "4 — 2 críticos"
+        },
+        {
+          "titulo": "Tiempo de Respuesta API",
+          "texto": "p95: 230ms"
+        }
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Avance por Fase",
+      "headers": [
+        "Fase",
+        "Avance",
+        "Estado",
+        "Responsable"
+      ],
+      "filas": [
+        [
+          "Fase 1: Base",
+          "100%",
+          "Completado",
+          "Backend"
+        ],
+        [
+          "Fase 2: API",
+          "70%",
+          "En Progreso",
+          "Backend"
+        ],
+        [
+          "Fase 3: Frontend",
+          "50%",
+          "En Progreso",
+          "Frontend"
+        ],
+        [
+          "Fase 4: QA",
+          "30%",
+          "En Progreso",
+          "QA"
+        ],
+        [
+          "Fase 5: Despliegue",
+          "0%",
+          "No Iniciado",
+          "DevOps"
+        ]
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Tendencia de Cobertura de Pruebas",
+      "chart": {
+        "tipo": "lineas",
+        "datos": [
+          [
+            "Sprint 1",
+            55
+          ],
+          [
+            "Sprint 2",
+            62
+          ],
+          [
+            "Sprint 3",
+            68
+          ],
+          [
+            "Sprint 4",
+            74
+          ],
+          [
+            "Sprint 5",
+            78
+          ],
+          [
+            "Sprint 6",
+            82
+          ]
+        ]
+      }
+    },
+    {
+      "type": "destacado",
+      "valor": "Q3 2026",
+      "titulo": "Próximo Hito: Go-Live",
+      "subtitulo": "Fase de estabilización inicia en Agosto"
+    }
+  ]
+}

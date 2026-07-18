@@ -1,0 +1,129 @@
+{
+  "categories": ["javascript", "python", "git", "bash"],
+  "questions": [
+    {
+      "id": "js-001",
+      "category": "javascript",
+      "difficulty": "easy",
+      "question": "¿Cuál es la diferencia entre let y var?",
+      "options": [
+        { "label": "var es block-scoped, let es function-scoped" },
+        { "label": "let es block-scoped, var es function-scoped" }
+      ],
+      "correct": 1,
+      "explanation": "let respeta bloques {}, var no"
+    },
+    {
+      "id": "js-002",
+      "category": "javascript",
+      "difficulty": "easy",
+      "question": "¿Qué devuelve typeof null?",
+      "options": [
+        { "label": "null" },
+        { "label": "undefined" },
+        { "label": "object" },
+        { "label": "boolean" }
+      ],
+      "correct": 2,
+      "explanation": "Es un error histórico de JavaScript, typeof null === 'object'"
+    },
+    {
+      "id": "js-003",
+      "category": "javascript",
+      "difficulty": "medium",
+      "question": "¿Qué es el event loop?",
+      "options": [
+        { "label": "Un bucle que itera arrays" },
+        { "label": "El mecanismo que maneja la concurrencia asíncrona en JS" },
+        { "label": "Un patrón de diseño" },
+        { "label": "Una función de orden superior" }
+      ],
+      "correct": 1,
+      "explanation": "El event loop permite que JS sea single-threaded pero no bloqueante"
+    },
+    {
+      "id": "py-001",
+      "category": "python",
+      "difficulty": "easy",
+      "question": "¿Cómo se define una lista por comprensión en Python?",
+      "options": [
+        { "label": "[x for x in range(10)]" },
+        { "label": "for x in range(10): list.add(x)" },
+        { "label": "list(range(10)).map(x => x)" },
+        { "label": "list{for x in range(10)}" }
+      ],
+      "correct": 0,
+      "explanation": "[expr for item in iterable] es la sintaxis correcta"
+    },
+    {
+      "id": "py-002",
+      "category": "python",
+      "difficulty": "medium",
+      "question": "¿Qué diferencia hay entre una tupla y una lista?",
+      "options": [
+        { "label": "La tupla es mutable, la lista es inmutable" },
+        { "label": "La lista es mutable, la tupla es inmutable" },
+        { "label": "La tupla solo almacena números" },
+        { "label": "No hay diferencia" }
+      ],
+      "correct": 1,
+      "explanation": "Las tuplas son inmutables, las listas son mutables"
+    },
+    {
+      "id": "git-001",
+      "category": "git",
+      "difficulty": "easy",
+      "question": "¿Qué hace git commit --amend?",
+      "options": [
+        { "label": "Elimina el último commit" },
+        { "label": "Modifica el último commit sin crear uno nuevo" },
+        { "label": "Crea un commit vacío" },
+        { "label": "Fusiona dos commits" }
+      ],
+      "correct": 1,
+      "explanation": "--amend permite añadir cambios al último commit"
+    },
+    {
+      "id": "git-002",
+      "category": "git",
+      "difficulty": "medium",
+      "question": "¿Qué hace git rebase?",
+      "options": [
+        { "label": "Fusiona dos ramas creando un merge commit" },
+        { "label": "Reaplica commits de una rama sobre otra, reescribiendo historial" },
+        { "label": "Elimina commits duplicados" },
+        { "label": "Descarga cambios del remoto" }
+      ],
+      "correct": 1,
+      "explanation": "Rebase reescribe el historial reaplicando commits"
+    },
+    {
+      "id": "bash-001",
+      "category": "bash",
+      "difficulty": "easy",
+      "question": "¿Qué significa el permiso 755 en un archivo?",
+      "options": [
+        { "label": "rwxrwxrwx (todos tienen todos los permisos)" },
+        { "label": "rwxr-xr-x (dueño: todo, grupo/otros: lectura y ejecución)" },
+        { "label": "rw-r--r-- (dueño: lectura/escritura, resto: solo lectura)" },
+        { "label": "---rwx--- (solo el grupo tiene permisos)" }
+      ],
+      "correct": 1,
+      "explanation": "7=rwx, 5=r-x, 5=r-x"
+    },
+    {
+      "id": "bash-002",
+      "category": "bash",
+      "difficulty": "medium",
+      "question": "¿Qué hace el comando grep -r 'texto' .?",
+      "options": [
+        { "label": "Busca 'texto' recursivamente en todos los archivos del directorio actual" },
+        { "label": "Reemplaza 'texto' por otra cadena" },
+        { "label": "Elimina archivos que contienen 'texto'" },
+        { "label": "Muestra solo las líneas que NO contienen 'texto'" }
+      ],
+      "correct": 0,
+      "explanation": "-r = recursive, busca en todos los archivos del directorio actual hacia abajo"
+    }
+  ]
+}

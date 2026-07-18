@@ -1,0 +1,42 @@
+{
+  "output": "assets/docs/sprint-planning-report.pdf",
+  "meta": {
+    "title": "Reporte de Planificación de Sprint",
+    "subtitle": "Sprint 8 — Equipo Plataforma",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Scrum Master",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Objetivos del Sprint" },
+    { "type": "text", "parrafos": [
+      "El objetivo del Sprint 8 es completar la migración de la API REST a v2 con todos los endpoints documentados, integrar el frontend con la nueva API y alcanzar un 85% de cobertura de pruebas automatizadas. La capacidad total del equipo es de 53 días-hombre."
+    ]},
+    { "type": "table", "headers": ["Historia", "Puntos", "Responsable", "Prioridad", "Estado"], "filas": [
+      ["Endpoint GET /api/v2/users", 5, "Backend", "Alta", "Por iniciar"],
+      ["Dashboard usuarios conectados", 8, "Frontend", "Alta", "Por iniciar"],
+      ["Implementar rate limiting", 3, "Backend", "Alta", "Por iniciar"],
+      ["Pruebas de integración API", 5, "QA", "Media", "Por iniciar"],
+      ["Documentación Swagger", 2, "Backend", "Baja", "Por iniciar"]
+    ]},
+    { "type": "bullets", "items": [
+      "Capacidad total: 53 días-hombre (6 personas × 9 días hábiles)",
+      "Story points comprometidos: 23 (dentro del rango de velocidad histórica)",
+      "Se excluye del alcance: migración de base de datos (pasa al Sprint 9)",
+      "Dependencia externa: aprobación del equipo de seguridad para endpoints productivos"
+    ]},
+    { "type": "section", "titulo": "2. Capacidad y Riesgos" },
+    { "type": "callout", "headline": "Riesgo de Dependencia", "parrafos": [
+      "El endpoint de autenticación depende de la aprobación del equipo de seguridad. Si no se recibe antes del tercer día hábil, el equipo backend deberá repriorizar hacia tareas sin bloqueo externo."
+    ]},
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Velocidad", "metrica": "Story Points", "meta": "23 pts comprometidos" },
+      { "dominio": "Capacidad", "metrica": "Días-hombre", "meta": "53 días" },
+      { "dominio": "Cobertura", "metrica": "Pruebas", "meta": "85% al cierre" },
+      { "dominio": "Deuda técnica", "metrica": "Issues abiertos", "meta": "≤ 5 al cierre" }
+    ]},
+    { "type": "closing", "parrafos": ["Se comprometen 23 story points. Capacidad del equipo: 53 días-hombre. Fecha de inicio: 30 Jun 2026. Fecha de cierre: 10 Jul 2026."] }
+  ]
+}

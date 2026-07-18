@@ -1,0 +1,40 @@
+{
+  "output": "assets/docs/deployment-runbook-report.pdf",
+  "meta": {
+    "title": "Runbook de Despliegue",
+    "subtitle": "Plataforma Unificada — Procedimiento de Despliegue a Producción v2.0.0",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Líder de DevOps",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Prerrequisitos" },
+    { "type": "text", "parrafos": [
+      "Antes de iniciar el despliegue, asegurar acceso al clúster Kubernetes (kubectl configurado con el contexto de producción), tener la imagen Docker construida y almacenada en el registry interno, y verificar que el pipeline de CI/CD haya pasado todas las pruebas automatizadas.",
+      "Se requiere aprobación manual del líder técnico para proceder con el despliegue en horario laboral (09:00–18:00 UTC-6)."
+    ]},
+    { "type": "bullets", "items": [
+      "Verificar que la versión a desplegar esté etiquetada en Git con tag semántico (vX.Y.Z)",
+      "Confirmar que las pruebas de integración y seguridad hayan pasado en staging",
+      "Notificar al equipo en el canal #deploys de Slack al menos 15 minutos antes",
+      "Tener acceso a la consola de Grafana para monitoreo post-despliegue"
+    ]},
+    { "type": "section", "titulo": "2. Procedimiento de Despliegue" },
+    { "type": "table", "headers": ["Paso", "Comando / Acción", "Verificación"], "filas": [
+      ["Build", "docker build -t plataforma:$TAG . --platform linux/amd64", "Build exitoso sin errores"],
+      ["Push", "docker push registry.internal/plataforma:$TAG", "Imagen disponible en registry"],
+      ["Deploy", "kubectl set image deployment/api api=plataforma:$TAG -n produccion", "Rollout iniciado correctamente"],
+      ["Verificar", "kubectl rollout status deployment/api -n produccion", "Rollout completado (disponible)"],
+      ["Smoke test", "curl -f https://api.plataforma.io/health", "HTTP 200 OK"],
+      ["Monitoreo", "Revisar dashboards de Grafana por 30 minutos", "Sin picos de error ni latencia"]
+    ]},
+    { "type": "callout", "headline": "Rollback de Emergencia", "parrafos": [
+      "Si se detectan errores después del despliegue, ejecutar inmediatamente: kubectl rollout undo deployment/api -n produccion",
+      "Verificar la versión anterior con: kubectl rollout history deployment/api -n produccion",
+      "Notificar al equipo en #incidentes y documentar la causa del rollback"
+    ]},
+    { "type": "closing", "parrafos": ["Runbook actualizado para la versión 2.0.0 el 28 de junio de 2026. Revisar y actualizar cada trimestre. Contacto: equipo DevOps #devops-slack."] }
+  ]
+}

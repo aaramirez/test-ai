@@ -1,0 +1,32 @@
+{
+  "name": "Bash",
+  "description": "Bash command line concepts",
+  "version": "1.0.0",
+  "randomize": { "questions": false, "options": false },
+  "questions": [
+    {
+      "id": "bash-001",
+      "difficulty": "easy",
+      "type": "single",
+      "question": "¿Qué significa el permiso 755 en un archivo?",
+      "options": [
+        { "label": "rwxrwxrwx (todos tienen todos los permisos)" },
+        { "label": "rwxr-xr-x (dueño: todo, grupo/otros: lectura y ejecución)" },
+        { "label": "rw-r--r-- (dueño: lectura/escritura, resto: solo lectura)" },
+        { "label": "---rwx--- (solo el grupo tiene permisos)" }
+      ]
+    },
+    {
+      "id": "bash-002",
+      "difficulty": "medium",
+      "type": "single",
+      "question": "¿Qué hace el comando grep -r 'texto' .?",
+      "options": [
+        { "label": "Busca 'texto' recursivamente en todos los archivos del directorio actual" },
+        { "label": "Reemplaza 'texto' por otra cadena" },
+        { "label": "Elimina archivos que contienen 'texto'" },
+        { "label": "Muestra solo las líneas que NO contienen 'texto'" }
+      ]
+    }
+  ]
+}

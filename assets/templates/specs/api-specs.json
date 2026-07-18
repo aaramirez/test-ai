@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "title": "Especificaciones de API: Plataforma Unificada v3",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/api-specs.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Especificaciones de API: Plataforma Unificada v3",
+      "subtitulo": "API RESTful · OpenAPI 3.1 · Junio 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Información General de la API",
+      "indice": "GENERAL"
+    },
+    {
+      "type": "bullets",
+      "titulo": "Detalles de Conexión y Autenticación",
+      "items": [
+        "URL base: https://api.plataforma.io/v3",
+        "Autenticación: Bearer Token JWT con rotación cada 24 horas",
+        "Límite de tasa: 1200 peticiones por hora por usuario autenticado",
+        "Formato de respuesta: application/vnd.api+json (JSON:API)",
+        "Versiones compatibles: v2 (deprecada), v3 (estable)"
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Catálogo Completo de Endpoints",
+      "headers": [
+        "Método",
+        "Ruta",
+        "Descripción",
+        "Autenticación"
+      ],
+      "filas": [
+        [
+          "GET",
+          "/v3/usuarios",
+          "Listar todos los usuarios con paginación",
+          "Bearer"
+        ],
+        [
+          "POST",
+          "/v3/usuarios",
+          "Crear un nuevo usuario en el sistema",
+          "Bearer"
+        ],
+        [
+          "GET",
+          "/v3/usuarios/{id}",
+          "Obtener detalle completo de un usuario",
+          "Bearer"
+        ],
+        [
+          "PATCH",
+          "/v3/usuarios/{id}",
+          "Actualizar campos específicos del usuario",
+          "Bearer"
+        ],
+        [
+          "DELETE",
+          "/v3/usuarios/{id}",
+          "Eliminar usuario (baja lógica)",
+          "Bearer + Admin"
+        ],
+        [
+          "GET",
+          "/v3/usuarios/{id}/notificaciones",
+          "Historial de notificaciones del usuario",
+          "Bearer"
+        ]
+      ]
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Ejemplo de Petición y Respuesta: Crear Usuario",
+      "columnas": [
+        {
+          "titulo": "Petición POST /v3/usuarios",
+          "items": [
+            "Content-Type: application/vnd.api+json",
+            "Body: { \"data\": { \"type\": \"usuarios\", \"attributes\": { \"nombre\": \"María López\", \"email\": \"maria@ejemplo.com\", \"rol\": \"usuario\" } } }"
+          ]
+        },
+        {
+          "titulo": "Respuesta 201 Creado",
+          "items": [
+            "Status: 201 Created",
+            "Body: { \"data\": { \"type\": \"usuarios\", \"id\": \"usr_abc123\", \"attributes\": { \"nombre\": \"María López\", \"email\": \"maria@ejemplo.com\", \"rol\": \"usuario\", \"creado_en\": \"2026-06-28T10:30:00Z\" } } }"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Distribución de Peticiones por Endpoint",
+      "chart": {
+        "tipo": "barras",
+        "datos": [
+          [
+            "GET /usuarios",
+            520
+          ],
+          [
+            "POST /usuarios",
+            145
+          ],
+          [
+            "GET /usuarios/{id}",
+            410
+          ],
+          [
+            "PATCH /usuarios/{id}",
+            95
+          ],
+          [
+            "DELETE /usuarios/{id}",
+            30
+          ],
+          [
+            "GET /notificaciones",
+            210
+          ]
+        ]
+      }
+    },
+    {
+      "type": "tarjetas",
+      "titulo": "Tecnologías del Ecosistema",
+      "tarjetas": [
+        {
+          "titulo": "Entorno de Ejecución",
+          "texto": "Node.js 22 LTS con soporte para ESModules"
+        },
+        {
+          "titulo": "Framework Web",
+          "texto": "Fastify 5 con plugin de serialización JSON"
+        },
+        {
+          "titulo": "Autenticación y Autorización",
+          "texto": "JWT + OAuth 2.0 con PKCE y refresh tokens"
+        },
+        {
+          "titulo": "Base de Datos",
+          "texto": "PostgreSQL 16 con extensión pgvector"
+        }
+      ]
+    },
+    {
+      "type": "imagen-texto",
+      "titulo": "Flujo de Autenticación OAuth 2.0",
+      "src": "assets/images/auth-flow.png",
+      "items": [
+        "El cliente solicita un code challenge con PKCE al servidor de autorización",
+        "El usuario inicia sesión y otorga permisos explícitos",
+        "El servidor emite un authorization code de un solo uso",
+        "El cliente canjea el código por un access token JWT y un refresh token",
+        "El token JWT se incluye en el header Authorization de cada petición"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Course Feedback",
+  "description": "Post-course satisfaction survey",
+  "version": "1.0.0",
+  "randomize": { "questions": false, "options": false },
+  "questions": [
+    {
+      "id": "srv-001",
+      "type": "survey",
+      "question": "How satisfied are you with the course?",
+      "options": [
+        { "label": "Very satisfied" },
+        { "label": "Satisfied" },
+        { "label": "Neutral" },
+        { "label": "Dissatisfied" },
+        { "label": "Very dissatisfied" }
+      ]
+    },
+    {
+      "id": "srv-002",
+      "type": "survey",
+      "question": "How likely are you to recommend this course?",
+      "options": [
+        { "label": "Very likely" },
+        { "label": "Likely" },
+        { "label": "Neutral" },
+        { "label": "Unlikely" },
+        { "label": "Very unlikely" }
+      ]
+    }
+  ]
+}

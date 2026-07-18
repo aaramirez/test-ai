@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "title": "Perfil del Miembro del Equipo",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/images/profiles/team-member-profile.png",
+  "slides": [
+    {
+      "type": "profile",
+      "nombre_linea1": "Alexander",
+      "nombre_linea2": "Ramírez",
+      "cargo_linea1": "Tech Lead",
+      "cargo_linea2": "Arquitecto de Software",
+      "cargo_completo": "Tech Lead · Arquitecto de Software Senior",
+      "organizacion": "Nombre de la Organización",
+      "telefono": "+52 55 1234 5678",
+      "email": "alexander.ramirez@fibex.com",
+      "ubicacion": "Ciudad de México",
+      "foto": "assets/images/profiles/alexander-ramirez.jpg",
+      "sobre_mi": "Arquitecto de software con más de 10 años de experiencia diseñando sistemas distribuidos de alta disponibilidad. Apasionado por la calidad del código, la automatización y la mentoría de equipos técnicos. Lidera la migración de la plataforma monolítica a una arquitectura de microservicios basada en Node.js, RabbitMQ y Kubernetes.",
+      "habilidades": [
+        "Node.js",
+        "Arquitectura",
+        "RabbitMQ",
+        "Kubernetes",
+        "PostgreSQL",
+        "React",
+        "Docker",
+        "Fastify",
+        "OAuth 2.0",
+        "CI/CD"
+      ],
+      "experiencia_destacada": [
+        {
+          "rol": "Tech Lead",
+          "periodo": "2022 — 2026",
+          "empresa": "Fibex · GDA",
+          "logros": [
+            "Migración de plataforma monolítica a microservicios con Node.js y Fastify",
+            "Diseño e implementación de arquitectura de notificaciones basada en RabbitMQ",
+            "Liderazgo técnico de equipo multifuncional de 6 ingenieros",
+            "Reducción de tiempo de despliegue de 2 horas a 15 minutos con CI/CD"
+          ]
+        }
+      ],
+      "experiencia_reciente": [
+        {
+          "rol": "Senior Backend Developer",
+          "periodo": "2019 — 2022",
+          "empresa": "TechCorp Solutions",
+          "logros": [
+            "Desarrollo de API REST v2 con Fastify y PostgreSQL",
+            "Implementación de autenticación OAuth 2.0 con múltiples proveedores"
+          ]
+        },
+        {
+          "rol": "Backend Developer",
+          "periodo": "2016 — 2019",
+          "empresa": "InnovaSoft",
+          "logros": [
+            "Construcción de sistema de facturación electrónica para 500+ clientes"
+          ]
+        }
+      ],
+      "estudios": [
+        {
+          "titulo": "Ingeniería en Sistemas Computacionales",
+          "institucion": "Universidad Nacional Autónoma de México (UNAM)",
+          "year": 2014
+        },
+        {
+          "titulo": "Maestría en Arquitectura de Software",
+          "institucion": "Instituto Tecnológico de Estudios Superiores de Monterrey (ITESM)",
+          "year": 2017
+        }
+      ]
+    }
+  ]
+}

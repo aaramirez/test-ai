@@ -1,0 +1,48 @@
+{
+  "output": "assets/docs/test-report.pdf",
+  "meta": {
+    "title": "Reporte de Pruebas",
+    "subtitle": "Plataforma Unificada — Sprint 7",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "QA Lead",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Resumen de Ejecución de Pruebas" },
+    { "type": "text", "parrafos": [
+      "Durante el Sprint 7 se ejecutaron 245 pruebas automatizadas distribuidas en 4 suites y 2 sesiones de pruebas exploratorias enfocadas en el flujo de autenticación OAuth. La cobertura global alcanzó el 82%, acercándose al objetivo del proyecto del 85%."
+    ]},
+    { "type": "table", "headers": ["Suite de Pruebas", "Totales", "Exitosas", "Fallidas", "Cobertura"], "filas": [
+      ["Pruebas Unitarias — API", 120, 118, 2, "78%"],
+      ["Pruebas de Integración — API", 65, 65, 0, "85%"],
+      ["Pruebas Unitarias — Frontend", 40, 38, 2, "80%"],
+      ["Pruebas E2E", 20, 20, 0, "—"],
+      ["Pruebas de Carga", 0, 0, 0, "No ejecutadas"]
+    ]},
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Cobertura global", "metrica": "Líneas de código", "meta": "82% (objetivo: 85%)" },
+      { "dominio": "Tasa de aprobación", "metrica": "Pruebas automatizadas", "meta": "98.4% (241/245)" },
+      { "dominio": "Pruebas exploratorias", "metrica": "Sesiones completadas", "meta": "2 de 2 planificadas" },
+      { "dominio": "Densidad de defectos", "metrica": "Bugs encontrados / KLOC", "meta": "1.2 / KLOC" }
+    ]},
+    { "type": "section", "titulo": "2. Hallazgos y Recomendaciones" },
+    { "type": "bullets", "items": [
+      "2 pruebas unitarias fallan en la API debido a un mock desactualizado en el módulo de notificaciones (issue QA-417)",
+      "2 pruebas unitarias fallan en el frontend por un cambio en el formato de fecha del componente Dashboard (issue QA-418)",
+      "No se ejecutaron pruebas de carga por falta del entorno de staging con la infraestructura completa",
+      "Se identificó un bug crítico en el flujo de refresh token (QA-419), actualmente siendo corregido por backend"
+    ]},
+    { "type": "callout", "headline": "Bloqueante: Falta Entorno de Staging", "parrafos": [
+      "Las pruebas de carga y E2E de autenticación requieren un entorno de staging con la infraestructura completa (API Gateway, RabbitMQ, PostgreSQL). Actualmente no está disponible porque los recursos de Kubernetes no han sido asignados. Sin este entorno, no es posible validar el rendimiento ni la estabilidad del sistema."
+    ]},
+    { "type": "recommendation", "titulo": "Actualizar Mocks y Priorizar Entorno Staging", "problema": "Los mocks desactualizados en el módulo de notificaciones generan 2 falsos positivos, y la falta de entorno staging impide ejecutar pruebas de carga y E2E de autenticación", "recomendacion": "Actualizar los mocks en el primer día del Sprint 8 y solicitar la creación del entorno staging al equipo de infraestructura con prioridad alta", "acciones": [
+      "Actualizar mock del servicio de notificaciones en el repositorio de tests",
+      "Corregir el formateo de fecha en el componente Dashboard",
+      "Solicitar al equipo DevOps la asignación de recursos para staging",
+      "Reprogramar pruebas de carga para la semana 2 del Sprint 8"
+    ]},
+    { "type": "closing", "parrafos": ["Calidad general aceptable (98.4% de aprobación). Los 4 tests fallidos están documentados en JIRA (QA-417, QA-418) y el bug crítico QA-419 está siendo corregido. La cobertura global del 82% está 3 puntos por debajo del objetivo."] }
+  ]
+}

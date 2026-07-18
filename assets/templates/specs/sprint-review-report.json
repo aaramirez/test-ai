@@ -1,0 +1,49 @@
+{
+  "output": "assets/docs/sprint-review-report.pdf",
+  "meta": {
+    "title": "Reporte de Revisión de Sprint",
+    "subtitle": "Sprint 7 — Equipo Plataforma",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Scrum Master",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Entregas Completadas" },
+    { "type": "text", "parrafos": [
+      "El Sprint 7 finalizó con 32 story points completados de 36 comprometidos, alcanzando un 89% de cumplimiento. El equipo incrementó su velocidad en un 14% respecto al sprint anterior, impulsado por la reducción significativa de deuda técnica."
+    ]},
+    { "type": "table", "headers": ["Historia", "Puntos", "Responsable", "Estado", "Observaciones"], "filas": [
+      ["Autenticación OAuth 2.0 — Google", 8, "Backend", "Completado", "Integración con Google y GitHub verificada"],
+      ["Autenticación OAuth 2.0 — GitHub", 5, "Backend", "Completado", "Pendiente prueba de carga"],
+      ["API REST usuarios v2", 8, "Backend", "Completado", "Límite de peticiones funcional"],
+      ["Dashboard métricas en tiempo real", 8, "Frontend", "50%", "Pasa al Sprint 8"],
+      ["Actualizar documentación técnica", 3, "Backend", "Completado", "Swagger actualizado"]
+    ]},
+    { "type": "bullets", "items": [
+      "Story points completados: 32 de 36 (89% de cumplimiento)",
+      "Incremento de velocidad: +14% vs Sprint 6",
+      "Bugs cerrados: 12 (3 más que en el sprint anterior)",
+      "Velocidad promedio sostenida: 4.5 puntos por día",
+      "Deuda técnica reducida en un 30% respecto al trimestre anterior"
+    ]},
+    { "type": "section", "titulo": "2. Análisis de Métricas" },
+    { "type": "callout", "headline": "Mejora Significativa en Velocidad", "parrafos": [
+      "El equipo incrementó su velocidad en un 14% respecto al sprint anterior, alcanzando 32 story points. Este aumento se atribuye a la reducción de deuda técnica y a la estabilización del entorno de desarrollo. Se recomienda mantener el WIP actual."
+    ]},
+    { "type": "kpi-table", "kpis": [
+      { "dominio": "Velocidad", "metrica": "Story Points completados", "meta": "32 / 36 (89%)" },
+      { "dominio": "Calidad", "metrica": "Tasa de aprobación de pruebas", "meta": "95%" },
+      { "dominio": "Deuda", "metrica": "Issues técnicos abiertos", "meta": "7 (↓ 30%)" },
+      { "dominio": "Predictibilidad", "metrica": "Desviación vs compromiso", "meta": "-11%" }
+    ]},
+    { "type": "recommendation", "titulo": "Reducir el WIP para Mejorar el Completion Rate", "problema": "Tres historias quedaron sin iniciar porque el equipo acumuló más trabajo del que podía procesar en paralelo, afectando el completion rate", "recomendacion": "Limitar el WIP a 2 historias por desarrollador y revisar la carga diaria en la daily", "acciones": [
+      "Actualizar el límite de WIP en el tablero JIRA",
+      "Incluir verificación de capacidad en la daily los lunes",
+      "Capacitar al equipo en gestión visual de WIP",
+      "Evaluar el impacto en el próximo sprint retrospective"
+    ]},
+    { "type": "closing", "parrafos": ["Sprint exitoso: 89% de cumplimiento, velocidad incrementada en 14%. Objetivo para el Sprint 8: mejorar completion rate al 95% mediante la limitación de WIP."] }
+  ]
+}

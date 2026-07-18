@@ -1,0 +1,42 @@
+{
+  "name": "JavaScript",
+  "description": "Fundamental JavaScript concepts",
+  "version": "1.0.0",
+  "randomize": { "questions": false, "options": false },
+  "questions": [
+    {
+      "id": "js-001",
+      "difficulty": "easy",
+      "type": "single",
+      "question": "¿Cuál es la diferencia entre let y var?",
+      "options": [
+        { "label": "var es block-scoped, let es function-scoped" },
+        { "label": "let es block-scoped, var es function-scoped" }
+      ]
+    },
+    {
+      "id": "js-002",
+      "difficulty": "easy",
+      "type": "single",
+      "question": "¿Qué devuelve typeof null?",
+      "options": [
+        { "label": "null" },
+        { "label": "undefined" },
+        { "label": "object" },
+        { "label": "boolean" }
+      ]
+    },
+    {
+      "id": "js-003",
+      "difficulty": "medium",
+      "type": "single",
+      "question": "¿Qué es el event loop?",
+      "options": [
+        { "label": "Un bucle que itera arrays" },
+        { "label": "El mecanismo que maneja la concurrencia asíncrona en JS" },
+        { "label": "Un patrón de diseño" },
+        { "label": "Una función de orden superior" }
+      ]
+    }
+  ]
+}

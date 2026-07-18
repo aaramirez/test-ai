@@ -1,0 +1,44 @@
+{
+  "output": "assets/docs/adr.pdf",
+  "meta": {
+    "title": "ADR-001: Sistema de Notificaciones",
+    "subtitle": "Arquitectura basada en colas",
+    "organization": "Nombre de la Organización",
+    "prepared_by": "Arquitecto de Software",
+    "date": "28 Jun 2026",
+    "classification": "Interno"
+  },
+  "slides": [
+    { "type": "doc-cover" },
+    { "type": "section", "titulo": "1. Contexto del Problema" },
+    { "type": "text", "parrafos": [
+      "El sistema requiere enviar hasta 10,000 notificaciones por día a través de canales de email, push y SMS.",
+      "La arquitectura actual procesa las notificaciones de forma síncrona dentro del mismo request HTTP, lo que genera tiempos de respuesta elevados y acoplamiento entre servicios.",
+      "Se necesita una solución que permita escalar horizontalmente, desacoplar los componentes y garantizar la entrega de notificaciones incluso ante fallos temporales."
+    ]},
+    { "type": "section", "titulo": "2. Alternativas Evaluadas" },
+    { "type": "table", "headers": ["Opción", "Descripción", "Ventajas", "Desventajas"], "filas": [
+      ["Síncrona", "Procesar notificaciones en el mismo request HTTP", "Implementación simple, menor costo operativo", "No escalable, bloquea el hilo de respuesta"],
+      ["Colas (RabbitMQ)", "Desacoplar mediante mensajería asíncrona", "Escalable, resiliente, reintentos automáticos", "Requiere infraestructura adicional"],
+      ["AWS SQS + Lambda", "Servicio serverless de colas con funciones", "Autoescalable, sin servidores que administrar", "Vendor lock-in, latencia variable"],
+      ["Redis Pub/Sub", "Publicación y suscripción en memoria", "Baja latencia, operación simple", "Sin persistencia, pérdida de mensajes potencial"]
+    ]},
+    { "type": "callout", "headline": "Decisión: RabbitMQ", "parrafos": [
+      "Se adopta RabbitMQ por su balance entre madurez del ecosistema, control operacional sobre la infraestructura y simplicidad de operación.",
+      "La configuración incluirá colas durables, exchanges con tipo topic y mecanismos de dead-letter para mensajes fallidos."
+    ]},
+    { "type": "section", "titulo": "3. Recomendaciones y Consecuencias" },
+    { "type": "recommendation", "titulo": "Plan de Implementación", "problema": "Alto acoplamiento entre servicios por notificaciones síncronas", "recomendacion": "Migrar progresivamente cada canal de notificación a la arquitectura de colas", "acciones": [
+      "Migrar canal de email a RabbitMQ en la primera iteración",
+      "Agregar canal push en la segunda iteración",
+      "Incorporar SMS como último paso tras validar estabilidad",
+      "Configurar monitoreo de colas en Grafana con alertas por longitud de cola"
+    ]},
+    { "type": "bullets", "items": [
+      "Consecuencias positivas: escalabilidad horizontal, desacoplamiento de servicios, reintento automático, trazabilidad de mensajes",
+      "Consecuencias negativas: infraestructura adicional (cluster RabbitMQ), overhead operacional, latencia incrementada en milisegundos",
+      "Costo estimado de infraestructura: $450 USD/mes por cluster de 3 nodos"
+    ]},
+    { "type": "closing", "parrafos": ["ADR-001 aprobado por el comité de arquitectura el 28 de junio de 2026. Próxima revisión programada para Q4 2026."] }
+  ]
+}

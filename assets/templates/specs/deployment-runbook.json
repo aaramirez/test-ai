@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "title": "Runbook de Despliegue: Plataforma Unificada",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/deployment-runbook.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Runbook de Despliegue: Plataforma Unificada",
+      "subtitulo": "Entorno de producción · Proceso automatizado · Julio 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Preparación y Prerrequisitos",
+      "indice": "PREPARACIÓN"
+    },
+    {
+      "type": "bullets",
+      "titulo": "Requisitos para Iniciar el Despliegue",
+      "items": [
+        "Acceso al clúster Kubernetes con kubectl config actualizado",
+        "Imagen de contenedor etiquetada y subida al registry interno",
+        "Base de datos PostgreSQL 16 accesible desde el clúster",
+        "Secretos cargados en Vault o variables de entorno configuradas",
+        "Permiso de despliegue aprobado en JIRA (incidencia tipo Despliegue)"
+      ]
+    },
+    {
+      "type": "proceso",
+      "titulo": "Proceso de Despliegue Paso a Paso",
+      "pasos": [
+        {
+          "numero": "1",
+          "titulo": "Compilar Imagen",
+          "descripcion": "docker build -t registry.internal/plataforma:$TAG . --platform linux/amd64"
+        },
+        {
+          "numero": "2",
+          "titulo": "Publicar Imagen",
+          "descripcion": "docker push registry.internal/plataforma:$TAG && docker tag registry.internal/plataforma:$TAG registry.internal/plataforma:latest"
+        },
+        {
+          "numero": "3",
+          "titulo": "Actualizar Despliegue",
+          "descripcion": "kubectl set image deployment/api api=registry.internal/plataforma:$TAG -n produccion"
+        },
+        {
+          "numero": "4",
+          "titulo": "Verificar Rollout",
+          "descripcion": "kubectl rollout status deployment/api -n produccion --timeout=300s"
+        },
+        {
+          "numero": "5",
+          "titulo": "Pruebas de Humo",
+          "descripcion": "curl -f https://api.plataforma.io/health && curl -f https://api.plataforma.io/v3/status"
+        },
+        {
+          "numero": "6",
+          "titulo": "Monitoreo Post-Despliegue",
+          "descripcion": "Revisar dashboards de Grafana y logs en Loki durante 30 minutos"
+        }
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Configuración por Entorno",
+      "headers": [
+        "Entorno",
+        "URL",
+        "Instancia BD",
+        "Recursos CPU/RAM",
+        "Límite de Tasa"
+      ],
+      "filas": [
+        [
+          "Desarrollo",
+          "dev.api.plataforma.io",
+          "dev-db-1 (t4g.medium)",
+          "0.5 CPU / 1 GB",
+          "5 000 peticiones/h"
+        ],
+        [
+          "Pruebas",
+          "staging.api.plataforma.io",
+          "staging-db-1 (t4g.large)",
+          "1 CPU / 2 GB",
+          "3 000 peticiones/h"
+        ],
+        [
+          "Producción",
+          "api.plataforma.io",
+          "prod-db-1 (r6g.xlarge)",
+          "4 CPU / 8 GB",
+          "1 200 peticiones/h"
+        ]
+      ]
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Procedimientos de Recuperación",
+      "columnas": [
+        {
+          "titulo": "Rollback a Versión Anterior",
+          "items": [
+            "kubectl rollout undo deployment/api -n produccion",
+            "Verificar historial: kubectl rollout history deployment/api -n produccion",
+            "Monitorear que la versión anterior responda correctamente"
+          ]
+        },
+        {
+          "titulo": "Verificaciones Post-Despliegue",
+          "items": [
+            "Endpoint /health responde con HTTP 200 y estado OK",
+            "Prueba de autenticación: login y refresh token funcionales",
+            "Tasa de errores menor al 0.5% en los primeros 15 minutos"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "destacado",
+      "valor": "Aprobación Requerida",
+      "titulo": "Puerta de Calidad: Aprobación Manual",
+      "subtitulo": "Todo despliegue a producción requiere aprobación del líder técnico y del equipo de QA en JIRA."
+    },
+    {
+      "type": "kpis",
+      "titulo": "Métricas de Despliegue",
+      "kpis": [
+        {
+          "valor": "3 min",
+          "etiqueta": "Tiempo promedio de despliegue"
+        },
+        {
+          "valor": "99.7%",
+          "etiqueta": "Tasa de éxito en despliegues"
+        },
+        {
+          "valor": "12",
+          "etiqueta": "Despliegues este mes"
+        },
+        {
+          "valor": "0",
+          "etiqueta": "Incidentes post-despliegue"
+        }
+      ]
+    }
+  ]
+}

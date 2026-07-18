@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "title": "ADR-018: Migración de API REST a GraphQL",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/adr-deck.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "ADR-018: Migración de API REST a GraphQL",
+      "subtitulo": "Decisión arquitectónica · Comité de Arquitectura — Julio 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Contexto y Motivación",
+      "indice": "CONTEXTO"
+    },
+    {
+      "type": "bullets",
+      "titulo": "Problema Detectado",
+      "items": [
+        "Overfetching en endpoints REST: el frontend recibe datos no utilizados en cada llamada",
+        "Múltiples solicitudes HTTP para ensamblar una vista (problema N+1 en dashboards)",
+        "Crecimiento descontrolado de endpoints REST: más de 85 endpoints en producción",
+        "Tiempo de carga promedio de 2.8 segundos en el dashboard principal del cliente",
+        "Dificultad para versionar la API sin romper contratos existentes con consumidores"
+      ]
+    },
+    {
+      "type": "tabla",
+      "titulo": "Opciones Evaluadas",
+      "headers": [
+        "Opción",
+        "Rendimiento",
+        "Mantenibilidad",
+        "Curva Aprendizaje",
+        "Coste",
+        "Votos"
+      ],
+      "filas": [
+        [
+          "REST + JSON:API",
+          "3/5",
+          "4/5",
+          "2/5",
+          "$0",
+          "2"
+        ],
+        [
+          "GraphQL (Apollo Server)",
+          "5/5",
+          "5/5",
+          "4/5",
+          "$500/mes",
+          "6"
+        ],
+        [
+          "tRPC (TypeScript)",
+          "4/5",
+          "3/5",
+          "3/5",
+          "$0",
+          "1"
+        ],
+        [
+          "Mantener REST actual",
+          "2/5",
+          "2/5",
+          "1/5",
+          "$0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Evaluación por Dimensión",
+      "chart": {
+        "tipo": "radar",
+        "categorias": [
+          "Rendimiento",
+          "Escalabilidad",
+          "Mantenibilidad",
+          "Seguridad",
+          "Velocidad Equipo"
+        ],
+        "series": [
+          [
+            "GraphQL",
+            [
+              5,
+              5,
+              5,
+              4,
+              4
+            ]
+          ],
+          [
+            "REST Actual",
+            [
+              3,
+              3,
+              2,
+              4,
+              3
+            ]
+          ],
+          [
+            "tRPC",
+            [
+              4,
+              3,
+              3,
+              3,
+              5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Análisis Comparativo",
+      "columnas": [
+        {
+          "titulo": "Ventajas de GraphQL",
+          "items": [
+            "Un solo endpoint para toda la API",
+            "Tipado fuerte con schema SDL auto-documentado",
+            "Subscripciones en tiempo real nativas (WebSocket)",
+            "Ecosistema Apollo Server maduro y probado",
+            "Herramientas como GraphiQL para explorar la API",
+            "Elimina el sobre-fetching y sub-fetching"
+          ]
+        },
+        {
+          "titulo": "Riesgos Identificados",
+          "items": [
+            "Complejidad en caché a nivel HTTP (no aplica como REST)",
+            "Problema N+1 en resolvers requiere DataLoader",
+            "Límite de peticiones más complejo de implementar",
+            "Migración gradual requiere coexistencia REST+GraphQL",
+            "Curva de aprendizaje para el equipo de backend"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "destacado",
+      "valor": "GraphQL + Apollo",
+      "titulo": "Decisión Final",
+      "subtitulo": "Aprobado por unanimidad · Implementación en fases durante Q3 2026"
+    },
+    {
+      "type": "cita",
+      "texto": "GraphQL nos permite evolucionar la API sin versionado explícito. El frontend pide exactamente lo que necesita y nada más. Es la herramienta adecuada para un ecosistema de múltiples consumidores.",
+      "autor": "— Líder Técnico de Plataforma"
+    },
+    {
+      "type": "timeline",
+      "titulo": "Plan de Migración por Fases",
+      "hitos": [
+        {
+          "fecha": "Sem 1-2",
+          "titulo": "Setup Apollo Server + schema SDL + DataLoader"
+        },
+        {
+          "fecha": "Sem 3-4",
+          "titulo": "Migrar módulo de usuarios y autenticación"
+        },
+        {
+          "fecha": "Sem 5-6",
+          "titulo": "Migrar módulo de facturación y reportes"
+        },
+        {
+          "fecha": "Sem 7-8",
+          "titulo": "Deprecar endpoints REST + pruebas de carga"
+        },
+        {
+          "fecha": "Sem 9-10",
+          "titulo": "Migración de frontend a queries GraphQL nativas"
+        }
+      ]
+    },
+    {
+      "type": "proceso",
+      "titulo": "Flujo de Decisión del ADR",
+      "pasos": [
+        {
+          "titulo": "Identificar Problema",
+          "descripcion": "Se detectan tiempos de carga elevados en dashboards por overfetching y N+1 requests"
+        },
+        {
+          "titulo": "Evaluar Alternativas",
+          "descripcion": "Análisis de REST+JSON:API, GraphQL, tRPC y statu quo con matriz de decisión"
+        },
+        {
+          "titulo": "Prueba de Concepto",
+          "descripcion": "Implementación piloto de GraphQL con Apollo Server durante 2 semanas"
+        },
+        {
+          "titulo": "Votación del Comité",
+          "descripcion": "Comité de Arquitectura vota 6-2-1 a favor de GraphQL con Apollo Server"
+        },
+        {
+          "titulo": "Documentar ADR",
+          "descripcion": "Redacción y aprobación formal del ADR-018 con todos los hallazgos"
+        },
+        {
+          "titulo": "Ejecutar Migración",
+          "descripcion": "Migración gradual por módulos con coexistencia REST+GraphQL durante Q3"
+        }
+      ]
+    }
+  ]
+}

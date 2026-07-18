@@ -1,0 +1,207 @@
+{
+  "meta": {
+    "title": "Estado del Proyecto: Plataforma Unificada",
+    "organization": "Nombre de la Organización",
+    "classification": "Interno"
+  },
+  "output": "assets/docs/project-status.pdf",
+  "mostrar_paginas": true,
+  "slides": [
+    {
+      "type": "portada",
+      "titulo": "Estado del Proyecto: Plataforma Unificada",
+      "subtitulo": "Informe quincenal · Fase 2 · Julio 2026"
+    },
+    {
+      "type": "seccion",
+      "titulo": "Resumen Ejecutivo",
+      "indice": "RESUMEN"
+    },
+    {
+      "type": "kpis",
+      "titulo": "Indicadores Clave del Proyecto",
+      "kpis": [
+        {
+          "valor": "68%",
+          "etiqueta": "Presupuesto Ejecutado"
+        },
+        {
+          "valor": "+2 sem",
+          "etiqueta": "Desviación de Cronograma"
+        },
+        {
+          "valor": "A",
+          "etiqueta": "Calidad (SonarQube)"
+        },
+        {
+          "valor": "3",
+          "etiqueta": "Riesgos Críticos"
+        },
+        {
+          "valor": "82%",
+          "etiqueta": "Satisfacción Stakeholders"
+        }
+      ]
+    },
+    {
+      "type": "grafico",
+      "titulo": "Cronograma del Proyecto",
+      "chart": {
+        "tipo": "gantt",
+        "tareas": [
+          {
+            "nombre": "Fase 1: Fundación",
+            "inicio": 0,
+            "duracion": 6
+          },
+          {
+            "nombre": "Fase 2: API Pública",
+            "inicio": 4,
+            "duracion": 8
+          },
+          {
+            "nombre": "Fase 3: Frontend",
+            "inicio": 8,
+            "duracion": 6
+          },
+          {
+            "nombre": "Fase 4: Aseguramiento Calidad",
+            "inicio": 12,
+            "duracion": 4
+          },
+          {
+            "nombre": "Fase 5: Puesta en Producción",
+            "inicio": 14,
+            "duracion": 2
+          }
+        ]
+      }
+    },
+    {
+      "type": "tabla",
+      "titulo": "Hitos del Proyecto",
+      "headers": [
+        "Hito",
+        "Fecha Planificada",
+        "Fecha Real",
+        "Estado",
+        "Responsable"
+      ],
+      "filas": [
+        [
+          "Kickoff del Proyecto",
+          "01 Mar 2026",
+          "01 Mar 2026",
+          "✅ Completado",
+          "PM"
+        ],
+        [
+          "Fase 1: Fundación",
+          "15 Abr 2026",
+          "20 Abr 2026",
+          "✅ Completado",
+          "Equipo"
+        ],
+        [
+          "API v1: Release",
+          "01 Jun 2026",
+          "15 Jun 2026",
+          "✅ Completado",
+          "Backend"
+        ],
+        [
+          "API v2: Release",
+          "15 Jul 2026",
+          "—",
+          "⚠️ En Riesgo",
+          "Backend"
+        ],
+        [
+          "Frontend: Beta",
+          "01 Ago 2026",
+          "—",
+          "📅 Planificado",
+          "Frontend"
+        ],
+        [
+          "Go Live",
+          "01 Sep 2026",
+          "—",
+          "📅 Planificado",
+          "Todos"
+        ]
+      ]
+    },
+    {
+      "type": "dos-columnas",
+      "titulo": "Riesgos y Plan de Mitigación",
+      "columnas": [
+        {
+          "titulo": "Riesgos Activos",
+          "items": [
+            "Dependencia externa de auditoría de seguridad pendiente",
+            "Rotación de personal en equipo QA (1 renuncia)",
+            "Integración con sistema legacy de facturación",
+            "Retraso en la entrega de API v2 por cambios de alcance"
+          ]
+        },
+        {
+          "titulo": "Mitigaciones en Curso",
+          "items": [
+            "Contratar QA externo especializado (entrevistas esta semana)",
+            "Agendar security audit con 3 semanas de anticipación",
+            "Reunión semanal con equipo de facturación legacy",
+            "Congelar cambios de alcance para API v2"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "tarjetas",
+      "titulo": "Entregables del Período",
+      "tarjetas": [
+        {
+          "titulo": "API v2",
+          "items": [
+            "Endpoints REST de usuarios",
+            "Límite de peticiones por API key",
+            "Documentación Swagger/OpenAPI"
+          ],
+          "subtitulo": "Completado al 70%"
+        },
+        {
+          "titulo": "Frontend",
+          "items": [
+            "Dashboard de administración",
+            "Tabla de usuarios con filtros",
+            "Modo oscuro"
+          ],
+          "subtitulo": "Completado al 45%"
+        },
+        {
+          "titulo": "Infraestructura",
+          "items": [
+            "Migración a K8s",
+            "Pipeline CI/CD renovado",
+            "Monitoreo con Datadog"
+          ],
+          "subtitulo": "Completado al 90%"
+        },
+        {
+          "titulo": "Calidad",
+          "items": [
+            "Pruebas de carga completadas",
+            "Cobertura de código al 78%",
+            "Auditoría de seguridad OWASP"
+          ],
+          "subtitulo": "Completado al 60%"
+        }
+      ]
+    },
+    {
+      "type": "cita",
+      "texto": "Estamos en el momento más crítico del proyecto. La fase de API define la arquitectura para los próximos 3 años. Necesitamos enfocar todos los recursos en superar los riesgos actuales.",
+      "autor": "— Directora de Ingeniería"
+    }
+  ]
+}
