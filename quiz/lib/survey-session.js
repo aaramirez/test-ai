@@ -129,8 +129,47 @@ export function loadSurveyResult(sessionId, root) {
   return JSON.parse(readFileSync(filePath, 'utf-8'));
 }
 
-export function getPendingSurveys(participantId, surveyBanks, root) {
+export function getPendingSurveys(participantId, surveyBanks, root, participantGroups) {
   const registry = loadSurveyRegistry(root);
   const participantRegistry = registry[participantId] || {};
-  return surveyBanks.filter(bank => !participantRegistry[bank] || !participantRegistry[bank].taken);
+  const visibility = loadSurveyVisibility(root);
+
+  return surveyBanks.filter(bank => {
+    // Must not be taken
+    if (participantRegistry[bank] && participantRegistry[bank].taken) return false;
+
+    // Must pass group visibility check
+    if (participantGroups && participantGroups.length > 0) {
+      const entry = visibility[bank];
+      if (entry && entry.allowedGroups && entry.allowedGroups.length > 0) {
+        return entry.allowedGroups.some(g => participantGroups.includes(g));
+      }
+    }
+
+    return true;
+  });
+}
+
+export function loadSurveyVisibility(root) {
+  const surveysDir = getSurveysDir(root);
+  const path = join(surveysDir, 'visibility.json');
+  if (!existsSync(path)) return {};
+  return JSON.parse(readFileSync(path, 'utf-8'));
+}
+
+export function getVisibleSurveyResults(bankName, participantId, participantGroups, root) {
+  const visibility = loadSurveyVisibility(root);
+  const index = loadSurveyIndex(root);
+  const surveysDir = getSurveysDir(root);
+
+  const entry = visibility[bankName];
+  const canViewAll = entry && entry.viewResultsGroups && entry.viewResultsGroups.length > 0
+    && entry.viewResultsGroups.some(g => participantGroups.includes(g));
+
+  const sessionIds = index.by_bank[bankName] || [];
+
+  return sessionIds
+    .map(sid => loadSurveyResult(sid, root))
+    .filter(s => s !== null)
+    .filter(s => canViewAll || s.participant.id === participantId);
 }

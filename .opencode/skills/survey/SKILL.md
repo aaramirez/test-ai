@@ -16,9 +16,25 @@ Survey results are stored separately from quiz results (in `surveys/` at the pro
 
 Ask for the participant ID. Look them up in `quiz/participants.json` using `findParticipant`. If not registered, ask for name and email and register them.
 
+Resolve the participant's groups from `participants.json`:
+- Check `participant.metadata.group` (string → array of 1)
+- Check the `groups` map in `participants.json` to find all groups containing this participant
+- Merge into a single array of group names. Pass this array to `getPendingSurveys`.
+
 ### 2. Check Pending Surveys
 
-Scan `quiz/banks/` to find survey-type banks (questions with `type: "survey"`). Then compare against `surveys/registry.json` to determine which banks have NOT yet been taken by this participant.
+Scan `quiz/banks/` to find survey-type banks (questions with `type: "survey"`). Then call:
+
+```javascript
+import { getPendingSurveys, loadSurveyVisibility } from './quiz/lib/survey-session.js';
+
+const visibility = loadSurveyVisibility();
+const pending = getPendingSurveys(participantId, surveyBanks, null, participantGroups);
+```
+
+This automatically filters out:
+- Banks the participant has already taken (from `surveys/registry.json`)
+- Banks whose `allowedGroups` (from `surveys/visibility.json`) don't include any of the participant's groups
 
 Present the pending surveys to the user:
 
@@ -79,6 +95,41 @@ Your responses have been recorded. Thank you for completing the survey!
 ```
 
 Ask if they'd like to take another pending survey. If yes, loop back to step 2. If no, end.
+
+### 6. View Survey Results (Admin / Participant)
+
+Participants can view their own survey responses. Admin group members (defined in `viewResultsGroups` in `surveys/visibility.json`) can view all responses for a bank.
+
+```javascript
+import { getVisibleSurveyResults } from './quiz/lib/survey-session.js';
+
+// Participant sees only their own results
+const myResults = getVisibleSurveyResults('team-feedback.json', 'STU-001', [], null);
+
+// Admin sees all results
+const allResults = getVisibleSurveyResults('team-feedback.json', 'STU-001', ['admin'], null);
+```
+
+## Visibility Configuration
+
+Control which groups can see/take surveys and view results in `surveys/visibility.json`:
+
+```json
+{
+  "feedback-survey.json": {
+    "allowedGroups": ["cohorte-A"],
+    "viewResultsGroups": ["admin"]
+  },
+  "satisfaction.json": {
+    "allowedGroups": ["cohorte-B"],
+    "viewResultsGroups": ["admin", "hr"]
+  }
+}
+```
+
+- `allowedGroups`: who can see and take the survey. Omit for unrestricted access.
+- `viewResultsGroups`: who can view ALL results. Omit to restrict participants to their own results only.
+- Banks not listed in `visibility.json` are visible to everyone.
 
 ## Result Format
 

@@ -32,6 +32,7 @@ function parseArgs() {
     else if (args[i] === '--dry-run') opts.dryRun = true;
     else if (args[i] === '--verbose') opts.verbose = true;
     else if (args[i] === '--no-ci-fix') opts.fixCi = false;
+    else if (args[i] === '--force') opts.force = true;
     else if (args[i] === '--help') {
       console.log(`
 Usage: node install.js [options]
@@ -43,6 +44,7 @@ Options:
   --dry-run        Preview files that would be copied
   --verbose        Show each file as it is copied
   --no-ci-fix      Skip ci-validate.js path rewrite
+  --force          Overwrite protected user data files
   --help           Show this help
 `);
       process.exit(0);
@@ -91,6 +93,24 @@ const EXCLUDE_FILES = new Set([
   '.opencode/scripts/docgen',
 ]);
 
+/**
+ * Paths that will NOT be overwritten during install or update.
+ * These are user data / configuration files.
+ * Protected paths are matched by prefix (any file starting with one of these strings).
+ */
+const PROTECTED_PREFIXES = [
+  'quiz/participants.json',
+  'quiz/results/',
+  'quiz/keys/',
+  'quiz/banks/',
+  'quiz/bank.json',
+  'surveys/registry.json',
+  'surveys/_index.json',
+  'surveys/visibility.json',
+  'surveys/results/',
+  'repos.json',
+];
+
 const CI_SCRIPT_REL = join('.opencode', 'scripts', 'ci-validate.js');
 
 function shouldInclude(relPath) {
@@ -99,6 +119,13 @@ function shouldInclude(relPath) {
   }
   if (EXCLUDE_FILES.has(relPath)) return false;
   return true;
+}
+
+function isProtected(relPath) {
+  for (const prefix of PROTECTED_PREFIXES) {
+    if (relPath.startsWith(prefix)) return true;
+  }
+  return false;
 }
 
 function walkDir(dir, sourceRoot) {
@@ -168,12 +195,13 @@ function copyFile(src, dest) {
 }
 
 function install(opts) {
-  const { sourceRoot, targetDir, dryRun, verbose, fixCi } = {
+  const { sourceRoot, targetDir, dryRun, verbose, fixCi, force } = {
     sourceRoot: PROJECT_ROOT,
     targetDir: process.cwd(),
     dryRun: false,
     verbose: false,
     fixCi: true,
+    force: false,
     ...opts,
   };
 
@@ -194,7 +222,8 @@ function install(opts) {
       console.log(`  ${dir}/ (${items.length} files)`);
       if (verbose) {
         for (const item of items) {
-          console.log(`    ${item}`);
+          const note = !force && isProtected(item) ? '  [protected]' : '';
+          console.log(`    ${item}${note}`);
         }
       }
     }
@@ -209,6 +238,14 @@ function install(opts) {
   let skipped = 0;
   for (const src of files) {
     const rel = relative(sourceRoot, src);
+
+    // Skip user data files unless --force is used
+    if (!force && isProtected(rel)) {
+      if (verbose) console.log(`  skip     ${rel}  [protected]`);
+      skipped++;
+      continue;
+    }
+
     const dest = join(resolvedTarget, rel);
 
     if (rel === CI_SCRIPT_REL && fixCi) {
@@ -226,6 +263,9 @@ function install(opts) {
   }
 
   console.log(`\nInstalled ${count} files to ${resolvedTarget}`);
+  if (skipped > 0) {
+    console.log(`  (${skipped} protected files skipped — use --force to overwrite)`);
+  }
   if (fixCi) {
     console.log('  (ci-validate.js patched for .opencode/ directory)');
   }
@@ -237,7 +277,7 @@ function main() {
   install(opts);
 }
 
-export { install, getFileList };
+export { install, getFileList, isProtected };
 
 if (process.argv[1] && (process.argv[1].endsWith('install.js') || process.argv[1].endsWith('install'))) {
   main();

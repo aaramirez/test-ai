@@ -4,7 +4,7 @@
  */
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, writeFileSync, mkdtempSync, rmSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdtempSync, rmSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -193,5 +193,179 @@ describe('install.js includes surveys', () => {
     assert.ok(paths.some(p => p.startsWith('surveys/')), 'includes surveys/');
     assert.ok(paths.some(p => p.startsWith('surveys/registry.json')), 'includes registry.json');
     assert.ok(paths.some(p => p.startsWith('surveys/_index.json')), 'includes _index.json');
+  });
+});
+
+describe('survey visibility — loadSurveyVisibility', () => {
+  let tmpDir;
+  let mod;
+
+  before(async () => {
+    tmpDir = mkdtempSync(join(__dirname, '..', '..', 'tmp-survey-vis-'));
+    mod = await import('../lib/survey-session.js');
+  });
+
+  after(() => {
+    if (tmpDir && existsSync(tmpDir)) {
+      rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
+  it('returns empty object when visibility.json missing', () => {
+    const vis = mod.loadSurveyVisibility(tmpDir);
+    assert.deepEqual(vis, {});
+  });
+
+  it('reads valid JSON from visibility.json', () => {
+    const visPath = join(tmpDir, 'surveys', 'visibility.json');
+    mkdirSync(join(tmpDir, 'surveys'), { recursive: true });
+    writeFileSync(visPath, JSON.stringify({
+      'feedback-survey.json': {
+        allowedGroups: ['cohorte-A'],
+        viewResultsGroups: ['admin'],
+      },
+    }));
+    const vis = mod.loadSurveyVisibility(tmpDir);
+    assert.deepEqual(vis['feedback-survey.json'].allowedGroups, ['cohorte-A']);
+    assert.deepEqual(vis['feedback-survey.json'].viewResultsGroups, ['admin']);
+  });
+});
+
+describe('survey visibility — getPendingSurveys with groups', () => {
+  let tmpDir;
+  let mod;
+
+  before(async () => {
+    tmpDir = mkdtempSync(join(__dirname, '..', '..', 'tmp-survey-vis-pend-'));
+    mod = await import('../lib/survey-session.js');
+    mod.ensureSurveyDirs(tmpDir);
+    const visPath = join(tmpDir, 'surveys', 'visibility.json');
+    writeFileSync(visPath, JSON.stringify({
+      'cohorte-a-only.json': { allowedGroups: ['cohorte-A'] },
+      'cohorte-b-only.json': { allowedGroups: ['cohorte-B'] },
+      'everyone.json': {},
+    }));
+  });
+
+  after(() => {
+    if (tmpDir && existsSync(tmpDir)) {
+      rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
+  it('filters out banks not in participant groups', () => {
+    const banks = ['cohorte-a-only.json', 'cohorte-b-only.json', 'everyone.json'];
+    const pending = mod.getPendingSurveys('STU-001', banks, tmpDir, ['cohorte-A']);
+    assert.equal(pending.length, 2);
+    assert.ok(pending.includes('cohorte-a-only.json'));
+    assert.ok(pending.includes('everyone.json'));
+    assert.ok(!pending.includes('cohorte-b-only.json'));
+  });
+
+  it('returns all banks when no groups param given (backward compat)', () => {
+    const banks = ['cohorte-a-only.json', 'everyone.json'];
+    const pending = mod.getPendingSurveys('STU-001', banks, tmpDir);
+    assert.equal(pending.length, 2);
+  });
+
+  it('bank without visibility entry is unrestricted', () => {
+    const pending = mod.getPendingSurveys('STU-001', ['unknown.json'], tmpDir, ['cohorte-A']);
+    assert.equal(pending.length, 1);
+    assert.equal(pending[0], 'unknown.json');
+  });
+
+  it('excludes taken banks even when group matches', () => {
+    const reg = mod.loadSurveyRegistry(tmpDir);
+    reg['STU-001'] = { 'cohorte-a-only.json': { taken: true, session_id: 's-001', date: '...' } };
+    writeFileSync(join(tmpDir, 'surveys', 'registry.json'), JSON.stringify(reg, null, 2));
+
+    const banks = ['cohorte-a-only.json', 'everyone.json'];
+    const pending = mod.getPendingSurveys('STU-001', banks, tmpDir, ['cohorte-A']);
+    assert.equal(pending.length, 1);
+    assert.equal(pending[0], 'everyone.json');
+  });
+});
+
+describe('survey visibility — getVisibleSurveyResults', () => {
+  let tmpDir;
+  let mod;
+
+  before(async () => {
+    tmpDir = mkdtempSync(join(__dirname, '..', '..', 'tmp-survey-vis-res-'));
+    mod = await import('../lib/survey-session.js');
+    mod.ensureSurveyDirs(tmpDir);
+
+    const visPath = join(tmpDir, 'surveys', 'visibility.json');
+    writeFileSync(visPath, JSON.stringify({
+      'team-feedback.json': { viewResultsGroups: ['admin'] },
+      'open-feedback.json': {},
+    }));
+
+    // Save 3 sessions: STU-001 × 2, STU-002 × 1
+    const s1 = {
+      session_id: 's-vis-001', date: '2026-07-18T10:00:00.000Z', mode: 'survey',
+      bank: 'team-feedback.json', bank_version: '1.0.0',
+      participant: { id: 'STU-001', name: 'A', email: 'a@t.com' },
+      questions: [{ id: 'q-1', type: 'survey', selected: [0] }], score: null,
+    };
+    const s2 = {
+      session_id: 's-vis-002', date: '2026-07-18T11:00:00.000Z', mode: 'survey',
+      bank: 'team-feedback.json', bank_version: '1.0.0',
+      participant: { id: 'STU-001', name: 'A', email: 'a@t.com' },
+      questions: [{ id: 'q-1', type: 'survey', selected: [1] }], score: null,
+    };
+    const s3 = {
+      session_id: 's-vis-003', date: '2026-07-18T12:00:00.000Z', mode: 'survey',
+      bank: 'team-feedback.json', bank_version: '1.0.0',
+      participant: { id: 'STU-002', name: 'B', email: 'b@t.com' },
+      questions: [{ id: 'q-1', type: 'survey', selected: [2] }], score: null,
+    };
+    mod.saveSurveyResult(s1, tmpDir);
+    mod.saveSurveyResult(s2, tmpDir);
+    mod.saveSurveyResult(s3, tmpDir);
+
+    // Save 1 session in open-feedback
+    const s4 = {
+      session_id: 's-vis-004', date: '2026-07-18T13:00:00.000Z', mode: 'survey',
+      bank: 'open-feedback.json', bank_version: '1.0.0',
+      participant: { id: 'STU-001', name: 'A', email: 'a@t.com' },
+      questions: [{ id: 'q-1', type: 'survey', selected: [0] }], score: null,
+    };
+    mod.saveSurveyResult(s4, tmpDir);
+  });
+
+  after(() => {
+    if (tmpDir && existsSync(tmpDir)) {
+      rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
+  it('participant sees only their own results', () => {
+    const results = mod.getVisibleSurveyResults('team-feedback.json', 'STU-001', [], tmpDir);
+    assert.equal(results.length, 2);
+    results.forEach(r => assert.equal(r.participant.id, 'STU-001'));
+  });
+
+  it('admin group sees all results', () => {
+    const results = mod.getVisibleSurveyResults('team-feedback.json', 'STU-001', ['admin'], tmpDir);
+    assert.equal(results.length, 3);
+  });
+
+  it('non-admin participant only sees own results in restricted bank', () => {
+    const results = mod.getVisibleSurveyResults('team-feedback.json', 'STU-002', [], tmpDir);
+    assert.equal(results.length, 1);
+    assert.equal(results[0].participant.id, 'STU-002');
+  });
+
+  it('returns empty array when no results for bank', () => {
+    const results = mod.getVisibleSurveyResults('nonexistent.json', 'STU-001', ['admin'], tmpDir);
+    assert.deepEqual(results, []);
+  });
+
+  it('participant-only bank (no viewResultsGroups) shows only own results', () => {
+    const results = mod.getVisibleSurveyResults('open-feedback.json', 'STU-001', ['admin'], tmpDir);
+    // open-feedback has no viewResultsGroups, so even admin only sees own
+    assert.equal(results.length, 1);
+    assert.equal(results[0].participant.id, 'STU-001');
   });
 });

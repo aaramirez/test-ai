@@ -270,8 +270,13 @@ The survey subsystem stores all data separately from quiz data:
 | `surveys/registry.json` | Completion tracking: `{ participant_id: { bank_name: { taken, session_id, date } } }` |
 | `surveys/_index.json` | Session index for lookup by session ID, participant, or bank |
 | `surveys/results/<bank>/` | Per-bank survey result files (`s-YYYY-MM-DD-xxxxxx.json`) |
+| `surveys/visibility.json` | Group-based access control: `{ bank: { allowedGroups, viewResultsGroups } }` |
 
 Survey banks are regular banks in `quiz/banks/` with `type: "survey"` questions. They require no answer key.
+
+Survey visibility is controlled via `surveys/visibility.json`:
+- `allowedGroups`: which groups can see/take the survey (omit for unrestricted)
+- `viewResultsGroups`: which groups can view all results for the survey (omit to restrict participants to their own results only)
 
 ### Session ID Format
 
