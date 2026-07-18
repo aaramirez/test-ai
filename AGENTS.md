@@ -218,6 +218,7 @@ See `.opencode/commands/test.md` for a complete example.
 | quiz-results | Send personalized quiz results to participants via email. |
 | repos-sync | Synchronize reference repositories for knowledge sharing and dependency management. |
 | **testing** | **Testing workflows for OpenCode TUI — write, run, and debug tests using Node.js built-in test runner.** |
+| **quiz-install** | **Install the quiz and testing system to another directory. Shows dry-run preview, copies all files, patches ci-validate.** |
 | vault-pdf-export | Exporta contenido del vault Obsidian curso-ia a PDF profesional usando el pipeline document-generation. |
 | youtube | Use for fetching and processing YouTube video transcriptions to feed into AI models, generate summaries, create course notes, or analyze video content. |
 
@@ -234,6 +235,8 @@ See `.opencode/commands/test.md` for a complete example.
 | `/quiz-report` | Admin report for quiz sessions |
 | `/quiz-send` | Send quiz results via email |
 | `/quiz-migrate` | Migrate legacy bank.json |
+| `/quiz-install` | Install the quiz and testing system to a directory |
+| `/quiz-install-update` | Update an existing quiz/testing installation |
 
 ## Available scripts
 
@@ -275,6 +278,8 @@ The quiz system supports practice and live modes for knowledge assessment and su
 | `/quiz-report` | Admin report — per-question stats, participant scores |
 | `/quiz-send` | Send personalized results via email |
 | `/quiz-migrate` | Migrate legacy bank.json to new format |
+| `/quiz-install` | Install the system to a directory |
+| `/quiz-install-update` | Update existing installation |
 
 ### CLI Scripts
 
@@ -302,6 +307,10 @@ node quiz/cli/admin-report.js --participant STU-001
 
 # Results
 node quiz/cli/send-results.js --bank javascript.json --all
+
+# Install
+node quiz/cli/install.js --dry-run --verbose  # preview only
+node quiz/cli/install.js --dir /path/to/target # actual copy
 ```
 
 ### Session ID Format

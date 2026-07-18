@@ -6,9 +6,9 @@
  * skill frontmatter validity, and structural consistency.
  *
  * Usage:
- *   node shared/scripts/ci-validate.js              # validate project
- *   node shared/scripts/ci-validate.js --strict      # fail on warnings
- *   node shared/scripts/ci-validate.js --verbose     # show all checks
+  *   node .opencode/scripts/ci-validate.js              # validate project
+  *   node .opencode/scripts/ci-validate.js --strict      # fail on warnings
+  *   node .opencode/scripts/ci-validate.js --verbose     # show all checks
  *
  * Exit codes:
  *   0 — all checks pass
@@ -58,21 +58,16 @@ console.log(`\n🔍 ci-validate — ${ROOT}\n`);
 
 check(exists(join(ROOT, 'AGENTS.md')), 'AGENTS.md exists', '', 'warn');
 
-// shared/
-check(isDir(join(ROOT, 'shared')), 'shared/ directory exists');
-check(isDir(join(ROOT, 'shared', 'skills')), 'shared/skills/ directory exists');
-check(isDir(join(ROOT, 'shared', 'scripts')), 'shared/scripts/ directory exists');
-
-// Skills: check frontmatter
-if (isDir(join(ROOT, 'shared', 'skills'))) {
-  const skills = readdirSync(join(ROOT, 'shared', 'skills')).filter(f =>
-    isDir(join(ROOT, 'shared', 'skills', f))
+// .opencode/skills/ — check frontmatter
+if (isDir(join(ROOT, '.opencode', 'skills'))) {
+  const skills = readdirSync(join(ROOT, '.opencode', 'skills')).filter(f =>
+    isDir(join(ROOT, '.opencode', 'skills', f))
   );
   check(skills.length > 0, 'At least one skill exists');
   if (VERBOSE) console.log(`  Skills: ${skills.length} total`);
 
   for (const skill of skills) {
-    const skillPath = join(ROOT, 'shared', 'skills', skill, 'SKILL.md');
+    const skillPath = join(ROOT, '.opencode', 'skills', skill, 'SKILL.md');
     check(isFile(skillPath), `Skill "${skill}" has SKILL.md`);
 
     if (isFile(skillPath)) {
@@ -82,22 +77,21 @@ if (isDir(join(ROOT, 'shared', 'skills'))) {
       check(hasName, `Skill "${skill}" has name in frontmatter`);
       check(hasDesc, `Skill "${skill}" has description in frontmatter`);
 
-      // Check for TODO placeholders (code comments or task markers only)
       const hasTodo = /\/\/\s*TODO\b|TODO:|\[[ x]\]\s*TODO/i.test(content);
       check(!hasTodo, `Skill "${skill}" has no TODO placeholders`, '', 'warn');
     }
   }
 }
 
-// Scripts: check for TODO placeholders
-if (isDir(join(ROOT, 'shared', 'scripts'))) {
-  const scripts = readdirSync(join(ROOT, 'shared', 'scripts')).filter(f =>
-    isFile(join(ROOT, 'shared', 'scripts', f)) && f.endsWith('.js') && f !== 'ci-validate.js'
+// .opencode/scripts/ — check for TODO placeholders
+if (isDir(join(ROOT, '.opencode', 'scripts'))) {
+  const scripts = readdirSync(join(ROOT, '.opencode', 'scripts')).filter(f =>
+    isFile(join(ROOT, '.opencode', 'scripts', f)) && f.endsWith('.js') && f !== 'ci-validate.js'
   );
   if (VERBOSE) console.log(`  Scripts: ${scripts.length} total`);
 
   for (const script of scripts) {
-    const content = readFileSync(join(ROOT, 'shared', 'scripts', script), 'utf8');
+    const content = readFileSync(join(ROOT, '.opencode', 'scripts', script), 'utf8');
     const hasTodo = /\/\/\s*TODO\b|TODO:|\[[ x]\]\s*TODO/i.test(content);
     check(!hasTodo, `Script "${script}" has no TODO placeholders`, '', 'warn');
   }
@@ -110,9 +104,10 @@ check(isDir(join(ROOT, '.opencode', 'commands')), '.opencode/commands/ directory
 check(isFile(join(ROOT, 'opencode.json')), 'opencode.json exists at root');
 
 // ── brand.json ──
-if (isFile(join(ROOT, 'shared', 'brand.json'))) {
+const brandPath = join(ROOT, 'assets', 'brand.json');
+if (isFile(brandPath)) {
   try {
-    const brand = JSON.parse(readFileSync(join(ROOT, 'shared', 'brand.json'), 'utf8'));
+    const brand = JSON.parse(readFileSync(brandPath, 'utf8'));
     check(brand.brand?.name, 'brand.json has brand name');
     check(brand.brand?.colors?.primary, 'brand.json has primary color');
   } catch {
@@ -120,8 +115,8 @@ if (isFile(join(ROOT, 'shared', 'brand.json'))) {
   }
 }
 
-// ── Wikilinks in tutorials ──
-const tutorialsDir = join(ROOT, 'tutorials');
+// ── Wikilinks in quiz manuals ──
+const tutorialsDir = join(ROOT, 'quiz', 'manuals');
 if (isDir(tutorialsDir)) {
   const mdFiles = [];
   function collectMd(dir) {

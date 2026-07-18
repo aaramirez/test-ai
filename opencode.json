@@ -84,6 +84,14 @@
     "quiz-migrate": {
       "description": "Migrate a legacy bank.json into the new bank/key format",
       "template": "Load the quiz-bank skill and migrate a legacy bank. Read bank.json, split into banks/ and keys/ files, validate both."
+    },
+    "quiz-install": {
+      "description": "Install the quiz and testing system to a directory. Usage: /quiz-install <target-dir>",
+      "template": "Load the quiz-install skill. The user provided the target directory: $ARGUMENTS. If no directory was provided, ask the user. Follow the skill workflow: dry-run preview, confirm, install."
+    },
+    "quiz-install-update": {
+      "description": "Update an existing quiz/testing installation. Usage: /quiz-install-update <target-dir>",
+      "template": "The installed path is: $ARGUMENTS. If not provided, ask the user. Run node quiz/cli/install.js --dir <path> to re-copy all files, overwriting existing ones. Report the number of files updated."
     }
   },
 
