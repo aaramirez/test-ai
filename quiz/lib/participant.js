@@ -11,7 +11,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const QUIZ_ROOT = resolve(__dirname, '..');
-const REGISTRY_PATH = join(QUIZ_ROOT, 'participants.json');
+const REGISTRY_PATH = process.env.QUIZ_PARTICIPANTS_PATH || join(QUIZ_ROOT, 'participants.json');
 
 function loadRegistry() {
   if (!existsSync(REGISTRY_PATH)) {
