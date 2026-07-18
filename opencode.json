@@ -92,6 +92,10 @@
     "quiz-install-update": {
       "description": "Update an existing quiz/testing installation. Usage: /quiz-install-update <target-dir>",
       "template": "The installed path is: $ARGUMENTS. If not provided, ask the user. Run node quiz/cli/install.js --dir <path> to re-copy all files, overwriting existing ones. Report the number of files updated."
+    },
+    "survey": {
+      "description": "Check pending surveys and submit answers. Usage: /survey",
+      "template": "Load the survey skill. Identify the participant, check which surveys are pending from surveys/registry.json, list them, let the user select one, present questions, save results to surveys/results/, and confirm."
     }
   },
 

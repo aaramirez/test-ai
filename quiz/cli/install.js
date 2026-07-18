@@ -132,7 +132,7 @@ function getFileList(sourceRoot) {
     .filter(f => existsSync(join(sourceRoot, f)))
     .map(f => join(sourceRoot, f));
 
-  const subDirs = ['quiz', '.opencode'];
+  const subDirs = ['quiz', '.opencode', 'surveys'];
   const walked = [];
   for (const sub of subDirs) {
     const fullPath = join(sourceRoot, sub);

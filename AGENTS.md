@@ -28,6 +28,7 @@ test-ia/
   │   ├── templates/  Email templates
   │   └── tests/  Test suites
   ├── plans/  Implementation plans
+  ├── surveys/  Survey data (results, registry, index)
   ├── opencode.json
   ├── package.json
   └── repos.json
@@ -219,6 +220,7 @@ See `.opencode/commands/test.md` for a complete example.
 | repos-sync | Synchronize reference repositories for knowledge sharing and dependency management. |
 | **testing** | **Testing workflows for OpenCode TUI — write, run, and debug tests using Node.js built-in test runner.** |
 | **quiz-install** | **Install the quiz and testing system to another directory. Shows dry-run preview, copies all files, patches ci-validate.** |
+| **survey** | **Manage surveys — check pending surveys, submit answers, track completion via a taken registry.** |
 | vault-pdf-export | Exporta contenido del vault Obsidian curso-ia a PDF profesional usando el pipeline document-generation. |
 | youtube | Use for fetching and processing YouTube video transcriptions to feed into AI models, generate summaries, create course notes, or analyze video content. |
 
@@ -255,6 +257,7 @@ See `.opencode/commands/test.md` for a complete example.
 | .opencode/scripts/send-email.js | file |
 | .opencode/scripts/updaterepos.js | file |
 | .opencode/scripts/youtube-transcript.js | file |
+| quiz/lib/survey-session.js | file |
 
 ## Quiz system
 
@@ -266,6 +269,7 @@ The quiz system supports practice and live modes for knowledge assessment and su
 - **Keys** (`quiz/keys/`): Answer keys mapped to question IDs. Admin-only, encrypted, gitignored.
 - **Results** (`quiz/results/`): Session results committed to GitHub. Plain JSON.
 - **Participants** (`quiz/participants.json`): Registry with ID, name, email, groups.
+- **Surveys** (`surveys/`): Survey results, registry, and index stored separately from quiz results.
 
 ### Commands
 
@@ -280,6 +284,7 @@ The quiz system supports practice and live modes for knowledge assessment and su
 | `/quiz-migrate` | Migrate legacy bank.json to new format |
 | `/quiz-install` | Install the system to a directory |
 | `/quiz-install-update` | Update existing installation |
+| `/survey` | Check pending surveys and submit answers |
 
 ### CLI Scripts
 
