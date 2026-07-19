@@ -63,7 +63,8 @@ Use the **question** tool to select mode:
   options: [
     { label: "Práctica", description: "Feedback inmediato, sin guardar para evaluación" },
     { label: "En vivo", description: "Sin feedback, resultados guardados para evaluación" }
-  ]
+  ],
+  custom: false
 }
 ```
 
@@ -79,7 +80,8 @@ Use the **question** tool to select bank:
 {
   header: "Seleccionar banco",
   question: "¿Qué banco de preguntas deseas usar?",
-  options: banks.map((bank, i) => ({ label: `[${i+1}] ${bank.name}`, description: bank.file }))
+  options: banks.map((bank, i) => ({ label: `[${i+1}] ${bank.name}`, description: bank.file })),
+  custom: false
 }
 ```
 
@@ -91,6 +93,7 @@ Use the **question** tool to present each question:
 - `header`: "Pregunta 1", "Pregunta 2", etc.
 - `question`: the question text
 - `options`: array of `{ label, description }` — ONLY use options defined in the bank
+- `custom: false` — never allow free text answers
 - `multiple`: true for `type: "multiple"` questions
 - Do NOT add free text options — only the defined options
 
@@ -121,7 +124,8 @@ Use the **question** tool to ask about git upload:
   options: [
     { label: "Sí", description: "Commitear y push a GitHub" },
     { label: "No", description: "Guardar localmente" }
-  ]
+  ],
+  custom: false
 }
 ```
 

@@ -83,11 +83,12 @@ Has completado todas las encuestas disponibles. ¡Gracias por tu participación!
 
 Use the **question** tool to let the user select which pending survey to take:
 ```javascript
-// question tool with options = selection
+// question tool with options = selection, custom:false to block free text
 {
   header: "Seleccionar encuesta",
   question: "¿Qué encuesta deseas completar?",
-  options: pending.map((bank, i) => ({ label: `[${i+1}] ${bank.name}`, description: bank.file }))
+  options: pending.map((bank, i) => ({ label: `[${i+1}] ${bank.name}`, description: bank.file })),
+  custom: false
 }
 ```
 
@@ -97,6 +98,7 @@ Present questions using the **question** tool:
 - `header`: "Pregunta 1", "Pregunta 2", etc.
 - `question`: the question text
 - `options`: array of `{ label, description }` — ONLY use options defined in the bank
+- `custom: false` — never allow free text answers
 - Do NOT set `multiple` (surveys use single-select by default)
 - Do NOT add free text options — only the defined options
 
@@ -143,7 +145,8 @@ Use the **question** tool to ask about git upload:
   options: [
     { label: "Sí", description: "Commitear y push a GitHub" },
     { label: "No", description: "Guardar localmente" }
-  ]
+  ],
+  custom: false
 }
 ```
 
@@ -169,7 +172,8 @@ Use the **question** tool to ask about another survey:
   options: [
     { label: "Sí", description: "Ver encuestas pendientes" },
     { label: "No", description: "Finalizar" }
-  ]
+  ],
+  custom: false
 }
 ```
 
