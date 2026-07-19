@@ -333,7 +333,7 @@ Maps question IDs to correct answer indices. Encrypted and gitignored.
 }
 ```
 
-#### Participants (`participants.json`)
+#### Team (`team.json`)
 
 Central registry for all participants. Can include groups for cohort management.
 

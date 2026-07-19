@@ -10,3 +10,4 @@ quiz/results/**/*.enc.
 .opencode/package.json
 .opencode/package-lock.json
 .opencode/bun.lock
+id.json

@@ -14,15 +14,32 @@ Survey results are stored separately from quiz results (in `surveys/` at the pro
 
 ### 1. Identify the Participant
 
-Ask: **¿Cuál es tu cédula?** Look them up in `quiz/participants.json` using `findParticipant`. If not registered, ask:
+Ask: **¿Cuál es tu cédula?**
+
+Look them up in `id.json` using `findById`:
+```javascript
+import { findById, registerParticipant, findParticipant } from './quiz/lib/participant.js';
+
+const idData = findById(cedula);
+```
+
+If found in `id.json`, use the stored name/email and look up full profile in `team.json`:
+```javascript
+const participant = findParticipant(cedula);
+```
+
+If NOT found, ask:
 - **¿Cuál es tu nombre?**
 - **¿Cuál es tu correo electrónico?**
 
-Then register them using `registerParticipant`.
+Then register them:
+```javascript
+registerParticipant({ id: cedula, name, email });
+```
 
-Resolve the participant's groups from `participants.json`:
+Resolve the participant's groups from `team.json`:
 - Check `participant.metadata.group` (string → array of 1)
-- Check the `groups` map in `participants.json` to find all groups containing this participant
+- Check the `groups` map in `team.json` to find all groups containing this participant
 - Merge into a single array of group names. Pass this array to `getPendingSurveys`.
 
 ### 2. Check Pending Surveys

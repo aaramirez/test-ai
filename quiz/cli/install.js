@@ -59,6 +59,9 @@ const EXCLUDE_PREFIXES = [
   '.DS_Store',
   'plans',
   'assets',
+  'repos.json',           // Never copy repos.json from source
+  'id.json',              // Never copy id.json from source
+  'team.json',            // Never copy team.json from source
   'quiz/results/',        // Never copy results from source
   'quiz/banks/',          // Never copy banks from source
   'quiz/keys/',           // Never copy keys from source
@@ -104,7 +107,8 @@ const EXCLUDE_FILES = new Set([
  * Protected paths are matched by prefix (any file starting with one of these strings).
  */
 const PROTECTED_PREFIXES = [
-  'quiz/participants.json',
+  'id.json',              // User ID lookup registry
+  'team.json',            // User participant registry
   'quiz/results/',
   'quiz/keys/',
   'quiz/banks/',
@@ -114,7 +118,6 @@ const PROTECTED_PREFIXES = [
   'surveys/visibility.json',
   'surveys/results/',
   'surveys/banks/',
-  'repos.json',
 ];
 
 const CI_SCRIPT_REL = join('.opencode', 'scripts', 'ci-validate.js');

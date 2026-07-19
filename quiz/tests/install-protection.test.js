@@ -12,8 +12,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, '..', '..');
 
 describe('isProtected', () => {
-  it('protects participants.json', () => {
-    assert.ok(isProtected('quiz/participants.json'));
+  it('protects id.json', () => {
+    assert.ok(isProtected('id.json'));
+  });
+
+  it('protects team.json', () => {
+    assert.ok(isProtected('team.json'));
   });
 
   it('protects quiz/results/', () => {
@@ -48,10 +52,6 @@ describe('isProtected', () => {
     assert.ok(isProtected('surveys/banks/feedback-survey.json'));
   });
 
-  it('protects repos.json', () => {
-    assert.ok(isProtected('repos.json'));
-  });
-
   it('does not protect quiz/lib/', () => {
     assert.ok(!isProtected('quiz/lib/schema.js'));
   });
@@ -61,7 +61,7 @@ describe('isProtected', () => {
   });
 });
 
-describe('getFileList excludes results and banks', () => {
+describe('getFileList excludes results, banks, and user data', () => {
   const files = getFileList(PROJECT_ROOT);
   const relFiles = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
 
@@ -88,6 +88,21 @@ describe('getFileList excludes results and banks', () => {
   it('excludes quiz/keys/ directory', () => {
     const keysFiles = relFiles.filter(f => f.startsWith('quiz/keys/'));
     assert.equal(keysFiles.length, 0, `Found quiz/keys/ files: ${keysFiles.join(', ')}`);
+  });
+
+  it('excludes repos.json', () => {
+    const reposFiles = relFiles.filter(f => f === 'repos.json');
+    assert.equal(reposFiles.length, 0, 'Found repos.json — should be excluded');
+  });
+
+  it('excludes id.json', () => {
+    const idFiles = relFiles.filter(f => f === 'id.json');
+    assert.equal(idFiles.length, 0, 'Found id.json — should be excluded');
+  });
+
+  it('excludes team.json', () => {
+    const teamFiles = relFiles.filter(f => f === 'team.json');
+    assert.equal(teamFiles.length, 0, 'Found team.json — should be excluded');
   });
 
   it('includes quiz/lib/ files', () => {

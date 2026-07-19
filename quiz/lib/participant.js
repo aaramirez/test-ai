@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * participant.js — Participant registry operations
+ * participant.js — Participant registry operations (team.json + id.json)
  *
  * Cross-platform: macOS, Linux, Windows — zero external dependencies.
  */
@@ -10,22 +10,40 @@ import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const QUIZ_ROOT = resolve(__dirname, '..');
-const REGISTRY_PATH = process.env.QUIZ_PARTICIPANTS_PATH || join(QUIZ_ROOT, 'participants.json');
+const PROJECT_ROOT = resolve(__dirname, '..', '..');
 
-function loadRegistry() {
-  if (!existsSync(REGISTRY_PATH)) {
+const TEAM_PATH = process.env.TEAM_PATH || join(PROJECT_ROOT, 'team.json');
+const ID_PATH = process.env.ID_PATH || join(PROJECT_ROOT, 'id.json');
+
+function loadTeamRegistry() {
+  if (!existsSync(TEAM_PATH)) {
     return { participants: {}, groups: {} };
   }
-  return JSON.parse(readFileSync(REGISTRY_PATH, 'utf-8'));
+  return JSON.parse(readFileSync(TEAM_PATH, 'utf-8'));
 }
 
-function saveRegistry(registry) {
-  writeFileSync(REGISTRY_PATH, JSON.stringify(registry, null, 2));
+function saveTeamRegistry(registry) {
+  writeFileSync(TEAM_PATH, JSON.stringify(registry, null, 2));
+}
+
+function loadIdRegistry() {
+  if (!existsSync(ID_PATH)) {
+    return {};
+  }
+  return JSON.parse(readFileSync(ID_PATH, 'utf-8'));
+}
+
+function saveIdRegistry(registry) {
+  writeFileSync(ID_PATH, JSON.stringify(registry, null, 2));
+}
+
+export function findById(cedula) {
+  const ids = loadIdRegistry();
+  return ids[cedula] || null;
 }
 
 export function registerParticipant({ id, name, email, metadata }) {
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
   if (registry.participants[id]) {
     return { registered: false, participant: registry.participants[id], message: 'Already registered' };
   }
@@ -37,17 +55,23 @@ export function registerParticipant({ id, name, email, metadata }) {
     metadata: metadata || {},
   };
   registry.participants[id] = participant;
-  saveRegistry(registry);
+  saveTeamRegistry(registry);
+
+  // Also save to id.json for quick lookup
+  const ids = loadIdRegistry();
+  ids[id] = { name, email: email || '' };
+  saveIdRegistry(ids);
+
   return { registered: true, participant, message: 'Registered' };
 }
 
 export function findParticipant(id) {
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
   return registry.participants[id] || null;
 }
 
 export function listParticipants() {
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
   return Object.values(registry.participants);
 }
 
@@ -61,12 +85,21 @@ export function searchParticipants(query) {
 }
 
 export function updateParticipant(id, updates) {
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
   if (!registry.participants[id]) {
     return { updated: false, message: 'Participant not found' };
   }
   Object.assign(registry.participants[id], updates);
-  saveRegistry(registry);
+  saveTeamRegistry(registry);
+
+  // Update id.json too
+  const ids = loadIdRegistry();
+  if (ids[id]) {
+    if (updates.name) ids[id].name = updates.name;
+    if (updates.email) ids[id].email = updates.email;
+    saveIdRegistry(ids);
+  }
+
   return { updated: true, participant: registry.participants[id] };
 }
 
@@ -84,7 +117,8 @@ export function importFromCSV(csvContent) {
     return { imported: 0, errors: ['CSV must have at least "id" and "name" columns'] };
   }
 
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
+  const ids = loadIdRegistry();
   let imported = 0;
   const errors = [];
 
@@ -108,6 +142,7 @@ export function importFromCSV(csvContent) {
         registered_at: new Date().toISOString(),
         metadata: group ? { group } : {},
       };
+      ids[id] = { name, email };
       imported++;
     }
 
@@ -119,29 +154,30 @@ export function importFromCSV(csvContent) {
     }
   }
 
-  saveRegistry(registry);
+  saveTeamRegistry(registry);
+  saveIdRegistry(ids);
   return { imported, errors };
 }
 
 export function addToGroup(groupId, participantIds) {
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
   if (!registry.groups[groupId]) registry.groups[groupId] = [];
   for (const id of participantIds) {
     if (registry.participants[id] && !registry.groups[groupId].includes(id)) {
       registry.groups[groupId].push(id);
     }
   }
-  saveRegistry(registry);
+  saveTeamRegistry(registry);
   return registry.groups[groupId];
 }
 
 export function getGroup(groupId) {
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
   return (registry.groups[groupId] || []).map(id => registry.participants[id]).filter(Boolean);
 }
 
 export function listGroups() {
-  const registry = loadRegistry();
+  const registry = loadTeamRegistry();
   return Object.entries(registry.groups).map(([id, members]) => ({
     id,
     count: members.length,

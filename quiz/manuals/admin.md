@@ -119,7 +119,8 @@ node quiz/cli/evaluate.js --bank javascript.json --all
 | `quiz/banks/` | Question banks | ✅ Yes |
 | `quiz/keys/` | Answer keys | ❌ No (gitignored) |
 | `quiz/results/` | Session results | ✅ Yes |
-| `quiz/participants.json` | Participant registry | ✅ Yes |
+| `team.json` | Participant registry | ✅ Yes |
+| `id.json` | Quick ID lookup | ✅ Yes |
 | `quiz/results/_index.json` | Session index | ✅ Yes |
 
 ## Troubleshooting

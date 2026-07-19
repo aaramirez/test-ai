@@ -19,7 +19,8 @@
 | `quiz/banks/` | Question banks (shareable) |
 | `quiz/keys/` | Answer keys (admin-only, encrypted) |
 | `quiz/results/` | Session results (committed) |
-| `quiz/participants.json` | Participant registry |
+| `team.json` | Participant registry |
+| `id.json` | Quick ID lookup |
 | `quiz/results/_index.json` | Session index |
 | `quiz/manuals/` | Documentation |
 

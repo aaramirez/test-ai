@@ -19,7 +19,7 @@ Before starting, collect:
 - **Name** (required) — display name
 - **Email** (optional) — for result delivery
 
-If the participant is already registered, their info is auto-filled from `quiz/participants.json`.
+If the participant is already registered, their info is auto-filled from `id.json` and `team.json`.
 
 ### 2. Choose Mode
 

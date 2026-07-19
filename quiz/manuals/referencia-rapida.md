@@ -21,7 +21,8 @@
 | `quiz/banks/` | Bancos de preguntas (compartibles) |
 | `quiz/keys/` | Claves de respuesta (solo admin, cifradas) |
 | `quiz/results/` | Resultados de sesiones (commiteados) |
-| `quiz/participants.json` | Registro de participantes |
+| `team.json` | Registro de participantes |
+| `id.json` | Lookup rápido por cédula |
 | `quiz/results/_index.json` | Índice de sesiones |
 | `quiz/manuals/` | Documentación |
 

@@ -271,7 +271,8 @@ The quiz system supports practice and live modes for knowledge assessment and su
 - **Banks** (`quiz/banks/`): Question-only files, safe to share. No correct answers.
 - **Keys** (`quiz/keys/`): Answer keys mapped to question IDs. Admin-only, encrypted, gitignored.
 - **Results** (`quiz/results/`): Session results committed to GitHub. Plain JSON.
-- **Participants** (`quiz/participants.json`): Registry with ID, name, email, groups.
+- **Team** (`team.json`): Participant registry with ID, name, email, groups.
+- **ID Lookup** (`id.json`): Quick ID lookup for participant identification.
 - **Surveys** (`surveys/`): Survey results, registry, and index stored separately from quiz results.
 
 ### Commands

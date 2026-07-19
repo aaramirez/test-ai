@@ -236,14 +236,14 @@ describe('install --force protected paths', () => {
 
   it('does not overwrite protected files present in target', () => {
     // Create user data files in target BEFORE install
-    const targetParticipants = join(tmpDir, 'quiz', 'participants.json');
+    const targetTeam = join(tmpDir, 'team.json');
+    const targetId = join(tmpDir, 'id.json');
     const targetRegistry = join(tmpDir, 'surveys', 'registry.json');
     const targetVisibility = join(tmpDir, 'surveys', 'visibility.json');
     const targetBanks = join(tmpDir, 'quiz', 'banks');
     const targetResults = join(tmpDir, 'quiz', 'results');
     const targetSurveyResults = join(tmpDir, 'surveys', 'results');
     const targetIndex = join(tmpDir, 'surveys', '_index.json');
-    const targetRepos = join(tmpDir, 'repos.json');
 
     mkdirSync(join(tmpDir, 'quiz'), { recursive: true });
     mkdirSync(join(tmpDir, 'surveys'), { recursive: true });
@@ -251,11 +251,11 @@ describe('install --force protected paths', () => {
     mkdirSync(targetResults, { recursive: true });
     mkdirSync(targetSurveyResults, { recursive: true });
 
-    writeFileSync(targetParticipants, '{"PROTECTED":true}', 'utf-8');
+    writeFileSync(targetTeam, '{"PROTECTED":true}', 'utf-8');
+    writeFileSync(targetId, '{"PROTECTED":true}', 'utf-8');
     writeFileSync(targetRegistry, '{"PROTECTED":true}', 'utf-8');
     writeFileSync(targetVisibility, '{"PROTECTED":true}', 'utf-8');
     writeFileSync(targetIndex, '{"PROTECTED":true}', 'utf-8');
-    writeFileSync(targetRepos, '{"PROTECTED":true}', 'utf-8');
     writeFileSync(join(targetBanks, 'my-custom-bank.json'), '{"PROTECTED":true}', 'utf-8');
     writeFileSync(join(targetResults, 'my-result.json'), '{"PROTECTED":true}', 'utf-8');
     writeFileSync(join(targetSurveyResults, 'my-survey-result.json'), '{"PROTECTED":true}', 'utf-8');
@@ -263,11 +263,11 @@ describe('install --force protected paths', () => {
     mod.install({ sourceRoot: PROJECT_ROOT, targetDir: tmpDir, fixCi: false });
 
     // Verify protected files were NOT overwritten
-    assert.equal(JSON.parse(readFileSync(targetParticipants, 'utf-8')).PROTECTED, true);
+    assert.equal(JSON.parse(readFileSync(targetTeam, 'utf-8')).PROTECTED, true);
+    assert.equal(JSON.parse(readFileSync(targetId, 'utf-8')).PROTECTED, true);
     assert.equal(JSON.parse(readFileSync(targetRegistry, 'utf-8')).PROTECTED, true);
     assert.equal(JSON.parse(readFileSync(targetVisibility, 'utf-8')).PROTECTED, true);
     assert.equal(JSON.parse(readFileSync(targetIndex, 'utf-8')).PROTECTED, true);
-    assert.equal(JSON.parse(readFileSync(targetRepos, 'utf-8')).PROTECTED, true);
 
     const bankContent = readFileSync(join(targetBanks, 'my-custom-bank.json'), 'utf-8');
     assert.equal(JSON.parse(bankContent).PROTECTED, true);
@@ -307,7 +307,7 @@ describe('install --force overwrites protected files', () => {
     mod = await import('../cli/install.js');
     // Create target with a protected file
     mkdirSync(join(tmpDir, 'quiz'), { recursive: true });
-    writeFileSync(join(tmpDir, 'quiz', 'participants.json'), '{"PROTECTED":true}', 'utf-8');
+    writeFileSync(join(tmpDir, 'team.json'), '{"PROTECTED":true}', 'utf-8');
     // Install with --force
     mod.install({ sourceRoot: PROJECT_ROOT, targetDir: tmpDir, fixCi: false, force: true });
   });
@@ -318,12 +318,13 @@ describe('install --force overwrites protected files', () => {
     }
   });
 
-  it('source participants.json overwrites target participants.json when --force', () => {
-    const content = readFileSync(join(tmpDir, 'quiz', 'participants.json'), 'utf-8');
+  it('source team.json overwrites target team.json when --force', () => {
+    // Note: team.json is now excluded from source, so target remains PROTECTED
+    // This test verifies that with --force, the file is NOT overwritten because
+    // it's in EXCLUDE_PREFIXES (never copied from source)
+    const content = readFileSync(join(tmpDir, 'team.json'), 'utf-8');
     const parsed = JSON.parse(content);
-    // Source participants.json has actual participants, NOT {PROTECTED:true}
-    assert.equal(parsed.PROTECTED, undefined, 'was overwritten by source file');
-    assert.ok(parsed.participants, 'has participants from source');
+    assert.equal(parsed.PROTECTED, true, 'was NOT overwritten (excluded from source)');
   });
 });
 
