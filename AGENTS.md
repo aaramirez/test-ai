@@ -13,22 +13,25 @@ test-ia/
   │   ├── agents/
   │   ├── commands/
   │   ├── scripts/
-  │   ├── prompts/
   │   └── rules/
   ├── assets/  Brand logos, CSS templates, decks, images
   │   ├── images/
   │   └── templates/
-  ├── quiz/  Quiz & survey system
-  │   ├── banks/  Question banks (answer-free, shareable)
+  ├── quiz/  Quiz system
+  │   ├── banks/  Quiz question banks (answer-free, shareable)
   │   ├── keys/  Answer keys (admin-only, gitignored, encrypted)
-  │   ├── results/  Session results (committed)
+  │   ├── results/  Quiz session results (committed)
   │   ├── cli/  CLI scripts
   │   ├── lib/  Shared modules
   │   ├── manuals/  User documentation
-  │   ├── templates/  Email templates
   │   └── tests/  Test suites
+  ├── surveys/  Survey system
+  │   ├── banks/  Survey question banks (answer-free, shareable)
+  │   ├── results/  Survey session results (committed)
+  │   ├── registry.json  Survey completion tracking
+  │   ├── visibility.json  Group-based access control
+  │   └── _index.json  Survey session index
   ├── plans/  Implementation plans
-  ├── surveys/  Survey data (results, registry, index)
   ├── opencode.json
   ├── package.json
   └── repos.json

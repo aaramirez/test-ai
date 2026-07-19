@@ -4,7 +4,7 @@
  */
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateQuestion, validateBank, validateKey, QUESTION_TYPES, DIFFICULTIES } from '../lib/schema.js';
+import { validateQuestion, validateBank, validateKey, loadBank, loadSurveyBank, loadKey, listQuizBanks, listSurveyBanks, normalizeBankPath, QUESTION_TYPES, DIFFICULTIES } from '../lib/schema.js';
 
 describe('validateQuestion', () => {
   it('returns no errors for valid question', () => {
@@ -117,5 +117,83 @@ describe('validateKey', () => {
     const key = { bank: 'test.json', answers: { q1: { correct: 0 }, q3: { correct: 0 } } };
     const errors = validateKey(key, bank);
     assert.ok(errors.some(e => e.includes('unknown question')));
+  });
+});
+
+describe('normalizeBankPath', () => {
+  it('strips banks/ prefix', () => {
+    assert.equal(normalizeBankPath('banks/javascript.json'), 'javascript.json');
+  });
+
+  it('strips quiz/banks/ prefix', () => {
+    assert.equal(normalizeBankPath('quiz/banks/javascript.json'), 'javascript.json');
+  });
+
+  it('strips surveys/banks/ prefix', () => {
+    assert.equal(normalizeBankPath('surveys/banks/feedback-survey.json'), 'feedback-survey.json');
+  });
+
+  it('returns bare filename unchanged', () => {
+    assert.equal(normalizeBankPath('javascript.json'), 'javascript.json');
+  });
+});
+
+describe('loadBank', () => {
+  it('loads quiz bank by bare filename', () => {
+    const bank = loadBank('javascript.json');
+    assert.equal(bank.type, 'quiz');
+  });
+
+  it('loads quiz bank by full path', () => {
+    const bank = loadBank('quiz/banks/javascript.json');
+    assert.equal(bank.type, 'quiz');
+  });
+
+  it('throws for non-existent bank', () => {
+    assert.throws(() => loadBank('nonexistent.json'), /not found/);
+  });
+});
+
+describe('loadSurveyBank', () => {
+  it('loads survey bank by bare filename', () => {
+    const bank = loadSurveyBank('feedback-survey.json');
+    assert.equal(bank.type, 'survey');
+  });
+
+  it('loads survey bank by full path', () => {
+    const bank = loadSurveyBank('surveys/banks/feedback-survey.json');
+    assert.equal(bank.type, 'survey');
+  });
+
+  it('throws for non-existent survey bank', () => {
+    assert.throws(() => loadSurveyBank('nonexistent.json'), /not found/);
+  });
+});
+
+describe('loadKey', () => {
+  it('loads key by bare filename', () => {
+    const key = loadKey('javascript.json');
+    assert.equal(key.bank, 'javascript.json');
+  });
+
+  it('loads key by full path', () => {
+    const key = loadKey('quiz/keys/javascript.json');
+    assert.equal(key.bank, 'javascript.json');
+  });
+});
+
+describe('listQuizBanks', () => {
+  it('returns only quiz banks', () => {
+    const banks = listQuizBanks();
+    assert.ok(banks.includes('javascript.json'));
+    assert.ok(!banks.includes('feedback-survey.json'));
+  });
+});
+
+describe('listSurveyBanks', () => {
+  it('returns only survey banks', () => {
+    const banks = listSurveyBanks();
+    assert.ok(banks.includes('feedback-survey.json'));
+    assert.ok(!banks.includes('javascript.json'));
   });
 });

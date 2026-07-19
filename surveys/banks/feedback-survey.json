@@ -1,6 +1,7 @@
 {
   "name": "Encuesta de Satisfacción",
   "description": "Encuesta de satisfacción post-curso",
+  "type": "survey",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [

@@ -3,27 +3,31 @@
  * validate-bank.js — Validate bank schema and structure
  *
  * Usage:
- *   node validate-bank.js banks/topic.json [banks/topic2.json ...]
+ *   node validate-bank.js javascript.json [python.json ...]
  *
  * Cross-platform: macOS, Linux, Windows — zero external dependencies.
  */
 
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { loadBank, validateBank } from '../lib/schema.js';
+import { loadBank, loadSurveyBank, validateBank } from '../lib/schema.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const banks = process.argv.slice(2);
 
 if (banks.length === 0) {
-  console.error('Usage: node validate-bank.js banks/topic.json [banks/topic2.json ...]');
+  console.error('Usage: node validate-bank.js javascript.json [python.json ...]');
   process.exit(1);
 }
 
 let allValid = true;
 for (const bankPath of banks) {
   try {
-    const bank = loadBank(bankPath);
+    let bank;
+    try {
+      bank = loadBank(bankPath);
+    } catch {
+      bank = loadSurveyBank(bankPath);
+    }
     const errors = validateBank(bank);
     if (errors.length > 0) {
       console.error(`❌ ${bankPath}:`);

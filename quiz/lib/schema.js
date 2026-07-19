@@ -11,11 +11,22 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const QUIZ_ROOT = resolve(__dirname, '..');
+const PROJECT_ROOT = resolve(QUIZ_ROOT, '..');
 const BANKS_DIR = join(QUIZ_ROOT, 'banks');
 const KEYS_DIR = join(QUIZ_ROOT, 'keys');
+const SURVEY_BANKS_DIR = join(PROJECT_ROOT, 'surveys', 'banks');
 
 export const QUESTION_TYPES = ['single', 'multiple', 'survey'];
 export const DIFFICULTIES = ['easy', 'medium', 'hard'];
+
+export function normalizeBankPath(bankName) {
+  return bankName
+    .replace(/^banks\//, '')
+    .replace(/^keys\//, '')
+    .replace(/^quiz\/banks\//, '')
+    .replace(/^quiz\/keys\//, '')
+    .replace(/^surveys\/banks\//, '');
+}
 
 export function loadJson(filePath) {
   if (!existsSync(filePath)) return null;
@@ -23,23 +34,45 @@ export function loadJson(filePath) {
 }
 
 export function loadBank(bankName) {
-  const filePath = join(BANKS_DIR, bankName);
+  const normalized = normalizeBankPath(bankName);
+  const filePath = join(BANKS_DIR, normalized);
   const bank = loadJson(filePath);
-  if (!bank) throw new Error(`Bank not found: ${bankName}`);
+  if (!bank) throw new Error(`Bank not found: ${normalized}`);
+  return bank;
+}
+
+export function loadSurveyBank(bankName) {
+  const normalized = normalizeBankPath(bankName);
+  const filePath = join(SURVEY_BANKS_DIR, normalized);
+  const bank = loadJson(filePath);
+  if (!bank) throw new Error(`Survey bank not found: ${normalized}`);
   return bank;
 }
 
 export function loadKey(bankName) {
-  const keyName = bankName.replace('.json', '') + '.json';
+  const normalized = normalizeBankPath(bankName);
+  const keyName = normalized.replace('.json', '') + '.json';
   const filePath = join(KEYS_DIR, keyName);
   const key = loadJson(filePath);
-  if (!key) throw new Error(`Key not found for: ${bankName}`);
+  if (!key) throw new Error(`Key not found for: ${normalized}`);
   return key;
 }
 
 export function listBanks() {
   if (!existsSync(BANKS_DIR)) return [];
   return readdirSync(BANKS_DIR).filter(f => f.endsWith('.json'));
+}
+
+export function listQuizBanks() {
+  return listBanks().filter(f => {
+    const bank = loadJson(join(BANKS_DIR, f));
+    return bank && bank.type !== 'survey';
+  });
+}
+
+export function listSurveyBanks() {
+  if (!existsSync(SURVEY_BANKS_DIR)) return [];
+  return readdirSync(SURVEY_BANKS_DIR).filter(f => f.endsWith('.json'));
 }
 
 export function listKeys() {

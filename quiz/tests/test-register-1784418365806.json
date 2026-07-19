@@ -4,28 +4,28 @@
       "id": "STU-002",
       "name": "John Doe",
       "email": "",
-      "registered_at": "2026-07-18T20:45:42.019Z",
+      "registered_at": "2026-07-18T23:46:05.844Z",
       "metadata": {}
     },
     "STU-010": {
       "id": "STU-010",
       "name": "Alice Smith",
       "email": "alice@test.com",
-      "registered_at": "2026-07-18T20:45:42.028Z",
+      "registered_at": "2026-07-18T23:46:06.054Z",
       "metadata": {}
     },
     "STU-011": {
       "id": "STU-011",
       "name": "Bob Smith",
       "email": "bob@test.com",
-      "registered_at": "2026-07-18T20:45:42.029Z",
+      "registered_at": "2026-07-18T23:46:06.057Z",
       "metadata": {}
     },
     "STU-020": {
       "id": "STU-020",
       "name": "Alice",
       "email": "a@test.com",
-      "registered_at": "2026-07-18T20:45:42.043Z",
+      "registered_at": "2026-07-18T23:46:06.095Z",
       "metadata": {
         "group": "cohorte-A"
       }
@@ -34,7 +34,7 @@
       "id": "STU-021",
       "name": "Bob",
       "email": "b@test.com",
-      "registered_at": "2026-07-18T20:45:42.043Z",
+      "registered_at": "2026-07-18T23:46:06.095Z",
       "metadata": {
         "group": "cohorte-A"
       }

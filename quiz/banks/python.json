@@ -1,6 +1,7 @@
 {
   "name": "Python",
   "description": "Fundamentos de Python",
+  "type": "quiz",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [

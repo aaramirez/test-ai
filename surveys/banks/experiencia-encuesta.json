@@ -1,6 +1,7 @@
 {
   "name": "Encuesta de Experiencia",
   "description": "Encuesta de experiencia general del curso",
+  "type": "survey",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [

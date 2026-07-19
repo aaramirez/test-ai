@@ -62,22 +62,25 @@ BANKS (shareable) + KEYS (secret)   --->   QUIZ SESSION   --->   RESULTS   ---> 
 
 | Directory | Purpose | Committed |
 |-----------|---------|-----------|
-| `quiz/banks/` | Question-only files (shareable) | Yes |
+| `quiz/banks/` | Quiz question-only files (shareable) | Yes |
 | `quiz/keys/` | Answer keys, encrypted with SOPS/age | No (gitignored) |
-| `quiz/results/` | Session results and index | Yes |
+| `quiz/results/` | Quiz session results and index | Yes |
 | `quiz/cli/` | Command-line scripts | Yes |
 | `quiz/lib/` | Core logic modules | Yes |
 | `quiz/tests/` | Test suites | Yes |
 | `quiz/manuals/` | Documentation | Yes |
-| `quiz/templates/` | Email templates | Yes |
-| `surveys/` | Survey results, registry, index | Yes |
+| `surveys/banks/` | Survey question-only files (shareable) | Yes |
+| `surveys/results/` | Survey session results | Yes |
+| `surveys/registry.json` | Survey completion tracking | Yes |
+| `surveys/visibility.json` | Group-based survey access control | Yes |
+| `surveys/_index.json` | Survey session index | Yes |
 
 **Data flow:**
 
-1. Admin creates banks (`quiz/banks/`) and answer keys (`quiz/keys/`)
+1. Admin creates quiz banks (`quiz/banks/`) and answer keys (`quiz/keys/`)
 2. Participants run quizzes, results saved to `quiz/results/`
 3. Admin evaluates results, generates reports, emails scores
-4. Surveys use a separate flow: questions from `quiz/banks/`, answers saved to `surveys/results/`, completion tracked in `surveys/registry.json`
+4. Surveys use a separate flow: questions from `surveys/banks/`, answers saved to `surveys/results/`, completion tracked in `surveys/registry.json`
 
 ### Quick Start
 
@@ -92,12 +95,12 @@ node quiz/cli/add-question.js --bank banks/javascript.json \
   --options "var is block-scoped" "let is block-scoped"
 
 # 3. Validate the bank
-node quiz/cli/validate-bank.js banks/javascript.json
+node quiz/cli/validate-bank.js javascript.json
 
 # 4. Create and encrypt answer key
-node quiz/cli/create-key.js --bank banks/javascript.json
-node quiz/cli/create-key.js --key keys/javascript.json --add js-001 --correct 1 --explanation "let is block-scoped"
-node quiz/cli/validate-key.js --key keys/javascript.json --bank banks/javascript.json
+node quiz/cli/create-key.js --bank javascript.json
+node quiz/cli/create-key.js --key javascript.json --add js-001 --correct 1 --explanation "let is block-scoped"
+node quiz/cli/validate-key.js --key javascript.json --bank javascript.json
 node quiz/cli/encrypt-key.js keys/javascript.json
 
 # 5. Register participants

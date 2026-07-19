@@ -108,6 +108,7 @@ const PROTECTED_PREFIXES = [
   'surveys/_index.json',
   'surveys/visibility.json',
   'surveys/results/',
+  'surveys/banks/',
   'repos.json',
 ];
 

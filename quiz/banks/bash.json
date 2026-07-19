@@ -1,6 +1,7 @@
 {
   "name": "Bash",
   "description": "Conceptos de línea de comandos Bash",
+  "type": "quiz",
   "version": "1.0.0",
   "randomize": { "questions": false, "options": false },
   "questions": [

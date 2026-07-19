@@ -23,12 +23,13 @@ Resolve the participant's groups from `participants.json`:
 
 ### 2. Check Pending Surveys
 
-Scan `quiz/banks/` to find survey-type banks (questions with `type: "survey"`). Then call:
+Scan `surveys/banks/` to find survey banks. Then call:
 
 ```javascript
 import { getPendingSurveys, loadSurveyVisibility } from './quiz/lib/survey-session.js';
+import { listSurveyBanks } from './quiz/lib/schema.js';
 
-const visibility = loadSurveyVisibility();
+const surveyBanks = listSurveyBanks();
 const pending = getPendingSurveys(participantId, surveyBanks, null, participantGroups);
 ```
 
@@ -51,7 +52,7 @@ You have completed all available surveys. Thank you for your participation!
 
 ### 3. Select & Take a Survey
 
-Let the user select which pending survey to take. Load the bank from `quiz/banks/`.
+Let the user select which pending survey to take. Load the bank from `surveys/banks/` using `loadSurveyBank()`.
 
 Present questions using the **question** tool:
 - `header`: "Pregunta 1", "Pregunta 2", etc.

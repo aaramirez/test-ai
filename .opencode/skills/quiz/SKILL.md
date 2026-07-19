@@ -30,7 +30,7 @@ If the participant is already registered, their info is auto-filled from `quiz/p
 
 ### 3. Select Bank
 
-List available banks from `quiz/banks/`. Filter by difficulty and count if needed.
+List available banks from `quiz/banks/` using `listQuizBanks()` (excludes survey banks). Filter by difficulty and count if needed.
 
 ### 4. Present Questions
 
