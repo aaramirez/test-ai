@@ -113,11 +113,20 @@ const PROTECTED_PREFIXES = [
   'quiz/keys/',
   'quiz/banks/',
   'quiz/bank.json',
+  'surveys/results/',
+  'surveys/banks/',
+];
+
+/**
+ * Paths that are NEVER overwritten, even with --force.
+ * These are user data files that should be created empty on fresh install
+ * but never overwritten on update.
+ */
+const ALWAYS_PROTECTED_PREFIXES = [
   'surveys/registry.json',
   'surveys/_index.json',
   'surveys/visibility.json',
-  'surveys/results/',
-  'surveys/banks/',
+  'quiz/results/_index.json',
 ];
 
 const CI_SCRIPT_REL = join('.opencode', 'scripts', 'ci-validate.js');
@@ -132,6 +141,13 @@ function shouldInclude(relPath) {
 
 function isProtected(relPath) {
   for (const prefix of PROTECTED_PREFIXES) {
+    if (relPath.startsWith(prefix)) return true;
+  }
+  return false;
+}
+
+function isAlwaysProtected(relPath) {
+  for (const prefix of ALWAYS_PROTECTED_PREFIXES) {
     if (relPath.startsWith(prefix)) return true;
   }
   return false;
@@ -245,8 +261,36 @@ function install(opts) {
 
   let count = 0;
   let skipped = 0;
+  let created = 0;
+
+  // Create empty ALWAYS_PROTECTED files if they don't exist (fresh install only)
+  const alwaysProtectedDefaults = {
+    'surveys/registry.json': '{}',
+    'surveys/_index.json': '{"by_bank":{}}',
+    'surveys/visibility.json': '{}',
+    'quiz/results/_index.json': '{}',
+  };
+
+  for (const [relPath, defaultContent] of Object.entries(alwaysProtectedDefaults)) {
+    const dest = join(resolvedTarget, relPath);
+    if (!existsSync(dest)) {
+      const destDir = dirname(dest);
+      if (!existsSync(destDir)) mkdirSync(destDir, { recursive: true });
+      writeFileSync(dest, defaultContent, 'utf-8');
+      if (verbose) console.log(`  create   ${relPath}  [empty default]`);
+      created++;
+    }
+  }
+
   for (const src of files) {
     const rel = relative(sourceRoot, src);
+
+    // ALWAYS skip always-protected files (even with --force)
+    if (isAlwaysProtected(rel)) {
+      if (verbose) console.log(`  skip     ${rel}  [always protected]`);
+      skipped++;
+      continue;
+    }
 
     // Skip user data files unless --force is used
     if (!force && isProtected(rel)) {
@@ -272,6 +316,9 @@ function install(opts) {
   }
 
   console.log(`\nInstalled ${count} files to ${resolvedTarget}`);
+  if (created > 0) {
+    console.log(`  (${created} empty data files created)`);
+  }
   if (skipped > 0) {
     console.log(`  (${skipped} protected files skipped — use --force to overwrite)`);
   }
@@ -286,7 +333,7 @@ function main() {
   install(opts);
 }
 
-export { install, getFileList, isProtected };
+export { install, getFileList, isProtected, isAlwaysProtected };
 
 if (process.argv[1] && (process.argv[1].endsWith('install.js') || process.argv[1].endsWith('install'))) {
   main();

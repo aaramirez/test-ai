@@ -4,7 +4,7 @@
  */
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { getFileList, isProtected } from '../cli/install.js';
+import { getFileList, isProtected, isAlwaysProtected } from '../cli/install.js';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -32,16 +32,19 @@ describe('isProtected', () => {
     assert.ok(isProtected('quiz/banks/javascript.json'));
   });
 
-  it('protects surveys/registry.json', () => {
-    assert.ok(isProtected('surveys/registry.json'));
+  it('does not protect surveys/registry.json (always protected instead)', () => {
+    assert.ok(!isProtected('surveys/registry.json'));
+    assert.ok(isAlwaysProtected('surveys/registry.json'));
   });
 
-  it('protects surveys/_index.json', () => {
-    assert.ok(isProtected('surveys/_index.json'));
+  it('does not protect surveys/_index.json (always protected instead)', () => {
+    assert.ok(!isProtected('surveys/_index.json'));
+    assert.ok(isAlwaysProtected('surveys/_index.json'));
   });
 
-  it('protects surveys/visibility.json', () => {
-    assert.ok(isProtected('surveys/visibility.json'));
+  it('does not protect surveys/visibility.json (always protected instead)', () => {
+    assert.ok(!isProtected('surveys/visibility.json'));
+    assert.ok(isAlwaysProtected('surveys/visibility.json'));
   });
 
   it('protects surveys/results/', () => {
@@ -58,6 +61,36 @@ describe('isProtected', () => {
 
   it('does not protect quiz/cli/', () => {
     assert.ok(!isProtected('quiz/cli/install.js'));
+  });
+});
+
+describe('isAlwaysProtected', () => {
+  it('always protects surveys/registry.json', () => {
+    assert.ok(isAlwaysProtected('surveys/registry.json'));
+  });
+
+  it('always protects surveys/_index.json', () => {
+    assert.ok(isAlwaysProtected('surveys/_index.json'));
+  });
+
+  it('always protects surveys/visibility.json', () => {
+    assert.ok(isAlwaysProtected('surveys/visibility.json'));
+  });
+
+  it('always protects quiz/results/_index.json', () => {
+    assert.ok(isAlwaysProtected('quiz/results/_index.json'));
+  });
+
+  it('does not always protect id.json (regular protected)', () => {
+    assert.ok(!isAlwaysProtected('id.json'));
+  });
+
+  it('does not always protect team.json (regular protected)', () => {
+    assert.ok(!isAlwaysProtected('team.json'));
+  });
+
+  it('does not always protect quiz/lib/', () => {
+    assert.ok(!isAlwaysProtected('quiz/lib/schema.js'));
   });
 });
 
