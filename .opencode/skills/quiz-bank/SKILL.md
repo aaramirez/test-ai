@@ -16,7 +16,11 @@ Create and manage question banks. Banks contain questions and options only — n
 ## Create a Bank
 
 ```bash
+# Create a quiz bank (default)
 node quiz/cli/create-bank.js --name "JavaScript Basics" --id javascript --version 1.0.0
+
+# Create a survey bank
+node quiz/cli/create-bank.js --name "Feedback Survey" --id feedback-survey --type survey
 ```
 
 ## Add Questions

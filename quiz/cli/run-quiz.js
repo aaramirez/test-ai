@@ -13,7 +13,7 @@
 import { existsSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { loadBank, listBanks } from '../lib/schema.js';
+import { loadBank, listQuizBanks } from '../lib/schema.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
@@ -28,8 +28,8 @@ for (let i = 0; i < args.length; i++) {
 }
 
 if (opts.list) {
-  const banks = listBanks();
-  console.log('Available banks:');
+  const banks = listQuizBanks();
+  console.log('Available quiz banks:');
   for (const b of banks) {
     const bank = loadBank(b);
     console.log(`  ${b} — ${bank.name} (${bank.questions.length} questions)`);
