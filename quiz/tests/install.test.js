@@ -39,7 +39,9 @@ describe('getFileList (dry-run)', () => {
 
     assert.ok(paths.some(p => p.startsWith('quiz/cli/')), 'includes quiz cli scripts');
     assert.ok(paths.some(p => p.startsWith('quiz/lib/')), 'includes quiz lib modules');
-    assert.ok(paths.some(p => p.startsWith('quiz/banks/')), 'includes quiz banks');
+    assert.ok(!paths.some(p => p.startsWith('quiz/banks/')), 'excludes quiz banks (user data)');
+    assert.ok(!paths.some(p => p.startsWith('quiz/results/')), 'excludes quiz results (user data)');
+    assert.ok(!paths.some(p => p.startsWith('quiz/keys/')), 'excludes quiz keys (user data)');
     assert.ok(paths.some(p => p.startsWith('quiz/tests/')), 'includes quiz tests');
     assert.ok(paths.some(p => p.startsWith('quiz/manuals/')), 'includes quiz manuals');
 

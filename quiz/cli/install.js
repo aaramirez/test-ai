@@ -59,6 +59,11 @@ const EXCLUDE_PREFIXES = [
   '.DS_Store',
   'plans',
   'assets',
+  'quiz/results/',        // Never copy results from source
+  'quiz/banks/',          // Never copy banks from source
+  'quiz/keys/',           // Never copy keys from source
+  'surveys/results/',     // Never copy survey results from source
+  'surveys/banks/',       // Never copy survey banks from source
   '.opencode/skills/branding/',
   '.opencode/skills/ci-validate/',
   '.opencode/skills/code-review/',
