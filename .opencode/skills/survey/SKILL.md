@@ -44,14 +44,14 @@ This automatically filters out:
 Present the pending surveys to the user:
 
 ```
-You have <N> pending survey(s):
-  [1] Course Feedback (feedback-survey.json)
-  [2] Customer Satisfaction (satisfaction.json)
+Tienes <N> encuesta(s) pendiente(s):
+  [1] Retroalimentación del Curso (feedback-survey.json)
+  [2] Satisfacción del Cliente (satisfaction.json)
 ```
 
 If no surveys are pending:
 ```
-You have completed all available surveys. Thank you for your participation!
+Has completado todas las encuestas disponibles. ¡Gracias por tu participación!
 ```
 
 ### 3. Select & Take a Survey
@@ -96,7 +96,7 @@ This:
 
 Show the user:
 ```
-Your responses have been recorded. Thank you for completing the survey!
+Tus respuestas han sido registradas. ¡Gracias por completar la encuesta!
 ```
 
 Then ask:
@@ -116,7 +116,10 @@ Report the result:
 - not committed (already committed): "Los resultados ya fueron commiteados."
 - error: "No se pudieron subir los resultados: <error>"
 
-Ask if they'd like to take another pending survey. If yes, loop back to step 2. If no, end.
+Ask if they'd like to take another pending survey:
+> ¿Deseas responder otra encuesta pendiente?
+
+If yes, loop back to step 2. If no, end.
 
 ### 6. View Survey Results (Admin / Participant)
 
