@@ -10,18 +10,62 @@ scripts:
 
 Run quizzes and surveys interactively. Supports practice mode (with immediate feedback) and live mode (results saved for evaluation).
 
+## Question Tool Rules
+
+**IMPORTANT — Always follow these rules:**
+
+1. **Always use the question tool** — Never output plain text questions
+2. **Use tabs format** — Header becomes the tab label
+3. **No free text options** — When questions have defined options (quizzes, tests, practice), only show those options
+4. **Free text only for identification** — Cédula, name, email use free text input (no options array)
+
 ## How It Works
 
 ### 1. Identify the Participant
 
-Before starting, collect:
-- **Participant ID** (required) — student number, employee ID, GitHub username
-- **Name** (required) — display name
-- **Email** (optional) — for result delivery
+Use the **question** tool to ask for cédula:
+```javascript
+// question tool with no options = free text input
+{ header: "Cédula", question: "¿Cuál es tu cédula?" }
+```
 
-If the participant is already registered, their info is auto-filled from `id.json` and `team.json`.
+Look them up in `id.json` using `findById`:
+```javascript
+import { findById, registerParticipant, findParticipant } from './quiz/lib/participant.js';
+
+const idData = findById(cedula);
+```
+
+If found, use the stored name/email and look up full profile in `team.json`:
+```javascript
+const participant = findParticipant(cedula);
+```
+
+If NOT found, use the **question** tool to ask for name and email:
+```javascript
+// question tool with no options = free text input
+{ header: "Nombre", question: "¿Cuál es tu nombre?" }
+{ header: "Correo electrónico", question: "¿Cuál es tu correo electrónico?" }
+```
+
+Then register them:
+```javascript
+registerParticipant({ id: cedula, name, email });
+```
 
 ### 2. Choose Mode
+
+Use the **question** tool to select mode:
+```javascript
+{
+  header: "Modo",
+  question: "¿Qué modo deseas usar?",
+  options: [
+    { label: "Práctica", description: "Feedback inmediato, sin guardar para evaluación" },
+    { label: "En vivo", description: "Sin feedback, resultados guardados para evaluación" }
+  ]
+}
+```
 
 | Mode | Feedback | Saved | Use Case |
 |------|----------|-------|----------|
@@ -30,15 +74,25 @@ If the participant is already registered, their info is auto-filled from `id.jso
 
 ### 3. Select Bank
 
+Use the **question** tool to select bank:
+```javascript
+{
+  header: "Seleccionar banco",
+  question: "¿Qué banco de preguntas deseas usar?",
+  options: banks.map((bank, i) => ({ label: `[${i+1}] ${bank.name}`, description: bank.file }))
+}
+```
+
 List available banks from `quiz/banks/` using `listQuizBanks()` (excludes survey banks). Filter by difficulty and count if needed.
 
 ### 4. Present Questions
 
 Use the **question** tool to present each question:
-- `header`: "Q1", "Q2", etc.
+- `header`: "Pregunta 1", "Pregunta 2", etc.
 - `question`: the question text
-- `options`: array of `{ label, description }`
+- `options`: array of `{ label, description }` — ONLY use options defined in the bank
 - `multiple`: true for `type: "multiple"` questions
+- Do NOT add free text options — only the defined options
 
 ### 5. Practice Mode Flow
 
@@ -52,15 +106,24 @@ At the end, show final score and encourage trying live.
 ### 6. Live Mode Flow
 
 No feedback during quiz. After all questions:
-- Show **"Thank you, your responses have been recorded"** — do NOT show any score or results
+- Show **"Tus respuestas han sido registradas"** — do NOT show any score or results
 - Save result to `quiz/results/<bank>/q-<session>.json`
 - Update `quiz/results/_index.json`
 - Results are evaluated later by an admin
 
 ### 7. Upload Results (Optional)
 
-After confirming the quiz is saved, ask the user:
-> ¿Deseas subir tus resultados por git?
+Use the **question** tool to ask about git upload:
+```javascript
+{
+  header: "Subir resultados",
+  question: "¿Deseas subir tus resultados por git?",
+  options: [
+    { label: "Sí", description: "Commitear y push a GitHub" },
+    { label: "No", description: "Guardar localmente" }
+  ]
+}
+```
 
 If yes, use the git-results module:
 
@@ -130,6 +193,7 @@ Report the result:
   "evaluated": true,
   "sent": false
 }
+```
 
 ### Practice Result
 Same structure but `mode: "practice"` and no `evaluated`/`sent` fields.

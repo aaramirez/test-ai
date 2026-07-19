@@ -10,11 +10,24 @@ Manages the complete survey lifecycle: identifying participants, checking which 
 
 Survey results are stored separately from quiz results (in `surveys/` at the project root, not `quiz/results/`).
 
+## Question Tool Rules
+
+**IMPORTANT — Always follow these rules:**
+
+1. **Always use the question tool** — Never output plain text questions
+2. **Use tabs format** — Header becomes the tab label
+3. **No free text options** — When questions have defined options (surveys), only show those options
+4. **Free text only for identification** — Cédula, name, email use free text input (no options array)
+
 ## Workflow
 
 ### 1. Identify the Participant
 
-Ask: **¿Cuál es tu cédula?**
+Use the **question** tool to ask for cédula:
+```javascript
+// question tool with no options = free text input
+{ header: "Cédula", question: "¿Cuál es tu cédula?" }
+```
 
 Look them up in `id.json` using `findById`:
 ```javascript
@@ -28,9 +41,12 @@ If found in `id.json`, use the stored name/email and look up full profile in `te
 const participant = findParticipant(cedula);
 ```
 
-If NOT found, ask:
-- **¿Cuál es tu nombre?**
-- **¿Cuál es tu correo electrónico?**
+If NOT found, use the **question** tool to ask for name and email:
+```javascript
+// question tool with no options = free text input
+{ header: "Nombre", question: "¿Cuál es tu nombre?" }
+{ header: "Correo electrónico", question: "¿Cuál es tu correo electrónico?" }
+```
 
 Then register them:
 ```javascript
@@ -58,28 +74,31 @@ This automatically filters out:
 - Banks the participant has already taken (from `surveys/registry.json`)
 - Banks whose `allowedGroups` (from `surveys/visibility.json`) don't include any of the participant's groups
 
-Present the pending surveys to the user:
-
-```
-Tienes <N> encuesta(s) pendiente(s):
-  [1] Retroalimentación del Curso (feedback-survey.json)
-  [2] Satisfacción del Cliente (satisfaction.json)
-```
-
-If no surveys are pending:
+If no surveys are pending, show:
 ```
 Has completado todas las encuestas disponibles. ¡Gracias por tu participación!
 ```
 
 ### 3. Select & Take a Survey
 
-Let the user select which pending survey to take. Load the bank from `surveys/banks/` using `loadSurveyBank()`.
+Use the **question** tool to let the user select which pending survey to take:
+```javascript
+// question tool with options = selection
+{
+  header: "Seleccionar encuesta",
+  question: "¿Qué encuesta deseas completar?",
+  options: pending.map((bank, i) => ({ label: `[${i+1}] ${bank.name}`, description: bank.file }))
+}
+```
+
+Load the selected bank from `surveys/banks/` using `loadSurveyBank()`.
 
 Present questions using the **question** tool:
 - `header`: "Pregunta 1", "Pregunta 2", etc.
 - `question`: the question text
-- `options`: array of `{ label, description }`
+- `options`: array of `{ label, description }` — ONLY use options defined in the bank
 - Do NOT set `multiple` (surveys use single-select by default)
+- Do NOT add free text options — only the defined options
 
 Do NOT show any feedback (correct/incorrect). Surveys are opinion-based.
 
@@ -116,8 +135,17 @@ Show the user:
 Tus respuestas han sido registradas. ¡Gracias por completar la encuesta!
 ```
 
-Then ask:
-> ¿Deseas subir tus resultados por git?
+Use the **question** tool to ask about git upload:
+```javascript
+{
+  header: "Subir resultados",
+  question: "¿Deseas subir tus resultados por git?",
+  options: [
+    { label: "Sí", description: "Commitear y push a GitHub" },
+    { label: "No", description: "Guardar localmente" }
+  ]
+}
+```
 
 If yes, use the git-results module to commit and push:
 
@@ -133,8 +161,17 @@ Report the result:
 - not committed (already committed): "Los resultados ya fueron commiteados."
 - error: "No se pudieron subir los resultados: <error>"
 
-Ask if they'd like to take another pending survey:
-> ¿Deseas responder otra encuesta pendiente?
+Use the **question** tool to ask about another survey:
+```javascript
+{
+  header: "Otra encuesta",
+  question: "¿Deseas responder otra encuesta pendiente?",
+  options: [
+    { label: "Sí", description: "Ver encuestas pendientes" },
+    { label: "No", description: "Finalizar" }
+  ]
+}
+```
 
 If yes, loop back to step 2. If no, end.
 
