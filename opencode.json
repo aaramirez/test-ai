@@ -67,11 +67,11 @@
     },
     "quiz-practice": {
       "description": "Run a practice quiz with immediate feedback",
-      "template": "Load the quiz skill and run a practice quiz. Identify the participant, select bank and difficulty, present questions one by one with immediate feedback after each answer. Save results as practice mode."
+      "template": "Load the quiz skill and run a practice quiz. Identify the participant, select bank and difficulty, present questions one by one with immediate feedback after each answer. Save results as practice mode. IMPORTANT: Always use custom:false on every question tool call that has options."
     },
     "quiz-run": {
       "description": "Run a live quiz with results saved",
-      "template": "Load the quiz skill and run a live quiz. Identify the participant, select bank and difficulty, present questions one by one with no feedback. Save results as live mode for evaluation."
+      "template": "Load the quiz skill and run a live quiz. Identify the participant, select bank and difficulty, present questions one by one with no feedback. Save results as live mode for evaluation. IMPORTANT: Always use custom:false on every question tool call that has options."
     },
     "quiz-report": {
       "description": "Generate admin report for quiz sessions",
@@ -95,7 +95,7 @@
     },
     "survey": {
       "description": "Check pending surveys and submit answers. Usage: /survey",
-      "template": "Load the survey skill. Identify the participant, check which surveys are pending from surveys/registry.json, list them, let the user select one, present questions, save results to surveys/results/, and confirm."
+      "template": "Load the survey skill with the skill tool FIRST. Identify the participant, check which surveys are pending, list them (with custom:false on the question tool), let the user select one, present questions, save results to surveys/results/, and confirm. IMPORTANT: Always use custom:false on every question tool call that has options."
     }
   },
 

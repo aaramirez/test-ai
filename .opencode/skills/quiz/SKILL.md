@@ -23,6 +23,25 @@ Run quizzes and surveys interactively. Supports practice mode (with immediate fe
 
 ### 1. Identify the Participant
 
+First check if `id.json` already has a registered participant:
+
+```javascript
+import { hasRegisteredId, findParticipant, findById, registerParticipant } from './quiz/lib/participant.js';
+
+const existing = hasRegisteredId();
+```
+
+**If `existing` is not null**, auto-use that participant:
+```javascript
+if (existing) {
+  const participant = findParticipant(existing.id);
+  // Inform the user: "Bienvenido {name}! Usando tu registro existente."
+  // Skip directly to step 2 (Choose Mode)
+}
+```
+
+**If `existing` is null** (no `id.json` or empty), use the current flow:
+
 Use the **question** tool to ask for cédula:
 ```javascript
 // question tool with no options = free text input
@@ -31,8 +50,6 @@ Use the **question** tool to ask for cédula:
 
 Look them up in `id.json` using `findById`:
 ```javascript
-import { findById, registerParticipant, findParticipant } from './quiz/lib/participant.js';
-
 const idData = findById(cedula);
 ```
 

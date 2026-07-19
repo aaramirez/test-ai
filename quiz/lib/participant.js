@@ -159,6 +159,14 @@ export function importFromCSV(csvContent) {
   return { imported, errors };
 }
 
+export function hasRegisteredId() {
+  const ids = loadIdRegistry();
+  const entries = Object.keys(ids);
+  if (entries.length === 0) return null;
+  const id = entries[0];
+  return { id, ...ids[id] };
+}
+
 export function addToGroup(groupId, participantIds) {
   const registry = loadTeamRegistry();
   if (!registry.groups[groupId]) registry.groups[groupId] = [];

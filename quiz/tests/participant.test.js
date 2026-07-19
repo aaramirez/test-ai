@@ -198,6 +198,46 @@ describe('importFromCSV', () => {
   });
 });
 
+describe('hasRegisteredId', () => {
+  let testFile;
+  let testIdFile;
+  let p;
+
+  before(async () => {
+    testFile = join(__dirname, `test-hasid-${Date.now()}.json`);
+    testIdFile = join(__dirname, `test-hasid-id-${Date.now()}.json`);
+    process.env.TEAM_PATH = testFile;
+    process.env.ID_PATH = testIdFile;
+    p = await freshModule();
+  });
+
+  after(() => {
+    if (testFile && existsSync(testFile)) unlinkSync(testFile);
+    if (testIdFile && existsSync(testIdFile)) unlinkSync(testIdFile);
+  });
+
+  it('returns null when id.json is empty', () => {
+    const result = p.hasRegisteredId();
+    assert.equal(result, null);
+  });
+
+  it('returns entry when id.json has one participant', () => {
+    p.registerParticipant({ id: 'STU-050', name: 'Auto User', email: 'auto@test.com' });
+    const result = p.hasRegisteredId();
+    assert.ok(result);
+    assert.equal(result.id, 'STU-050');
+    assert.equal(result.name, 'Auto User');
+    assert.equal(result.email, 'auto@test.com');
+  });
+
+  it('returns first entry when id.json has multiple participants', () => {
+    p.registerParticipant({ id: 'STU-051', name: 'Second User', email: 'second@test.com' });
+    const result = p.hasRegisteredId();
+    assert.ok(result);
+    assert.ok(['STU-050', 'STU-051'].includes(result.id));
+  });
+});
+
 describe('team.json and id.json paths', () => {
   it('uses TEAM_PATH env var', () => {
     const customPath = join(__dirname, `custom-team-${Date.now()}.json`);
