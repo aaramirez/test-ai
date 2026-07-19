@@ -14,7 +14,7 @@ Survey results are stored separately from quiz results (in `surveys/` at the pro
 
 ### 1. Identify the Participant
 
-Ask for the participant ID. Look them up in `quiz/participants.json` using `findParticipant`. If not registered, ask for name and email and register them.
+Ask: **¿Cuál es tu cédula?** Look them up in `quiz/participants.json` using `findParticipant`. If not registered, ask for name and email and register them.
 
 Resolve the participant's groups from `participants.json`:
 - Check `participant.metadata.group` (string → array of 1)
