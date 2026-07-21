@@ -1,0 +1,79 @@
+{
+  "name": "Los 4 Valores de la Agilidad",
+  "language": "es",
+  "description": "Aprende los 4 valores fundamentales del Manifiesto Ágil",
+  "version": "1.0.0",
+  "type": "tutorial",
+  "difficulty": "easy",
+  "duration_estimate": 3,
+  "xp_per_correct": 10,
+  "xp_per_code_run": 5,
+  "xp_per_challenge": 20,
+  "randomize": {
+    "options": true
+  },
+  "steps": [
+    {
+      "id": "intro",
+      "type": "content",
+      "title": "Introducción a la Agilidad",
+      "body": "La agilidad es un enfoque de desarrollo de software que prioriza la colaboración, la adaptabilidad y la entrega continua de valor. En este tutorial exploraremos los 4 valores fundamentales del Manifiesto Ágil."
+    },
+    {
+      "id": "valores",
+      "type": "content",
+      "title": "Los 4 Valores del Manifiesto Ágil",
+      "body": "El Manifiesto Ágil establece 4 valores fundamentales:\n\n1) **Individuos e interacciones** sobre procesos y herramientas\n2) **Software funcional** sobre documentación extensiva\n3) **Colaboración con el cliente** sobre negociación de contratos\n4) **Respuesta ante el cambio** sobre seguir un plan\n\nEstos valores no rechazan lo de la derecha, sino que priorizan lo de la izquierda."
+    },
+    {
+      "id": "q-valores",
+      "type": "question",
+      "question": "¿Según el Manifiesto Ágil, qué se prioriza sobre la documentación extensiva?",
+      "options": [
+        {
+          "label": "Procesos y herramientas"
+        },
+        {
+          "label": "Software funcional"
+        },
+        {
+          "label": "Negociación de contratos"
+        },
+        {
+          "label": "Seguir un plan"
+        }
+      ],
+      "difficulty": "easy",
+      "hint": "Piensa en el valor que se refiere al producto entregable"
+    },
+    {
+      "id": "escenario-001",
+      "type": "scenario",
+      "title": "Decisión Crítica",
+      "narrative": "Tu equipo está a mitad de un sprint cuando el cliente solicita un cambio importante en los requisitos. El plan original ya estaba aprobado. ¿Qué haces?",
+      "options": [
+        {
+          "label": "Rechazar el cambio y seguir el plan original",
+          "correct": false,
+          "feedback": "Incorrecto. La agilidad valora la respuesta ante el cambio sobre seguir un plan. Adaptarse es clave."
+        },
+        {
+          "label": "Aceptar el cambio y reajustar el sprint",
+          "correct": true,
+          "feedback": "¡Correcto! La agilidad valora la respuesta ante el cambio sobre seguir un plan. Adaptarse es clave."
+        },
+        {
+          "label": "Esperar al final del sprint para evaluar",
+          "correct": false,
+          "feedback": "Incorrecto. La agilidad valora la respuesta ante el cambio sobre seguir un plan. Adaptarse es clave."
+        }
+      ]
+    },
+    {
+      "id": "resumen",
+      "type": "content",
+      "title": "Resumen",
+      "body": "¡Felicidades! Has completado el tutorial sobre los 4 Valores de la Agilidad.\n\n**Los 4 valores clave:**\n1. Individuos e interacciones sobre procesos y herramientas\n2. Software funcional sobre documentación extensiva\n3. Colaboración con el cliente sobre negociación de contratos\n4. Respuesta ante el cambio sobre seguir un plan\n\nRecuerda: la agilidad es un mindset que valora a las personas, la colaboración y la adaptabilidad al cambio."
+    }
+  ]
+}
