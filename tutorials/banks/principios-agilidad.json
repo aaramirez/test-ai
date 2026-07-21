@@ -1,0 +1,105 @@
+{
+  "name": "Principios de la agilidad",
+  "language": "es",
+  "description": "",
+  "version": "1.0.0",
+  "type": "tutorial",
+  "difficulty": "hard",
+  "duration_estimate": 5,
+  "xp_per_correct": 10,
+  "xp_per_code_run": 5,
+  "xp_per_challenge": 20,
+  "randomize": {
+    "options": true
+  },
+  "steps": [
+    {
+      "id": "intro",
+      "type": "content",
+      "title": "Introducción a la Agilidad",
+      "body": "La agilidad es un enfoque de desarrollo de software que prioriza la colaboración, la adaptabilidad y la entrega continua de valor. En este tutorial exploraremos los 4 valores y los 12 principios del Manifiesto Ágil."
+    },
+    {
+      "id": "values",
+      "type": "content",
+      "title": "Los 4 Valores del Manifiesto Ágil",
+      "body": "El Manifiesto Ágil establece 4 valores fundamentales: 1) Individuos e interacciones sobre procesos y herramientas. 2) Software funcional sobre documentación extensiva. 3) Colaboración con el cliente sobre negociación de contratos. 4) Respuesta ante el cambio sobre seguir un plan."
+    },
+    {
+      "id": "q-valores",
+      "type": "question",
+      "question": "¿Según el Manifiesto Ágil, qué se prioriza sobre la documentación extensiva?",
+      "options": [
+        {
+          "label": "Procesos y herramientas"
+        },
+        {
+          "label": "Software funcional"
+        },
+        {
+          "label": "Negociación de contratos"
+        },
+        {
+          "label": "Seguir un plan"
+        }
+      ],
+      "difficulty": "medium",
+      "hint": "Piensa en el valor que se refiere al producto entregable"
+    },
+    {
+      "id": "principles",
+      "type": "content",
+      "title": "Los 12 Principios Clave",
+      "body": "Entre los 12 principios destacan: satisfacer al cliente mediante entrega temprana y continua, aceptar el cambio de requisitos incluso tarde en el desarrollo, entregar software funcional frecuentemente, y fomentar la colaboración diaria entre negocio y desarrollo."
+    },
+    {
+      "id": "scenario-001",
+      "type": "scenario",
+      "title": "Decisión Crítica",
+      "narrative": "Tu equipo está a mitad de un sprint cuando el cliente solicita un cambio importante en los requisitos. El plan original ya estaba aprobado. ¿Qué haces?",
+      "options": [
+        {
+          "label": "Rechazar el cambio y seguir el plan original",
+          "correct": false,
+          "feedback": "Incorrecto. La agilidad valora la respuesta ante el cambio sobre seguir un plan. Adaptarse es clave."
+        },
+        {
+          "label": "Aceptar el cambio y reajustar el sprint",
+          "correct": true,
+          "feedback": "¡Correcto! La agilidad valora la respuesta ante el cambio sobre seguir un plan. Adaptarse es clave."
+        },
+        {
+          "label": "Esperar al final del sprint para evaluar",
+          "correct": false,
+          "feedback": "Incorrecto. La agilidad valora la respuesta ante el cambio sobre seguir un plan. Adaptarse es clave."
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-001",
+      "type": "checkpoint",
+      "question": "¿Cuál es el principio ágil que prioriza la entrega continua de software funcional?",
+      "options": [
+        {
+          "label": "Seguir un plan estricto"
+        },
+        {
+          "label": "Entregar software funcional con frecuencia"
+        },
+        {
+          "label": "Documentar todo antes de codificar"
+        },
+        {
+          "label": "Contratar más personal"
+        }
+      ],
+      "min_score_to_pass": 1
+    },
+    {
+      "id": "summary",
+      "type": "content",
+      "title": "Resumen",
+      "body": "¡Felicidades! Has completado el tutorial sobre Principios de la Agilidad. Recuerda: la agilidad es un mindset que valora a las personas, la colaboración, la entrega continua y la adaptabilidad al cambio."
+    }
+  ]
+}
