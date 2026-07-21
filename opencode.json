@@ -37,6 +37,11 @@
       "mode": "subagent",
       "description": "Quiz admin specialist. Use for evaluating sessions, generating reports, and sending results.",
       "permission": { "bash": "allow" }
+    },
+    "tutorial-admin": {
+      "mode": "subagent",
+      "description": "Tutorial admin specialist. Use for viewing reports, managing completions, and tracking participant progress.",
+      "permission": { "bash": "allow", "edit": "allow" }
     }
   },
 
@@ -96,6 +101,18 @@
     "survey": {
       "description": "Check pending surveys and submit answers. Usage: /survey",
       "template": "Load the survey skill with the skill tool FIRST. Identify the participant, check which surveys are pending, list them (with custom:false on the question tool), let the user select one, present questions, save results to surveys/results/, and confirm. IMPORTANT: Always use custom:false on every question tool call that has options."
+    },
+    "tutorial": {
+      "description": "Run an interactive tutorial with gamification and branching. Usage: /tutorial [nombre-tutorial]",
+      "template": "Load the tutorial skill. List available tutorials from tutorials/banks/. Let the user select one, then run it step by step using the question tool for interactive steps, bash for code exercises, and read/write for challenges. Track XP, streaks, and achievements. IMPORTANT: Always use custom:false on every question tool call that has options."
+    },
+    "tutorial-create": {
+      "description": "Create a new interactive tutorial. Usage: /tutorial-create [--name \"Nombre\"] [--id id]",
+      "template": "Load the tutorial-create skill. Ask for tutorial name, id, difficulty, and duration if not provided. Create the tutorial shell, add steps, create answer key, and validate."
+    },
+    "tutorial-report": {
+      "description": "View tutorial completion reports and participant progress. Usage: /tutorial-report [--participant ID] [--tutorial nombre]",
+      "template": "Load the tutorial-admin skill. Show completion reports, participant progress, and global statistics from the tutorial registry."
     }
   },
 

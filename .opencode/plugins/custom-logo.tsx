@@ -12,13 +12,13 @@ const FULL_ART = [
   "(____  /__|  (____  /__|",
   "     \\/           \\/    ",
   "",
-  "                  test-ia                ",
-  "       AI-enhanced multi-agent project   ",
+  "               arai ── Test AI              ",
+  " test-ai · Multi-Agent AI Testing Platform  ",
   "",
-  "       ─── Skills · Agents · Tests ───   ",
+  "       ─── Shared · Reusable · AI ───       ",
 ]
 
-const COMPACT_ART = "✦ test-ia ── AI-Enhanced Multi-Agent Platform ──"
+const COMPACT_ART = "✦ arai ── test-ai Multi-Agent Platform ──"
 
 const Logo = (props: { theme: TuiThemeCurrent }) => {
   const dim = useTerminalDimensions()
@@ -53,7 +53,7 @@ const Logo = (props: { theme: TuiThemeCurrent }) => {
 
 const tui: TuiPlugin = async (api) => {
   api.slots.register({
-    id: "test-ia-logo",
+    id: "arai-logo",
     order: 50,
     slots: {
       home_logo(ctx) {
@@ -63,5 +63,5 @@ const tui: TuiPlugin = async (api) => {
   })
 }
 
-const plugin = { id: "test-ia-logo", tui }
+const plugin = { id: "arai-logo", tui }
 export default plugin

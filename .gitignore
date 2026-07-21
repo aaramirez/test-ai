@@ -5,6 +5,8 @@ dist/
 .DS_Store
 repos/
 quiz/keys/
+tutorials/keys/
+tutorials/current.json
 quiz/results/**/*.enc.
 .opencode/node_modules
 .opencode/package.json

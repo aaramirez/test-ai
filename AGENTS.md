@@ -198,6 +198,7 @@ See `.opencode/commands/test.md` for a complete example.
 | **tester** | subagent | bash: allow, edit: allow |
 | **docs** | subagent | edit: allow, bash: deny |
 | **quiz-admin** | subagent | bash: allow |
+| **tutorial-admin** | subagent | bash: allow, edit: allow |
 
 ## Available skills
 
@@ -224,6 +225,9 @@ See `.opencode/commands/test.md` for a complete example.
 | **testing** | **Testing workflows for OpenCode TUI — write, run, and debug tests using Node.js built-in test runner.** |
 | **quiz-install** | **Install the quiz and testing system to another directory. Shows dry-run preview, copies all files, patches ci-validate.** |
 | **survey** | **Manage surveys — check pending surveys, submit answers, track completion via a taken registry.** |
+| **tutorial** | **Run interactive tutorials with branching, gamification, and progress tracking. XP, streaks, achievements.** |
+| **tutorial-create** | **Create, validate, and manage interactive tutorial content — 7 step types with branching and challenges.** |
+| **tutorial-admin** | **Tutorial admin reports, completion tracking, and participant progress management.** |
 | vault-pdf-export | Exporta contenido del vault Obsidian curso-ia a PDF profesional usando el pipeline document-generation. |
 | youtube | Use for fetching and processing YouTube video transcriptions to feed into AI models, generate summaries, create course notes, or analyze video content. |
 
@@ -242,6 +246,9 @@ See `.opencode/commands/test.md` for a complete example.
 | `/quiz-migrate` | Migrate legacy bank.json |
 | `/quiz-install` | Install the quiz and testing system to a directory |
 | `/quiz-install-update` | Update an existing quiz/testing installation |
+| `/tutorial` | Run an interactive tutorial with gamification |
+| `/tutorial-create` | Create a new interactive tutorial |
+| `/tutorial-report` | View tutorial completion reports |
 
 ## Available scripts
 
@@ -329,6 +336,53 @@ node quiz/cli/install.js --dir /path/to/target # actual copy
 | `q-` | Live quiz |
 | `p-` | Practice |
 | `s-` | Survey |
+| `t-` | Tutorial |
+
+
+## Tutorial system
+
+The tutorial system provides interactive learning with branching paths, gamification, and progress tracking.
+
+### Architecture
+
+- **Banks** (`tutorials/banks/`): Tutorial content with steps. Safe to share.
+- **Keys** (`tutorials/keys/`): Answer keys for scorable steps. Admin-only, gitignored.
+- **Sessions** (`tutorials/sessions/`): Session results committed to GitHub.
+- **Registry** (`tutorials/registry.json`): Completion tracking per participant.
+
+### Step Types
+
+| Type | Purpose |
+|------|---------|
+| `content` | Teach concept with text and visuals |
+| `question` | Knowledge check with options |
+| `choice` | Branching path selection |
+| `code` | Run code exercise in terminal |
+| `challenge` | Hands-on file creation/editing |
+| `scenario` | Story-driven decision with feedback |
+| `checkpoint` | Gate quiz — must pass to continue |
+
+### CLI Scripts
+
+```bash
+# Create tutorial
+node tutorials/cli/create-tutorial.js --name "Name" --id id --difficulty easy
+
+# Add steps
+node tutorials/cli/add-step.js --tutorial banks/id.json --id step-001 --type content --title "T" --body "B"
+node tutorials/cli/add-step.js --tutorial banks/id.json --id q-001 --type question --question "Q?" --options "A" "B"
+node tutorials/cli/add-step.js --tutorial banks/id.json --id code-001 --type code --title "Try" --code "echo hi"
+
+# Validate
+node tutorials/cli/validate-tutorial.js id.json
+node tutorials/cli/validate-tutorial.js --key keys/id.json id.json
+```
+
+### Gamification
+
+- **XP**: +10 correct, +5 code run, +20 challenge
+- **Streaks**: Bonus XP at 3, 5, 10 consecutive correct
+- **Achievements**: First Steps, Perfect Score, On Fire, Code Runner, Speed Learner, Explorer
 
 
 
