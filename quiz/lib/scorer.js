@@ -6,6 +6,9 @@
  */
 
 export function scoreSingle(selected, correct) {
+  if (typeof correct === 'string') {
+    return typeof selected === 'string' && selected === correct;
+  }
   return selected === correct;
 }
 

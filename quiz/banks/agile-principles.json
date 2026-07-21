@@ -1,0 +1,1012 @@
+{
+  "name": "Principios de la Agilidad",
+  "description": "",
+  "version": "1.0.0",
+  "type": "quiz",
+  "randomize": {
+    "questions": false,
+    "options": true
+  },
+  "questions": [
+    {
+      "id": "ap-001",
+      "type": "single",
+      "question": "Según el Manifiesto Ágil, ¿qué se valora más que los procesos y herramientas?",
+      "options": [
+        {
+          "label": "Individuos e interacciones"
+        },
+        {
+          "label": "Documentación completa"
+        },
+        {
+          "label": "Seguimiento de un plan"
+        },
+        {
+          "label": "Contratos negociados"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-002",
+      "type": "single",
+      "question": "¿Cuál es el primer valor del Manifiesto Ágil?",
+      "options": [
+        {
+          "label": "Software funcionando sobre documentación"
+        },
+        {
+          "label": "Individuos e interacciones sobre procesos y herramientas"
+        },
+        {
+          "label": "Colaboración con el cliente sobre negociación contractual"
+        },
+        {
+          "label": "Responder al cambio sobre seguir un plan"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-003",
+      "type": "single",
+      "question": "El Manifiesto Ágil fue creado en el año:",
+      "options": [
+        {
+          "label": "2001"
+        },
+        {
+          "label": "2005"
+        },
+        {
+          "label": "1999"
+        },
+        {
+          "label": "2010"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-004",
+      "type": "single",
+      "question": "¿Cuántos valores principales tiene el Manifiesto Ágil?",
+      "options": [
+        {
+          "label": "4"
+        },
+        {
+          "label": "3"
+        },
+        {
+          "label": "5"
+        },
+        {
+          "label": "6"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-005",
+      "type": "single",
+      "question": "¿Qué se valora más que la documentación completa según Ágil?",
+      "options": [
+        {
+          "label": "Software funcionando"
+        },
+        {
+          "label": "Procesos definidos"
+        },
+        {
+          "label": "Herramientas potentes"
+        },
+        {
+          "label": "Contratos detallados"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-006",
+      "type": "single",
+      "question": "La colaboración con el cliente se valora por encima de:",
+      "options": [
+        {
+          "label": "Negociación contractual"
+        },
+        {
+          "label": "Software funcionando"
+        },
+        {
+          "label": "Individuos e interacciones"
+        },
+        {
+          "label": "Responder al cambio"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-007",
+      "type": "single",
+      "question": "¿Qué valor del Manifiesto Ágil enfatiza la adaptabilidad?",
+      "options": [
+        {
+          "label": "Responder al cambio sobre seguir un plan"
+        },
+        {
+          "label": "Individuos e interacciones sobre procesos"
+        },
+        {
+          "label": "Software funcionando sobre documentación"
+        },
+        {
+          "label": "Colaboración con el cliente sobre contratos"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-008",
+      "type": "single",
+      "question": "En Ágil, los procesos y herramientas están subordinados a:",
+      "options": [
+        {
+          "label": "Individuos e interacciones"
+        },
+        {
+          "label": "Documentación completa"
+        },
+        {
+          "label": "Seguir un plan"
+        },
+        {
+          "label": "Contratos"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-009",
+      "type": "single",
+      "question": "El Manifiesto Ágil prioriza el valor entregado al:",
+      "options": [
+        {
+          "label": "Cliente"
+        },
+        {
+          "label": "Equipo de desarrollo"
+        },
+        {
+          "label": "Gerencia"
+        },
+        {
+          "label": "Proveedores"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-010",
+      "type": "single",
+      "question": "¿Cuál de estos NO es un valor del Manifiesto Ágil?",
+      "options": [
+        {
+          "label": "Documentación completa sobre software funcionando"
+        },
+        {
+          "label": "Software funcionando sobre documentación completa"
+        },
+        {
+          "label": "Individuos e interacciones sobre procesos y herramientas"
+        },
+        {
+          "label": "Responder al cambio sobre seguir un plan"
+        }
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ap-011",
+      "type": "single",
+      "question": "Según el Manifiesto Ágil, ¿qué tipo de comunicación es preferible?",
+      "options": [
+        {
+          "label": " cara a cara "
+        },
+        {
+          "label": "Correos electrónicos"
+        },
+        {
+          "label": "Documentos formales"
+        },
+        {
+          "label": "Reuniones documentadas"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-012",
+      "type": "single",
+      "question": "En Agile, la documentación excesiva puede:",
+      "options": [
+        {
+          "label": "Ralentizar la entrega de valor"
+        },
+        {
+          "label": "Mejorar la calidad del producto"
+        },
+        {
+          "label": "Facilitar la colaboración"
+        },
+        {
+          "label": "Reducir los costos"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-013",
+      "type": "single",
+      "question": "El valor 'Software funcionando sobre documentación completa' implica:",
+      "options": [
+        {
+          "label": "Entregar software útil prioritariamente"
+        },
+        {
+          "label": "No crear nunca documentación"
+        },
+        {
+          "label": "Documentar todo antes de codificar"
+        },
+        {
+          "label": "Eliminar todos los manuales"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-014",
+      "type": "single",
+      "question": "¿Qué significa 'negociación contractual' en el contexto del Manifiesto?",
+      "options": [
+        {
+          "label": "Acuerdos rígidos entre cliente y proveedor"
+        },
+        {
+          "label": "Conversaciones informales"
+        },
+        {
+          "label": "Reuniones de planificación"
+        },
+        {
+          "label": "Documentación de requisitos"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-015",
+      "type": "single",
+      "question": "En Ágil, responder al cambio significa:",
+      "options": [
+        {
+          "label": "Adaptarse a nuevos requerimientos incluso tarde en el desarrollo"
+        },
+        {
+          "label": "Seguir el plan original sin importar nada"
+        },
+        {
+          "label": "Ignorar los cambios solicitados"
+        },
+        {
+          "label": "Documentar todos los cambios para después"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-016",
+      "type": "single",
+      "question": "El principio de 'individuos e interacciones' promueve:",
+      "options": [
+        {
+          "label": "Comunicación directa y colaboración del equipo"
+        },
+        {
+          "label": "Seguir herramientas de gestión estrictas"
+        },
+        {
+          "label": "Documentar cada decisión por escrito"
+        },
+        {
+          "label": "Contratar más personal para cada proyecto"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-017",
+      "type": "single",
+      "question": "¿Cuál es la relación entre los 4 valores del Manifiesto Ágil?",
+      "options": [
+        {
+          "label": "Los valores de la derecha tienen valor, pero los de la izquierda se priorizan"
+        },
+        {
+          "label": "Solo importan los valores de la izquierda"
+        },
+        {
+          "label": "Los valores de la derecha son incorrectos"
+        },
+        {
+          "label": "Son互斥 y no pueden coexistir"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-018",
+      "type": "single",
+      "question": "Un equipo Ágil que prioriza 'individuos e interacciones' probablemente:",
+      "options": [
+        {
+          "label": "Fomenta reuniones cara a cara y trabajo en equipo"
+        },
+        {
+          "label": "Elimina todas las reuniones"
+        },
+        {
+          "label": "Usa solo herramientas digitales de comunicación"
+        },
+        {
+          "label": "Documenta todas las interacciones"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-019",
+      "type": "single",
+      "question": "El concepto de 'seguir un plan' en el contexto ágil se refiere a:",
+      "options": [
+        {
+          "label": "Un enfoque rígido y predictivo de gestión de proyectos"
+        },
+        {
+          "label": "La planificación iterativa"
+        },
+        {
+          "label": "La definición de objetivos a largo plazo"
+        },
+        {
+          "label": "La creación de cronogramas detallados"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-020",
+      "type": "single",
+      "question": "En Agile, la colaboración con el cliente implica:",
+      "options": [
+        {
+          "label": "Involucrarlo continuamente en el desarrollo"
+        },
+        {
+          "label": "Solo hablar con él al inicio del proyecto"
+        },
+        {
+          "label": "Enviar reportes mensuales de avance"
+        },
+        {
+          "label": "Negociar un contrato fijo al inicio"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-021",
+      "type": "single",
+      "question": "¿Qué enfoque reemplaza la 'negociación contractual' en Ágil?",
+      "options": [
+        {
+          "label": "Relaciones de colaboración continua"
+        },
+        {
+          "label": "Contratos más detallados"
+        },
+        {
+          "label": "Más documentación legal"
+        },
+        {
+          "label": "Separación de roles entre cliente y equipo"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-022",
+      "type": "single",
+      "question": "Un proyecto que sigue estrictamente un plan sin adaptarse es:",
+      "options": [
+        {
+          "label": "Contrario al valor de responder al cambio"
+        },
+        {
+          "label": "Ejemplar según el Manifiesto Ágil"
+        },
+        {
+          "label": "La mejor práctica ágil"
+        },
+        {
+          "label": "Recomendado para todos los proyectos"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-023",
+      "type": "single",
+      "question": "El Manifiesto Ágil fue redactado en:",
+      "options": [
+        {
+          "label": "Utah, Estados Unidos"
+        },
+        {
+          "label": "Londres, Inglaterra"
+        },
+        {
+          "label": "Tokio, Japón"
+        },
+        {
+          "label": "Berlín, Alemania"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-024",
+      "type": "single",
+      "question": "La frase 'software funcionando' en Agile significa:",
+      "options": [
+        {
+          "label": "Priorizar entregar valor tangible al usuario"
+        },
+        {
+          "label": "No escribir ninguna documentación"
+        },
+        {
+          "label": "Solo mostrar prototipos"
+        },
+        {
+          "label": "Evitar planificar sprints"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-025",
+      "type": "single",
+      "question": "¿Cuál es el objetivo principal del Manifiesto Ágil?",
+      "options": [
+        {
+          "label": "Mejorar la forma en que se desarrolla software"
+        },
+        {
+          "label": "Eliminar toda documentación"
+        },
+        {
+          "label": "Reemplazar a los gerentes de proyecto"
+        },
+        {
+          "label": "Establecer un único framework obligatorio"
+        }
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ap-026",
+      "type": "single",
+      "question": "¿Qué implica el principio 'Individuos e interacciones sobre procesos y herramientas' en la práctica diaria?",
+      "options": [
+        {
+          "label": "Priorizar la comunicación directa entre miembros del equipo sobre seguir metodologías rígidas"
+        },
+        {
+          "label": "Eliminar todos los procesos de trabajo"
+        },
+        {
+          "label": "No usar ninguna herramienta tecnológica"
+        },
+        {
+          "label": "Trabajar sin roles definidos"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-027",
+      "type": "single",
+      "question": "Un equipo que prioriza 'documentación completa sobre software funcionando' probablemente:",
+      "options": [
+        {
+          "label": "Invierte mucho tiempo en specs sin entregar valor usable"
+        },
+        {
+          "label": "Entrega software de alta calidad constantemente"
+        },
+        {
+          "label": "Colabora estrechamente con el cliente"
+        },
+        {
+          "label": "Se adapta rápidamente a los cambios"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-028",
+      "type": "single",
+      "question": "¿Qué relación existe entre 'colaboración con el cliente' y 'seguir un plan'?",
+      "options": [
+        {
+          "label": "La colaboración continua permite adaptar el plan según las necesidades reales del cliente"
+        },
+        {
+          "label": "Son opuestos y no pueden coexistir"
+        },
+        {
+          "label": "El plan debe ignorar completamente al cliente"
+        },
+        {
+          "label": "La colaboración solo ocurre al inicio del proyecto"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-029",
+      "type": "single",
+      "question": "En un contexto ágil, un contrato tradicional de alcance fijo puede:",
+      "options": [
+        {
+          "label": "Limitar la capacidad de adaptación del equipo a cambios necesarios"
+        },
+        {
+          "label": "Ser ideal para todos los proyectos ágiles"
+        },
+        {
+          "label": "Facilitar la colaboración con el cliente"
+        },
+        {
+          "label": "Eliminar la necesidad de reuniones"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-030",
+      "type": "single",
+      "question": "Si un equipo sigue un plan rígido a pesar de recibir feedback del cliente, ¿qué valor del Manifiesto está ignorando?",
+      "options": [
+        {
+          "label": "Responder al cambio sobre seguir un plan"
+        },
+        {
+          "label": "Individuos e interacciones sobre procesos"
+        },
+        {
+          "label": "Software funcionando sobre documentación"
+        },
+        {
+          "label": "Colaboración con el cliente sobre negociación"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-031",
+      "type": "single",
+      "question": "Un scrum master que elimina obstáculos para que el equipo trabaje mejor está promoviendo:",
+      "options": [
+        {
+          "label": "Individuos e interacciones sobre procesos y herramientas"
+        },
+        {
+          "label": "Seguir un plan estricto"
+        },
+        {
+          "label": "Documentación completa"
+        },
+        {
+          "label": "Negociación contractual"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-032",
+      "type": "single",
+      "question": "En Agile, ¿por qué se prefiere software funcionando sobre documentación completa?",
+      "options": [
+        {
+          "label": "Porque el software entrega valor medible y tangible al usuario"
+        },
+        {
+          "label": "Porque la documentación no es importante"
+        },
+        {
+          "label": "Porque los desarrolladores odian documentar"
+        },
+        {
+          "label": "Porque la documentación siempre está desactualizada"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-033",
+      "type": "single",
+      "question": "¿Qué problema resuelve el valor 'colaboración con el cliente sobre negociación contractual'?",
+      "options": [
+        {
+          "label": "Permite que el producto se adapte a las necesidades reales del mercado"
+        },
+        {
+          "label": "Elimina la necesidad de acuerdos"
+        },
+        {
+          "label": "Reduce el costo del proyecto siempre"
+        },
+        {
+          "label": "Hace innecesaria la planificación"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-034",
+      "type": "single",
+      "question": "Un equipo que usa solo herramientas de gestión pero no se comunica cara a cara está:",
+      "options": [
+        {
+          "label": "Priorizando procesos y herramientas sobre individuos e interacciones"
+        },
+        {
+          "label": "Siguiendo correctamente el Manifiesto Ágil"
+        },
+        {
+          "label": "Equilibrando los cuatro valores"
+        },
+        {
+          "label": "Promoviendo la colaboración con el cliente"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-035",
+      "type": "single",
+      "question": "¿Cuál de estos escenariosbetter representa el equilibrio ágil entre los valores?",
+      "options": [
+        {
+          "label": "Un equipo que documenta lo esencial y entrega software incrementalmente con feedback del cliente"
+        },
+        {
+          "label": "Un equipo que no documenta nada y trabaja sin plan"
+        },
+        {
+          "label": "Un equipo con contratos rígidos y sin reuniones"
+        },
+        {
+          "label": "Un equipo con procesos estrictos y sin colaboración"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-036",
+      "type": "single",
+      "question": "En un entorno ágil, ¿cómo se maneja la incertidumbre en los requisitos?",
+      "options": [
+        {
+          "label": "A través de iteraciones cortas que permiten ajustes basados en retroalimentación"
+        },
+        {
+          "label": "Definiendo todos los requisitos al inicio del proyecto"
+        },
+        {
+          "label": "Creando contratos que penalicen los cambios"
+        },
+        {
+          "label": "Documentando escenarios futuros detalladamente"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-037",
+      "type": "single",
+      "question": "Si un equipo Ágil debe elegir entre entregar una feature incompleta pero funcional o documentar completamente la feature, ¿qué debería hacer?",
+      "options": [
+        {
+          "label": "Entregar la versión funcional e iterar sobre ella"
+        },
+        {
+          "label": "Documentar completamente antes de entregar"
+        },
+        {
+          "label": "No hacer ninguna de las dos"
+        },
+        {
+          "label": "Esperar a tener ambas cosas listas"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-038",
+      "type": "single",
+      "question": "El Manifiesto Ágil enfatiza que los individuos e interacciones son importantes porque:",
+      "options": [
+        {
+          "label": "Las personas con talento y comunicación efectiva generan mejor software que procesos rígidos"
+        },
+        {
+          "label": "Los procesos nunca funcionan"
+        },
+        {
+          "label": "Las herramientas siempre fallan"
+        },
+        {
+          "label": "La documentación es inútil"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-039",
+      "type": "single",
+      "question": "Un proyecto con un contrato de precio fijo y alcance detallado al inicio puede conflicto con el valor de:",
+      "options": [
+        {
+          "label": "Colaboración con el cliente sobre negociación contractual"
+        },
+        {
+          "label": "Individuos e interacciones sobre procesos"
+        },
+        {
+          "label": "Software funcionando sobre documentación"
+        },
+        {
+          "label": "Ninguno de los anteriores"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-040",
+      "type": "single",
+      "question": "¿Qué significa que el Manifiesto Ágil no rechaza los valores de la derecha?",
+      "options": [
+        {
+          "label": "Los valores de la derecha tienen importancia, pero los de la izquierda se priorizan"
+        },
+        {
+          "label": "Los valores de la derecha son incorrectos"
+        },
+        {
+          "label": "Solo los valores de la izquierda importan"
+        },
+        {
+          "label": "Los valores de la derecha deben eliminarse"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-041",
+      "type": "single",
+      "question": "Un product owner que prioriza features basándose en el feedback continuo del usuario está aplicando:",
+      "options": [
+        {
+          "label": "Colaboración con el cliente y responder al cambio"
+        },
+        {
+          "label": "Seguir un plan estricto"
+        },
+        {
+          "label": "Documentación completa"
+        },
+        {
+          "label": "Negociación contractual"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-042",
+      "type": "single",
+      "question": "¿Por qué el Manifiesto Ágil coloca 'individuos e interacciones' como el primer valor?",
+      "options": [
+        {
+          "label": "Porque las personas son el motor fundamental del desarrollo de software"
+        },
+        {
+          "label": "Porque las herramientas no importan"
+        },
+        {
+          "label": "Porque los procesos siempre fallan"
+        },
+        {
+          "label": "Porque la documentación es opcional"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-043",
+      "type": "single",
+      "question": "Un equipo que planifica todo al detalle antes de empezar a desarrollar está priorizando:",
+      "options": [
+        {
+          "label": "Seguir un plan sobre responder al cambio"
+        },
+        {
+          "label": "Individuos e interacciones"
+        },
+        {
+          "label": "Software funcionando"
+        },
+        {
+          "label": "Colaboración con el cliente"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-044",
+      "type": "single",
+      "question": "En Ágil, ¿qué es más valioso que un plan detallado de 6 meses?",
+      "options": [
+        {
+          "label": "Un plan flexible que se adapta al feedback de cada sprint"
+        },
+        {
+          "label": "No tener ningún plan"
+        },
+        {
+          "label": "Un contrato de alcance fijo"
+        },
+        {
+          "label": "Documentación completa del sistema"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-045",
+      "type": "single",
+      "question": "Si un equipo dedica más tiempo a crear documentación que a desarrollar software, ¿qué valor está desequilibrado?",
+      "options": [
+        {
+          "label": "Software funcionando sobre documentación completa"
+        },
+        {
+          "label": "Individuos e interacciones sobre procesos"
+        },
+        {
+          "label": "Colaboración con el cliente"
+        },
+        {
+          "label": "Responder al cambio"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-046",
+      "type": "single",
+      "question": "¿Cuál es la diferencia principal entre un enfoque tradicional y Ágil respecto a los cambios?",
+      "options": [
+        {
+          "label": "Ágil abraza los cambios; el enfoque tradicional los minimiza"
+        },
+        {
+          "label": "Ambos evitan los cambios por igual"
+        },
+        {
+          "label": "El enfoque tradicional es más flexible"
+        },
+        {
+          "label": "Ágil no permite cambios una vez iniciado el proyecto"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-047",
+      "type": "single",
+      "question": "Un stakeholder que exige un contrato de alcance fijo sin posibilidad de cambios está promoviendo:",
+      "options": [
+        {
+          "label": "Negociación contractual sobre colaboración con el cliente"
+        },
+        {
+          "label": "Colaboración con el cliente"
+        },
+        {
+          "label": "Responder al cambio"
+        },
+        {
+          "label": "Individuos e interacciones"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-048",
+      "type": "single",
+      "question": "¿Qué riesgo existe si un equipo ágil solo se enfoca en 'individuos e interacciones' sin ningún proceso?",
+      "options": [
+        {
+          "label": "Puede haber falta de estructura y caos en el trabajo"
+        },
+        {
+          "label": "No hay riesgo, es la forma correcta"
+        },
+        {
+          "label": "El software siempre será de alta calidad"
+        },
+        {
+          "label": "El cliente siempre estará satisfecho"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-049",
+      "type": "single",
+      "question": "El Manifiesto Ágil sugiere que la mejor arquitectura, diseño y requisitos emergen de:",
+      "options": [
+        {
+          "label": "Equipos auto-organizados que trabajan de forma colaborativa"
+        },
+        {
+          "label": "Documentos de especificación detallados"
+        },
+        {
+          "label": "Gerentes de proyecto que definen todo"
+        },
+        {
+          "label": "Contratos con proveedores externos"
+        }
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "ap-050",
+      "type": "single",
+      "question": "¿Cuál es el sentido último del Manifiesto Ágil según sus autores?",
+      "options": [
+        {
+          "label": "Ayudar a personas a desarrollar software mejor y a encontrar satisfacción en el trabajo"
+        },
+        {
+          "label": "Eliminar toda documentación de los proyectos"
+        },
+        {
+          "label": "Reemplazar los contratos por acuerdos verbales"
+        },
+        {
+          "label": "Eliminar los roles de gerencia de proyectos"
+        }
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}
