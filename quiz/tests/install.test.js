@@ -355,3 +355,103 @@ describe('Spanish documentation', () => {
     assert.ok(/^\s*#/.test(content), 'has markdown heading');
   });
 });
+
+describe('tutorial installation', () => {
+  let mod;
+
+  before(async () => {
+    const url = new URL('../cli/install.js', import.meta.url);
+    mod = await import(url.href);
+  });
+
+  it('getFileList includes tutorial CLI scripts', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(paths.some(p => p.startsWith('tutorials/cli/')), 'includes tutorial cli scripts');
+  });
+
+  it('getFileList includes tutorial lib modules', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(paths.some(p => p.startsWith('tutorials/lib/')), 'includes tutorial lib modules');
+  });
+
+  it('getFileList includes tutorial tests', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(paths.some(p => p.startsWith('tutorials/tests/')), 'includes tutorial tests');
+  });
+
+  it('getFileList excludes tutorial banks (user data)', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(!paths.some(p => p.startsWith('tutorials/banks/')), 'excludes tutorial banks');
+  });
+
+  it('getFileList excludes tutorial keys (user data)', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(!paths.some(p => p.startsWith('tutorials/keys/')), 'excludes tutorial keys');
+  });
+
+  it('getFileList excludes tutorial sessions (user data)', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(!paths.some(p => p.startsWith('tutorials/sessions/')), 'excludes tutorial sessions');
+  });
+
+  it('getFileList includes tutorial skills', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(paths.some(p => p.startsWith('.opencode/skills/tutorial/')), 'includes tutorial skill');
+    assert.ok(paths.some(p => p.startsWith('.opencode/skills/tutorial-create/')), 'includes tutorial-create skill');
+    assert.ok(paths.some(p => p.startsWith('.opencode/skills/tutorial-admin/')), 'includes tutorial-admin skill');
+  });
+
+  it('getFileList includes tutorial commands', () => {
+    const files = mod.getFileList(PROJECT_ROOT);
+    const paths = files.map(f => f.replace(PROJECT_ROOT + '/', ''));
+    assert.ok(paths.some(p => p.startsWith('.opencode/commands/tutorial.md')), 'includes tutorial command');
+    assert.ok(paths.some(p => p.startsWith('.opencode/commands/tutorial-create.md')), 'includes tutorial-create command');
+    assert.ok(paths.some(p => p.startsWith('.opencode/commands/tutorial-report.md')), 'includes tutorial-report command');
+  });
+
+  it('install copies tutorial files to target', () => {
+    const tmpDir = mkdtempSync(join(__dirname, '..', '..', 'tmp-tutorial-install-'));
+    
+    try {
+      mod.install({ sourceRoot: PROJECT_ROOT, targetDir: tmpDir, fixCi: false });
+      
+      assert.ok(existsSync(join(tmpDir, 'tutorials', 'cli', 'create-tutorial.js')), 'tutorial CLI script copied');
+      assert.ok(existsSync(join(tmpDir, 'tutorials', 'lib', 'schema.js')), 'tutorial lib module copied');
+      assert.ok(existsSync(join(tmpDir, '.opencode', 'skills', 'tutorial', 'SKILL.md')), 'tutorial skill copied');
+      assert.ok(existsSync(join(tmpDir, '.opencode', 'commands', 'tutorial.md')), 'tutorial command copied');
+    } finally {
+      rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+
+  it('install does not overwrite protected tutorial files', () => {
+    const tmpDir = mkdtempSync(join(__dirname, '..', '..', 'tmp-tutorial-protect-'));
+    
+    try {
+      // Create user data files in target BEFORE install
+      mkdirSync(join(tmpDir, 'tutorials', 'banks'), { recursive: true });
+      mkdirSync(join(tmpDir, 'tutorials', 'keys'), { recursive: true });
+      mkdirSync(join(tmpDir, 'tutorials', 'sessions'), { recursive: true });
+      
+      writeFileSync(join(tmpDir, 'tutorials', 'banks', 'my-custom.json'), '{"PROTECTED":true}', 'utf-8');
+      writeFileSync(join(tmpDir, 'tutorials', 'keys', 'my-custom.json'), '{"PROTECTED":true}', 'utf-8');
+      writeFileSync(join(tmpDir, 'tutorials', 'sessions', 'my-session.json'), '{"PROTECTED":true}', 'utf-8');
+      
+      mod.install({ sourceRoot: PROJECT_ROOT, targetDir: tmpDir, fixCi: false });
+      
+      // Verify protected files were NOT overwritten
+      assert.equal(JSON.parse(readFileSync(join(tmpDir, 'tutorials', 'banks', 'my-custom.json'), 'utf-8')).PROTECTED, true);
+      assert.equal(JSON.parse(readFileSync(join(tmpDir, 'tutorials', 'keys', 'my-custom.json'), 'utf-8')).PROTECTED, true);
+      assert.equal(JSON.parse(readFileSync(join(tmpDir, 'tutorials', 'sessions', 'my-session.json'), 'utf-8')).PROTECTED, true);
+    } finally {
+      rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+});

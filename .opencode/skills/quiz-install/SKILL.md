@@ -10,7 +10,7 @@ scripts:
 
 Install the complete quiz and testing system to a target directory using the `install.js` script.
 
-This skill copies: quiz CLI scripts and libraries, question banks, test suites, manuals, the 7 quiz-related OpenCode skills (`quiz`, `quiz-admin`, `quiz-bank`, `quiz-key`, `quiz-participant`, `quiz-results`, `testing`), commands (`test`, `plan`, `quiz`), the `tester` agent, `ci-validate.js` (patched for the target), `opencode.json`, `AGENTS.md`, `README.md`, `package.json`, and `.gitignore`.
+This skill copies: quiz CLI scripts and libraries, question banks, test suites, manuals, tutorial CLI scripts and libraries, the 7 quiz-related OpenCode skills (`quiz`, `quiz-admin`, `quiz-bank`, `quiz-key`, `quiz-participant`, `quiz-results`, `testing`), the 3 tutorial-related OpenCode skills (`tutorial`, `tutorial-create`, `tutorial-admin`), commands (`test`, `plan`, `quiz`, `tutorial`, `tutorial-create`, `tutorial-report`), the `tester` agent, `ci-validate.js` (patched for the target), `opencode.json`, `AGENTS.md`, `README.md`, `package.json`, and `.gitignore`.
 
 ## Workflow
 
@@ -55,9 +55,10 @@ Tell the user:
 
 ## Notes
 
-- The installer preserves the exact directory structure: `quiz/` and `.opencode/` are siblings
+- The installer preserves the exact directory structure: `quiz/`, `tutorials/`, and `.opencode/` are siblings
 - All relative path references (`../../quiz/cli/` from skills to CLI scripts) continue to work
 - Non-quiz skills (branding, youtube, email, etc.) are NOT copied
+- Tutorial banks, keys, and sessions are user data and NOT copied from source
 - The `install.js` script has zero npm dependencies — Node.js built-ins only
 
 ## Related

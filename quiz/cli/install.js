@@ -67,6 +67,9 @@ const EXCLUDE_PREFIXES = [
   'quiz/keys/',           // Never copy keys from source
   'surveys/results/',     // Never copy survey results from source
   'surveys/banks/',       // Never copy survey banks from source
+  'tutorials/banks/',     // Never copy tutorial banks from source
+  'tutorials/keys/',      // Never copy tutorial keys from source
+  'tutorials/sessions/',  // Never copy tutorial sessions from source
   '.opencode/skills/branding/',
   '.opencode/skills/ci-validate/',
   '.opencode/skills/code-review/',
@@ -115,6 +118,9 @@ const PROTECTED_PREFIXES = [
   'quiz/bank.json',
   'surveys/results/',
   'surveys/banks/',
+  'tutorials/banks/',
+  'tutorials/keys/',
+  'tutorials/sessions/',
 ];
 
 /**
@@ -184,7 +190,7 @@ function getFileList(sourceRoot) {
     .filter(f => existsSync(join(sourceRoot, f)))
     .map(f => join(sourceRoot, f));
 
-  const subDirs = ['quiz', '.opencode', 'surveys'];
+  const subDirs = ['quiz', '.opencode', 'surveys', 'tutorials'];
   const walked = [];
   for (const sub of subDirs) {
     const fullPath = join(sourceRoot, sub);
