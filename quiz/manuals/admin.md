@@ -112,12 +112,80 @@ node quiz/cli/send-results.js --bank javascript.json --all
 node quiz/cli/evaluate.js --bank javascript.json --all
 ```
 
+## Multi-Person Key Management
+
+The quiz system supports multiple team members encrypting/decrypting answer keys, with admin-controlled access and approval workflows.
+
+### Prerequisites
+
+```bash
+# Install sops and age (one-time)
+brew install sops age    # macOS
+# or: scoop install sops age  # Windows
+
+# Generate admin key (one-time)
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/admin.txt
+export SOPS_ADMIN_AGE_KEY=~/.config/sops/age/admin.txt
+```
+
+### Member Onboarding
+
+```bash
+# 1. Member uploads their public key (stays pending)
+node quiz/cli/manage-keys.js --upload-key --id 10488134 --public-key "age1..." --reason "Evaluator"
+
+# 2. Admin reviews and approves
+node quiz/cli/manage-keys.js --list-pending
+node quiz/cli/manage-keys.js --approve --id 10488134 --approved-by 10488100
+
+# 3. Admin grants access to specific keys
+node quiz/cli/manage-keys.js --grant --key quiz/keys/test.json --read quiz-admin,evaluadores --write 10488134
+
+# 4. Re-encrypt with all authorized members
+node quiz/cli/encrypt-key.js quiz/keys/test.json
+```
+
+### Member Offboarding
+
+```bash
+# 1. Revoke access to all keys
+node quiz/cli/manage-keys.js --revoke --key quiz/keys/test.json --read 10488134
+
+# 2. Re-encrypt affected keys
+node quiz/cli/encrypt-key.js quiz/keys/test.json
+
+# 3. Remove public key
+node quiz/cli/manage-keys.js --remove-key --id 10488134
+```
+
+### Access Control
+
+```bash
+# View all access permissions (encrypted, requires admin key)
+node quiz/cli/manage-keys.js --list-access
+
+# Revoke specific group access
+node quiz/cli/manage-keys.js --revoke --key quiz/keys/test.json --read evaluadores
+```
+
+### Security Model
+
+- **Pending**: Uploaded keys require admin approval before use
+- **Active**: Approved keys can encrypt/decrypt
+- **Rejected**: Rejected keys cannot be re-activated
+- **Encrypted storage**: `access.json.enc` and `approvals.json.enc` are encrypted with admin key
+- **Group-based**: Access can be granted to groups (resolved against `team.json`)
+
 ## File Locations
 
 | Path | Purpose | Committed |
 |------|---------|-----------|
 | `quiz/banks/` | Question banks | ✅ Yes |
 | `quiz/keys/` | Answer keys | ❌ No (gitignored) |
+| `quiz/keys/team-public.json` | Member public keys | ✅ Yes |
+| `quiz/keys/access.json.enc` | Encrypted access control | ✅ Yes |
+| `quiz/keys/approvals.json.enc` | Encrypted key requests | ✅ Yes |
 | `quiz/results/` | Session results | ✅ Yes |
 | `team.json` | Participant registry | ✅ Yes |
 | `id.json` | Quick ID lookup | ✅ Yes |

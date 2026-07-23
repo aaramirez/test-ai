@@ -3,7 +3,7 @@
  * security.test.js — Fase D: Security tests
  *
  * Tests impersonation prevention, pending-not-active enforcement,
- * and admin-only access control for key management.
+ * admin-only access control, and encrypted access/approval storage.
  *
  * Runs with --test-concurrency=1 (shared team-public.json).
  */
@@ -13,15 +13,18 @@ import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync, existsSync, unlinkSync, mkdirSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, '..', '..');
 const KEYS_DIR = join(PROJECT_ROOT, 'quiz', 'keys');
 const TEAM_PUBLIC_PATH = join(KEYS_DIR, 'team-public.json');
 const TEAM_PATH = join(PROJECT_ROOT, 'team.json');
+const ACCESS_ENC_PATH = join(KEYS_DIR, 'access.json.enc');
+const APPROVALS_ENC_PATH = join(KEYS_DIR, 'approvals.json.enc');
 const BACKUP_DIR = join(KEYS_DIR, '.test-backup-sec');
 
-const { uploadKey, approveKey, rejectKey, removeKey, getActiveMembers, canAccess, getAuthorizedMembers, loadTeamPublic, loadTeam } = await import('../cli/manage-keys.js');
+const { uploadKey, approveKey, rejectKey, removeKey, getActiveMembers, canAccess, getAuthorizedMembers, loadTeamPublic, loadTeam, loadAccess, saveAccess, grantAccess, revokeAccess, listAccess, loadApprovals, saveApprovals, addApproval, processApproval, listPendingApprovals } = await import('../cli/manage-keys.js');
 const { encryptKeyForMembers, getActivePublicKeys } = await import('../cli/encrypt-key.js');
 
 function safeUnlink(p) { try { unlinkSync(p); } catch {} }
@@ -55,6 +58,8 @@ function setupDescribe() {
 function teardownDescribe() {
   restoreFile(TEAM_PUBLIC_PATH);
   restoreFile(TEAM_PATH);
+  safeUnlink(ACCESS_ENC_PATH);
+  safeUnlink(APPROVALS_ENC_PATH);
 }
 
 function writeTeamPublic(data) {
@@ -63,6 +68,41 @@ function writeTeamPublic(data) {
 
 function writeTeam(data) {
   writeFileSync(TEAM_PATH, JSON.stringify(data, null, 2));
+}
+
+function generateAgeKey() {
+  try {
+    const output = execSync('age-keygen 2>/dev/null', { encoding: 'utf-8' });
+    const match = output.match(/public key: (.+)/);
+    return match ? match[1].trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+function createTempAdminKey() {
+  const tmpDir = join(PROJECT_ROOT, '..', '.opencode', 'tmp');
+  safeMkdir(tmpDir);
+  const keyPath = join(tmpDir, 'test-admin-key-sec.txt');
+  try {
+    execSync(`age-keygen -o "${keyPath}" 2>/dev/null`, { stdio: 'pipe' });
+    const oldVal = process.env.SOPS_ADMIN_AGE_KEY;
+    process.env.SOPS_ADMIN_AGE_KEY = keyPath;
+    return { keyPath, oldVal };
+  } catch {
+    return null;
+  }
+}
+
+function removeTempAdminKey(info) {
+  if (info && info.keyPath) {
+    safeUnlink(info.keyPath);
+    if (info.oldVal !== undefined) {
+      process.env.SOPS_ADMIN_AGE_KEY = info.oldVal;
+    } else {
+      delete process.env.SOPS_ADMIN_AGE_KEY;
+    }
+  }
 }
 
 // ==================== Impersonation Tests ====================
@@ -289,5 +329,170 @@ describe('Security: access control enforcement', () => {
   it('missing access object returns no authorized members', () => {
     const authorized = getAuthorizedMembers({ key: 'test.json', access: null });
     assert.deepEqual(authorized, []);
+  });
+});
+
+// ==================== Access Control Encrypted Storage Tests ====================
+
+describe('Security: access.json.enc encrypted storage', () => {
+  let adminKey;
+
+  beforeEach(() => {
+    setupDescribe();
+    adminKey = createTempAdminKey();
+  });
+
+  afterEach(() => {
+    removeTempAdminKey(adminKey);
+    teardownDescribe();
+  });
+
+  it('grantAccess creates encrypted access.json.enc', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['quiz-admin'], write: ['100'] });
+
+    assert.ok(existsSync(ACCESS_ENC_PATH));
+    const raw = readFileSync(ACCESS_ENC_PATH, 'utf-8');
+    assert.ok(raw.includes('sops:') || raw.includes('ENC['), 'File should be encrypted');
+  });
+
+  it('loadAccess decrypts and returns access data', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['quiz-admin'], write: ['100'] });
+
+    const data = loadAccess();
+    assert.deepEqual(data['quiz/keys/test.json'].read, ['quiz-admin']);
+    assert.deepEqual(data['quiz/keys/test.json'].write, ['100']);
+  });
+
+  it('grantAccess accumulates entries', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['quiz-admin'] });
+    grantAccess({ key: 'quiz/keys/test.json', read: ['evaluadores'], write: ['100'] });
+
+    const data = loadAccess();
+    assert.deepEqual(data['quiz/keys/test.json'].read, ['quiz-admin', 'evaluadores']);
+    assert.deepEqual(data['quiz/keys/test.json'].write, ['100']);
+  });
+
+  it('grantAccess does not duplicate entries', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['quiz-admin'] });
+    grantAccess({ key: 'quiz/keys/test.json', read: ['quiz-admin'] });
+
+    const data = loadAccess();
+    assert.deepEqual(data['quiz/keys/test.json'].read, ['quiz-admin']);
+  });
+
+  it('revokeAccess removes entries', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['quiz-admin', 'evaluadores'], write: ['100'] });
+    revokeAccess({ key: 'quiz/keys/test.json', read: ['evaluadores'] });
+
+    const data = loadAccess();
+    assert.deepEqual(data['quiz/keys/test.json'].read, ['quiz-admin']);
+  });
+
+  it('listAccess returns all entries', () => {
+    grantAccess({ key: 'quiz/keys/a.json', read: ['quiz-admin'] });
+    grantAccess({ key: 'quiz/keys/b.json', read: ['evaluadores'] });
+
+    const all = listAccess();
+    assert.ok(all['quiz/keys/a.json']);
+    assert.ok(all['quiz/keys/b.json']);
+  });
+
+  it('grantAccess requires admin key', () => {
+    delete process.env.SOPS_ADMIN_AGE_KEY;
+    assert.throws(() => grantAccess({ key: 'test.json', read: ['100'] }), /SOPS_ADMIN_AGE_KEY/);
+  });
+
+  it('loadAccess returns empty object when no file exists', () => {
+    safeUnlink(ACCESS_ENC_PATH);
+    const data = loadAccess();
+    assert.deepEqual(data, {});
+  });
+});
+
+// ==================== Approvals Encrypted Storage Tests ====================
+
+describe('Security: approvals.json.enc encrypted storage', () => {
+  let adminKey;
+
+  beforeEach(() => {
+    setupDescribe();
+    adminKey = createTempAdminKey();
+  });
+
+  afterEach(() => {
+    removeTempAdminKey(adminKey);
+    teardownDescribe();
+  });
+
+  it('addApproval creates encrypted approvals.json.enc', () => {
+    addApproval({ id: '200', publicKey: 'age1pending_key', reason: 'Evaluator' });
+
+    assert.ok(existsSync(APPROVALS_ENC_PATH));
+    const raw = readFileSync(APPROVALS_ENC_PATH, 'utf-8');
+    assert.ok(raw.includes('sops:') || raw.includes('ENC['), 'File should be encrypted');
+  });
+
+  it('addApproval stores pending request', () => {
+    addApproval({ id: '200', publicKey: 'age1pending_key', reason: 'Evaluator' });
+
+    const data = loadApprovals();
+    assert.equal(data.pending.length, 1);
+    assert.equal(data.pending[0].id, '200');
+    assert.equal(data.pending[0].reason, 'Evaluator');
+  });
+
+  it('addApproval rejects duplicate pending', () => {
+    addApproval({ id: '200', publicKey: 'age1key', reason: '' });
+    assert.throws(() => addApproval({ id: '200', publicKey: 'age1key', reason: '' }), /already pending/i);
+  });
+
+  it('processApproval approve moves to approved list', () => {
+    addApproval({ id: '200', publicKey: 'age1key', reason: 'Evaluator' });
+    processApproval({ id: '200', action: 'approve', approvedBy: 'admin' });
+
+    const data = loadApprovals();
+    assert.equal(data.pending.length, 0);
+    assert.equal(data.approved.length, 1);
+    assert.equal(data.approved[0].id, '200');
+    assert.equal(data.approved[0].approved_by, 'admin');
+  });
+
+  it('processApproval reject moves to rejected list', () => {
+    addApproval({ id: '200', publicKey: 'age1key', reason: '' });
+    processApproval({ id: '200', action: 'reject', reason: 'Not authorized' });
+
+    const data = loadApprovals();
+    assert.equal(data.pending.length, 0);
+    assert.equal(data.rejected.length, 1);
+    assert.equal(data.rejected[0].rejected_reason, 'Not authorized');
+  });
+
+  it('processApproval fails on non-existent pending', () => {
+    assert.throws(() => processApproval({ id: 'ghost', action: 'approve' }), /no pending/i);
+  });
+
+  it('listPendingApprovals returns pending list', () => {
+    addApproval({ id: '200', publicKey: 'age1key', reason: '' });
+    addApproval({ id: '300', publicKey: 'age1key2', reason: 'Tutor' });
+
+    const pending = listPendingApprovals();
+    assert.equal(pending.length, 2);
+    assert.equal(pending[0].id, '200');
+    assert.equal(pending[1].id, '300');
+  });
+
+  it('loadApprovals returns empty structure when no file exists', () => {
+    safeUnlink(APPROVALS_ENC_PATH);
+    const data = loadApprovals();
+    assert.deepEqual(data, { pending: [], approved: [], rejected: [] });
+  });
+
+  it('approvals.json.enc is not readable without admin key', () => {
+    addApproval({ id: '200', publicKey: 'age1key', reason: '' });
+
+    const savedKey = process.env.SOPS_ADMIN_AGE_KEY;
+    delete process.env.SOPS_ADMIN_AGE_KEY;
+    assert.throws(() => loadApprovals(), /SOPS_ADMIN_AGE_KEY/);
+    process.env.SOPS_ADMIN_AGE_KEY = savedKey;
   });
 });

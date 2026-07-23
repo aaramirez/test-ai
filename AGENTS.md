@@ -277,6 +277,9 @@ The quiz system supports practice and live modes for knowledge assessment and su
 
 - **Banks** (`quiz/banks/`): Question-only files, safe to share. No correct answers.
 - **Keys** (`quiz/keys/`): Answer keys mapped to question IDs. Admin-only, encrypted, gitignored.
+- **Team Public Keys** (`quiz/keys/team-public.json`): Member public keys with approval status. Committed.
+- **Access Control** (`quiz/keys/access.json.enc`): Encrypted read/write permissions per key file. Admin-only.
+- **Approvals** (`quiz/keys/approvals.json.enc`): Encrypted pending/approved/rejected key requests. Admin-only.
 - **Results** (`quiz/results/`): Session results committed to GitHub. Plain JSON.
 - **Team** (`team.json`): Participant registry with ID, name, email, groups.
 - **ID Lookup** (`id.json`): Quick ID lookup for participant identification.
@@ -327,6 +330,19 @@ node quiz/cli/send-results.js --bank javascript.json --all
 # Install
 node quiz/cli/install.js --dry-run --verbose  # preview only
 node quiz/cli/install.js --dir /path/to/target # actual copy
+
+# Multi-person key management
+node quiz/cli/manage-keys.js --upload-key --id ID --public-key KEY
+node quiz/cli/manage-keys.js --approve --id ID [--approved-by ADMIN]
+node quiz/cli/manage-keys.js --reject --id ID [--reason REASON]
+node quiz/cli/manage-keys.js --remove-key --id ID
+node quiz/cli/manage-keys.js --list-keys
+node quiz/cli/manage-keys.js --grant --key KEY [--read ID,GROUP] [--write ID,GROUP]
+node quiz/cli/manage-keys.js --revoke --key KEY [--read ID,GROUP] [--write ID,GROUP]
+node quiz/cli/manage-keys.js --list-access
+node quiz/cli/manage-keys.js --list-pending
+node quiz/cli/manage-keys.js --add-approval --id ID --public-key KEY [--reason REASON]
+node quiz/cli/manage-keys.js --process-approval --id ID --action approve|reject [--reason REASON]
 ```
 
 ### Session ID Format
