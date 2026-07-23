@@ -1,0 +1,44 @@
+{
+  "session_id": "t-2026-07-22-6ee364",
+  "date": "2026-07-22T19:44:01.641Z",
+  "tutorial": "Los 4 Valores de la Agilidad",
+  "participant": {
+    "id": "learner",
+    "name": "Learner"
+  },
+  "steps_completed": [
+    "intro",
+    "valores",
+    "q-valores",
+    "escenario-001",
+    "resumen"
+  ],
+  "current_step": null,
+  "answers": {
+    "q-valores": {
+      "selected": "Software funcional",
+      "correct": true
+    },
+    "escenario-001": {
+      "selected": "Aceptar el cambio y reajustar el sprint",
+      "correct": true
+    }
+  },
+  "xp_earned": 20,
+  "streak_current": 2,
+  "streak_best": 2,
+  "achievements": [
+    "first_tutorial",
+    "perfect_score"
+  ],
+  "score": {
+    "correct": 2,
+    "total": 2,
+    "percentage": 100
+  },
+  "started_at": "2026-07-22T19:44:01.641Z",
+  "completed_at": "2026-07-22T19:44:01.667Z",
+  "duration_seconds": 0,
+  "completed": true,
+  "_sessionsDir": "/Users/administrador/P/test-ai/tutorials/sessions"
+}

@@ -1,0 +1,20 @@
+{
+  "sessions": {
+    "t-2026-07-22-6ee364": {
+      "participant_id": "learner",
+      "tutorial": "Los 4 Valores de la Agilidad",
+      "date": "2026-07-22T19:44:01.641Z",
+      "file": "Los 4 Valores de la Agilidad/t-2026-07-22-6ee364.json"
+    }
+  },
+  "by_participant": {
+    "learner": [
+      "t-2026-07-22-6ee364"
+    ]
+  },
+  "by_tutorial": {
+    "Los 4 Valores de la Agilidad": [
+      "t-2026-07-22-6ee364"
+    ]
+  }
+}
