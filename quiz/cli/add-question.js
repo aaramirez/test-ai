@@ -9,13 +9,25 @@
  * Cross-platform: macOS, Linux, Windows — zero external dependencies.
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const PROJECT_ROOT = resolve(ROOT, '..');
+
+function isSurveyBank(bankArg) {
+  return bankArg.startsWith('surveys/') || bankArg.includes('/surveys/banks/');
+}
+
+function resolveKeyPath(bankArg) {
+  const bankName = bankArg.split('/').pop();
+  if (bankArg.startsWith('surveys/') || bankArg.includes('/surveys/banks/')) {
+    return join(PROJECT_ROOT, 'surveys', 'keys', bankName);
+  }
+  return join(ROOT, 'keys', bankName);
+}
 
 function resolveBankPath(bankArg) {
   // If the path already includes a directory prefix, resolve relative to project root
@@ -73,6 +85,39 @@ function addQuestion(opts) {
   bank.questions.push(question);
   writeFileSync(bankPath, JSON.stringify(bank, null, 2));
   console.log(`Added question ${opts.id} to ${opts.bank}`);
+
+  // Auto-update key if --correct is provided
+  if (opts.correct !== undefined && !isSurveyBank(opts.bank)) {
+    const keyPath = resolveKeyPath(opts.bank);
+    let key;
+
+    if (existsSync(keyPath)) {
+      key = JSON.parse(readFileSync(keyPath, 'utf-8'));
+    } else {
+      const bankName = opts.bank.split('/').pop();
+      key = {
+        bank: bankName,
+        bank_version: '1.0.0',
+        answers: {},
+      };
+      const keyDir = dirname(keyPath);
+      if (!existsSync(keyDir)) {
+        mkdirSync(keyDir, { recursive: true });
+      }
+    }
+
+    const correct = typeof opts.correct === 'string' && opts.correct.includes('[')
+      ? JSON.parse(opts.correct)
+      : parseInt(opts.correct);
+
+    key.answers[opts.id] = {
+      correct,
+      explanation: opts.explanation || '',
+    };
+
+    writeFileSync(keyPath, JSON.stringify(key, null, 2));
+    console.log(`Updated key: ${keyPath.split('/').slice(-2).join('/')}`);
+  }
 }
 
 function main() {

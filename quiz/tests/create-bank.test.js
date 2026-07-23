@@ -103,3 +103,120 @@ describe('create-key.js rejects survey banks', () => {
     );
   });
 });
+
+describe('add-question.js auto-updates key', () => {
+  const quizBankPath = join(PROJECT_ROOT, 'quiz', 'banks', 'test-add-q-key.json');
+  const quizKeyPath = join(PROJECT_ROOT, 'quiz', 'keys', 'test-add-q-key.json');
+
+  beforeEach(() => {
+    safeUnlink(quizBankPath);
+    safeUnlink(quizKeyPath);
+  });
+
+  afterEach(() => {
+    safeUnlink(quizBankPath);
+    safeUnlink(quizKeyPath);
+  });
+
+  it('creates key when --correct is provided and key does not exist', async () => {
+    const { createBank } = await import('../cli/create-bank.js');
+    createBank({ name: 'Test Add Q Key', id: 'test-add-q-key' });
+
+    const { addQuestion } = await import('../cli/add-question.js');
+    addQuestion({
+      bank: 'quiz/banks/test-add-q-key.json',
+      id: 'q-001',
+      question: 'Test?',
+      options: ['A', 'B'],
+      correct: 1,
+    });
+
+    assert.ok(existsSync(quizKeyPath));
+    const key = JSON.parse(readFileSync(quizKeyPath, 'utf-8'));
+    assert.equal(key.answers['q-001'].correct, 1);
+  });
+
+  it('updates existing key when adding another question', async () => {
+    const { createBank } = await import('../cli/create-bank.js');
+    createBank({ name: 'Test Add Q Key', id: 'test-add-q-key' });
+
+    const { addQuestion } = await import('../cli/add-question.js');
+
+    addQuestion({
+      bank: 'quiz/banks/test-add-q-key.json',
+      id: 'q-001',
+      question: 'Test 1?',
+      options: ['A', 'B'],
+      correct: 0,
+    });
+
+    addQuestion({
+      bank: 'quiz/banks/test-add-q-key.json',
+      id: 'q-002',
+      question: 'Test 2?',
+      options: ['X', 'Y', 'Z'],
+      correct: 2,
+    });
+
+    const key = JSON.parse(readFileSync(quizKeyPath, 'utf-8'));
+    assert.equal(Object.keys(key.answers).length, 2);
+    assert.equal(key.answers['q-001'].correct, 0);
+    assert.equal(key.answers['q-002'].correct, 2);
+  });
+
+  it('does NOT create key when --correct is not provided', async () => {
+    const { createBank } = await import('../cli/create-bank.js');
+    createBank({ name: 'Test Add Q Key', id: 'test-add-q-key' });
+
+    const { addQuestion } = await import('../cli/add-question.js');
+    addQuestion({
+      bank: 'quiz/banks/test-add-q-key.json',
+      id: 'q-001',
+      question: 'Test?',
+      options: ['A', 'B'],
+    });
+
+    assert.ok(!existsSync(quizKeyPath));
+  });
+
+  it('does NOT create key for survey banks even with --correct', async () => {
+    const surveyBankPath = join(PROJECT_ROOT, 'surveys', 'banks', 'test-add-q-survey-key.json');
+    const surveyKeyPath = join(PROJECT_ROOT, 'surveys', 'keys', 'test-add-q-survey-key.json');
+    safeUnlink(surveyBankPath);
+    safeUnlink(surveyKeyPath);
+
+    const { createBank } = await import('../cli/create-bank.js');
+    createBank({ name: 'Test Survey', id: 'test-add-q-survey-key', type: 'survey' });
+
+    const { addQuestion } = await import('../cli/add-question.js');
+    addQuestion({
+      bank: 'surveys/banks/test-add-q-survey-key.json',
+      id: 'sq-001',
+      type: 'survey',
+      question: 'Survey?',
+      options: ['A', 'B'],
+      correct: 0,
+    });
+
+    assert.ok(!existsSync(surveyKeyPath));
+    safeUnlink(surveyBankPath);
+  });
+
+  it('stores explanation when provided', async () => {
+    const { createBank } = await import('../cli/create-bank.js');
+    createBank({ name: 'Test Add Q Key', id: 'test-add-q-key' });
+
+    const { addQuestion } = await import('../cli/add-question.js');
+    addQuestion({
+      bank: 'quiz/banks/test-add-q-key.json',
+      id: 'q-001',
+      question: 'Capital?',
+      options: ['Madrid', 'París'],
+      correct: 1,
+      explanation: 'Ciudad de la torre Eiffel',
+    });
+
+    const key = JSON.parse(readFileSync(quizKeyPath, 'utf-8'));
+    assert.equal(key.answers['q-001'].explanation, 'Ciudad de la torre Eiffel');
+  });
+});

@@ -24,12 +24,20 @@ For this project: Node.js built-in test runner (`node:test` + `node:assert/stric
 # Single file
 node --test quiz/tests/scorer.test.js
 
-# All tests in directory
-node --test quiz/tests/*.test.js
+# All tests in directory (serial — see note)
+node --test --test-concurrency=1 quiz/tests/*.test.js
 
-# Auto-discover all tests
-node --test
+# Auto-discover all tests (serial — see note)
+node --test --test-concurrency=1
 ```
+
+> **Always use `--test-concurrency=1` when running the full suite.**
+> The key-management tests (`manage-keys`, `encrypt-key-multi`, `lifecycle`)
+> share `quiz/keys/team-public.json` and `team.json`. Node runs test files in
+> parallel by default; combined with slow `sops`/`age-keygen` subprocesses this
+> causes a file-level race where one file's `afterEach` wipes the shared file
+> while another is mid-encrypt, yielding intermittent
+> "No active members found" failures. Serial execution eliminates the race.
 
 ## 4. Debug Failures
 - Read error messages carefully

@@ -13,3 +13,6 @@ quiz/results/**/*.enc.
 .opencode/package-lock.json
 .opencode/bun.lock
 id.json
+.opencode/tmp/
+tmp-install-test-*/
+team-public.json

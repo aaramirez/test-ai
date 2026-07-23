@@ -15,8 +15,14 @@ Run the test suite for this project.
 
 3. **Run tests** — execute with appropriate flags
    ```bash
-   node --test quiz/tests/*.test.js
+   node --test --test-concurrency=1 quiz/tests/*.test.js
    ```
+   > `--test-concurrency=1` runs test files serially. Required because the
+   > key-management tests (manage-keys, encrypt-key-multi, lifecycle) share
+   > `quiz/keys/team-public.json` and `team.json`. Running them in parallel
+   > causes a race: one file's `afterEach` can delete/overwrite the file while
+   > another file is mid-encrypt (sops/age-keygen subprocess), producing
+   > intermittent "No active members found" failures.
 
 4. **Report results** — show:
    - Total tests run
