@@ -450,70 +450,73 @@ USO POR MIEMBROS:
 
 | Test | Descripción | Estado |
 |------|-------------|--------|
-| `upload-key.test.js` | Subir clave pública → queda pending | 🔴 |
-| `approve-key.test.js` | Aprobar clave → status active | 🔴 |
-| `reject-key.test.js` | Rechazar clave → status rejected | 🔴 |
-| `grant-access.test.js` | Asignar acceso read/write | 🔴 |
-| `revoke-access.test.js` | Revocar acceso | 🔴 |
-| `resolve-groups.test.js` | Resolver grupos múltiples | 🔴 |
+| `upload-key.test.js` | Subir clave pública → queda pending | ✅ |
+| `approve-key.test.js` | Aprobar clave → status active | ✅ |
+| `reject-key.test.js` | Rechazar clave → status rejected | ✅ |
+| `grant-access.test.js` | Asignar acceso read/write | ✅ |
+| `revoke-access.test.js` | Revocar acceso | ✅ |
+| `resolve-groups.test.js` | Resolver grupos múltiples | ✅ |
 
 ### Fase B: Encryption
 
 | Test | Descripción | Estado |
 |------|-------------|--------|
-| `encrypt-multi-person.test.js` | Cifrar para múltiples IDs | 🔴 |
-| `encrypt-with-groups.test.js` | Cifrar resolviendo grupos | 🔴 |
-| `encrypt-no-access.test.js` | Error si no hay acceso | 🔴 |
-| `encrypt-only-active.test.js` | Solo cifrar para claves active | 🔴 |
+| `encrypt-multi-person.test.js` | Cifrar para múltiples IDs | ✅ |
+| `encrypt-with-groups.test.js` | Cifrar resolviendo grupos | ✅ |
+| `encrypt-no-access.test.js` | Error si no hay acceso | ✅ |
+| `encrypt-only-active.test.js` | Solo cifrar para claves active | ✅ |
 
 ### Fase C: Lifecycle
 
 | Test | Descripción | Estado |
 |------|-------------|--------|
-| `new-member-flow.test.js` | Flujo completo: nuevo miembro | 🔴 |
-| `remove-member-flow.test.js` | Flujo completo: miembro saliente | 🔴 |
-| `revoke-access-flow.test.js` | Flujo completo: revocación | 🔴 |
-| `rotate-key-flow.test.js` | Flujo completo: rotación | 🔴 |
+| `new-member-flow.test.js` | Flujo completo: nuevo miembro | ✅ |
+| `remove-member-flow.test.js` | Flujo completo: miembro saliente | ✅ |
+| `revoke-access-flow.test.js` | Flujo completo: revocación | ✅ |
+| `rotate-key-flow.test.js` | Flujo completo: rotación | ✅ |
 
 ### Fase D: Security
 
 | Test | Descripción | Estado |
 |------|-------------|--------|
-| `impersonation.test.js` | No puede subir clave por otro ID | 🔴 |
-| `pending-not-active.test.js` | Clave pending no se usa para cifrar | 🔴 |
-| `admin-only-grant.test.js` | Solo admin puede grant | 🔴 |
-| `admin-only-revoke.test.js` | Solo admin puede revoke | 🔴 |
+| `impersonation.test.js` | No puede subir clave por otro ID | ✅ |
+| `pending-not-active.test.js` | Clave pending no se usa para cifrar | ✅ |
+| `admin-only-grant.test.js` | Solo admin puede grant | ✅ |
+| `admin-only-revoke.test.js` | Solo admin puede revoke | ✅ |
+| `access-encrypted.test.js` | access.json.enc cifrado con admin key | ✅ |
+| `approvals-encrypted.test.js` | approvals.json.enc cifrado con admin key | ✅ |
 
 ## Archivos a Crear/Modificar
 
 | Archivo | Acción | TDD |
 |---------|--------|-----|
-| `quiz/cli/manage-keys.js` | Crear | Tests primero |
-| `quiz/cli/encrypt-key.js` | Modificar | Tests primero |
-| `quiz/keys/team-public.json` | Crear (estructura) | — |
-| `quiz/keys/access.json.enc` | Crear (cifrado) | — |
-| `quiz/keys/approvals.json.enc` | Crear (cifrado) | — |
-| `quiz/tests/manage-keys.test.js` | Crear | — |
-| `quiz/tests/encrypt-key.test.js` | Expandir | — |
-| `quiz/tests/lifecycle.test.js` | Crear | — |
-| `.gitignore` | Modificar | — |
-| `AGENTS.md` | Actualizar docs | — |
-| `quiz/manuals/admin.md` | Actualizar docs | — |
+| `quiz/cli/manage-keys.js` | Crear | ✅ Tests primero |
+| `quiz/cli/encrypt-key.js` | Modificar | ✅ Tests primero |
+| `quiz/keys/team-public.json` | Crear (estructura) | ✅ |
+| `quiz/keys/access.json.enc` | Crear (cifrado) | ✅ |
+| `quiz/keys/approvals.json.enc` | Crear (cifrado) | ✅ |
+| `quiz/tests/manage-keys.test.js` | Crear | ✅ |
+| `quiz/tests/encrypt-key.test.js` | Expandir | ✅ |
+| `quiz/tests/lifecycle.test.js` | Crear | ✅ |
+| `quiz/tests/security.test.js` | Crear | ✅ |
+| `.gitignore` | Modificar | ✅ |
+| `AGENTS.md` | Actualizar docs | ✅ |
+| `quiz/manuals/admin.md` | Actualizar docs | ✅ |
 
 ## Verification
 
-- [ ] manage-keys.js funciona (upload, approve, reject, grant, revoke)
-- [ ] access.json.enc solo se puede modificar con admin key
-- [ ] Clave pending NO se usa para cifrar
-- [ ] Clave active SÍ se usa para cifrar
-- [ ] Solo admin puede approve/revoke/grant
-- [ ] No se puede suplantar identidad (upload requiere admin approval)
-- [ ] encrypt-key.js cifra para múltiples IDs y grupos
-- [ ] encrypt-key.js resuelve grupos múltiples correctamente
-- [ ] Clave cifrada se puede descifrar con clave age correcta
-- [ ] Clave cifrada NO se puede descifrar con clave incorrecta
-- [ ] Proceso nuevo miembro funciona completo
-- [ ] Proceso miembro saliente funciona completo
-- [ ] Proceso revocación funciona completo
-- [ ] Tests pasan
-- [ ] Instalado en ../test-ai-test funciona
+- [x] manage-keys.js funciona (upload, approve, reject, grant, revoke)
+- [x] access.json.enc solo se puede modificar con admin key
+- [x] Clave pending NO se usa para cifrar
+- [x] Clave active SÍ se usa para cifrar
+- [x] Solo admin puede approve/revoke/grant
+- [x] No se puede suplantar identidad (upload requiere admin approval)
+- [x] encrypt-key.js cifra para múltiples IDs y grupos
+- [x] encrypt-key.js resuelve grupos múltiples correctamente
+- [x] Clave cifrada se puede descifrar con clave age correcta
+- [x] Clave cifrada NO se puede descifrar con clave incorrecta
+- [x] Proceso nuevo miembro funciona completo
+- [x] Proceso miembro saliente funciona completo
+- [x] Proceso revocación funciona completo
+- [x] Tests pasan (315/315)
+- [x] Instalado en ../test-ai-test funciona
