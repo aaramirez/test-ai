@@ -75,6 +75,10 @@ export function approveKey({ id, approvedBy }) {
     throw new Error(`Member ${id} already active`);
   }
 
+  if (data[id].status === 'rejected') {
+    throw new Error(`Member ${id} was rejected and cannot be re-activated`);
+  }
+
   data[id].status = 'active';
   data[id].approved_by = approvedBy;
   data[id].approved_at = new Date().toISOString();
