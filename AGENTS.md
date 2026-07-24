@@ -199,6 +199,8 @@ See `.opencode/commands/test.md` for a complete example.
 | **docs** | subagent | edit: allow, bash: deny |
 | **quiz-admin** | subagent | bash: allow |
 | **tutorial-admin** | subagent | bash: allow, edit: allow |
+| **key-mgmt-admin** | subagent | bash: allow, edit: allow |
+| **survey-admin-agent** | subagent | bash: allow, edit: allow |
 
 ## Available skills
 
@@ -212,22 +214,27 @@ See `.opencode/commands/test.md` for a complete example.
 | email | Send emails via SMTP (Gmail, Outlook/Office365) with CLI, MCP, and command support. |
 | git | Use for git operations, branching strategies, commit conventions, and repository management. |
 | google-workspace | Read and search files in Google Drive, Docs, and Sheets via Google's official MCP server. |
+| install-wizard | Interactive guide to install quiz, tutorial, and testing system to a target directory. |
 | kb-management | Maintain a knowledge base vault — update existing notes, fix wikilinks, reorganize structure, keep workspace and graph in sync. |
 | m365 | Read and search files in OneDrive and SharePoint via Microsoft Graph API. |
 | pdf-extraction | Extract literal text from PDF files — handle column breaks, paragraph reconstruction, table detection, and encoding issues. |
 | quiz | Run knowledge quizzes and surveys with practice and live modes. Loads questions from quiz/banks/ and uses quiz/keys/ for evaluation. |
 | quiz-admin | Admin reports, evaluation, and quiz lifecycle management. |
 | quiz-bank | Create, validate, and manage question banks for quizzes and surveys. |
+| quiz-install | Install the quiz and testing system to another directory. Shows dry-run preview, copies all files, patches ci-validate. |
 | quiz-key | Create, manage, and encrypt answer keys for quiz banks. |
+| quiz-key-mgmt | Multi-person key management — access control, approvals, and team key lifecycle for quiz and tutorial keys. |
 | quiz-participant | Register, list, find, and manage quiz participants. |
 | quiz-results | Send personalized quiz results to participants via email. |
 | repos-sync | Synchronize reference repositories for knowledge sharing and dependency management. |
-| **testing** | **Testing workflows for OpenCode TUI — write, run, and debug tests using Node.js built-in test runner.** |
-| **quiz-install** | **Install the quiz and testing system to another directory. Shows dry-run preview, copies all files, patches ci-validate.** |
-| **survey** | **Manage surveys — check pending surveys, submit answers, track completion via a taken registry.** |
-| **tutorial** | **Run interactive tutorials with branching, gamification, and progress tracking. XP, streaks, achievements.** |
-| **tutorial-create** | **Create, validate, and manage interactive tutorial content — 7 step types with branching and challenges.** |
-| **tutorial-admin** | **Tutorial admin reports, completion tracking, and participant progress management.** |
+| survey | Manage surveys — check pending surveys, submit answers, track completion via a taken registry. |
+| survey-admin | Admin reports for surveys — aggregate statistics, CSV export, and survey bank management. |
+| survey-bank | Create and manage survey question banks — no answer keys needed for surveys. |
+| testing | Testing workflows for OpenCode TUI — write, run, and debug tests using Node.js built-in test runner. |
+| tutorial | Run interactive tutorials with branching, gamification, and progress tracking. XP, streaks, achievements. |
+| tutorial-admin | Tutorial admin reports, completion tracking, and participant progress management. |
+| tutorial-create | Create, validate, and manage interactive tutorial content — 7 step types with branching and challenges. |
+| tutorial-key | Create and manage answer keys for interactive tutorials — question, checkpoint, and scenario steps. |
 | vault-pdf-export | Exporta contenido del vault Obsidian curso-ia a PDF profesional usando el pipeline document-generation. |
 | youtube | Use for fetching and processing YouTube video transcriptions to feed into AI models, generate summaries, create course notes, or analyze video content. |
 
@@ -246,9 +253,14 @@ See `.opencode/commands/test.md` for a complete example.
 | `/quiz-migrate` | Migrate legacy bank.json |
 | `/quiz-install` | Install the quiz and testing system to a directory |
 | `/quiz-install-update` | Update an existing quiz/testing installation |
+| `/key-mgmt` | Multi-person key management — access control, approvals, and team key lifecycle |
+| `/survey` | Check pending surveys and submit answers |
+| `/survey-report` | Generate survey admin reports — statistics, breakdowns, CSV export |
+| `/survey-create` | Create a new survey question bank — no answer keys needed |
 | `/tutorial` | Run an interactive tutorial with gamification |
 | `/tutorial-create` | Create a new interactive tutorial |
 | `/tutorial-report` | View tutorial completion reports |
+| `/tutorial-key` | Create and manage tutorial answer keys |
 
 ## Available scripts
 
@@ -267,7 +279,9 @@ See `.opencode/commands/test.md` for a complete example.
 | .opencode/scripts/send-email.js | file |
 | .opencode/scripts/updaterepos.js | file |
 | .opencode/scripts/youtube-transcript.js | file |
+| quiz/cli/survey-admin-report.js | file |
 | quiz/lib/survey-session.js | file |
+| tutorials/cli/create-key.js | file |
 
 ## Quiz system
 

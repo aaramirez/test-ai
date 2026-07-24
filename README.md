@@ -122,7 +122,14 @@ node quiz/cli/manage-participants.js --add --id STU-001 --name "Jane" --email ja
 | `/quiz-migrate` | Migrate legacy bank to new format | [quiz-bank] |
 | `/quiz-install` | Install quiz & testing system to a directory | [quiz-install] |
 | `/quiz-install-update` | Update existing installation | [quiz-install] |
+| `/key-mgmt` | Multi-person key management — access control, approvals | [key-mgmt-admin] |
 | `/survey` | Check and take pending surveys | [survey] |
+| `/survey-report` | Survey admin reports — statistics, CSV export | [survey-admin-agent] |
+| `/survey-create` | Create survey question banks (no answer keys) | [survey-admin-agent] |
+| `/tutorial` | Run interactive tutorial with gamification | [tutorial] |
+| `/tutorial-create` | Create new interactive tutorial | [tutorial-create] |
+| `/tutorial-report` | View tutorial completion reports | [tutorial-admin] |
+| `/tutorial-key` | Manage tutorial answer keys | [tutorial-key] |
 
 ### CLI Scripts
 

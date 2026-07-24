@@ -112,6 +112,71 @@ node quiz/cli/send-results.js --bank javascript.json --all
 node quiz/cli/evaluate.js --bank javascript.json --all
 ```
 
+## Gestión de Claves Multi-Persona
+
+El sistema de quiz soporta que multiples miembros del equipo cifren/descifren claves de respuesta, con control de acceso y flujos de aprobación por el administrador.
+
+### Prerequisitos
+
+```bash
+# Instalar sops y age (una vez)
+brew install sops age    # macOS
+# o: scoop install sops age  # Windows
+
+# Generar clave de admin (una vez)
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/admin.txt
+export SOPS_ADMIN_AGE_KEY=~/.config/sops/age/admin.txt
+```
+
+### Incorporación de Miembros
+
+```bash
+# 1. Miembro sube su clave publica (queda pendiente)
+node quiz/cli/manage-keys.js --upload-key --id 10488134 --public-key "age1..." --reason "Evaluador"
+
+# 2. Admin revisa y aprueba
+node quiz/cli/manage-keys.js --list-pending
+node quiz/cli/manage-keys.js --approve --id 10488134 --approved-by 10488100
+
+# 3. Admin otorga acceso a claves especificas
+node quiz/cli/manage-keys.js --grant --key quiz/keys/test.json --read quiz-admin,evaluadores --write 10488134
+
+# 4. Re-cifrar con todos los miembros autorizados
+node quiz/cli/encrypt-key.js quiz/keys/test.json
+```
+
+### Baja de Miembros
+
+```bash
+# 1. Revocar acceso a todas las claves
+node quiz/cli/manage-keys.js --revoke --key quiz/keys/test.json --read 10488134
+
+# 2. Re-cifrar claves afectadas
+node quiz/cli/encrypt-key.js quiz/keys/test.json
+
+# 3. Eliminar clave publica
+node quiz/cli/manage-keys.js --remove-key --id 10488134
+```
+
+### Control de Acceso
+
+```bash
+# Ver todos los permisos de acceso (cifrado, requiere clave de admin)
+node quiz/cli/manage-keys.js --list-access
+
+# Revocar acceso de grupo especifico
+node quiz/cli/manage-keys.js --revoke --key quiz/keys/test.json --read evaluadores
+```
+
+### Modelo de Seguridad
+
+- **Pendiente**: Las claves subidas requieren aprobacion del admin antes de usar
+- **Activo**: Las claves aprobadas pueden cifrar/descifrar
+- **Rechazado**: Las claves rechazadas no pueden re-activarse
+- **Almacenamiento cifrado**: `access.json.enc` y `approvals.json.enc` estan cifrados con la clave del admin
+- **Basado en grupos**: El acceso puede otorgarse a grupos (resueltos contra `team.json`)
+
 ## Ubicación de Archivos
 
 | Ruta | Propósito | Commiteado |

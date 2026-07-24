@@ -11,6 +11,16 @@
 | `/quiz-report` | Admin report |
 | `/quiz-send` | Send results email |
 | `/quiz-migrate` | Migrate legacy bank |
+| `/quiz-install` | Install system to directory |
+| `/quiz-install-update` | Update existing installation |
+| `/key-mgmt` | Multi-person key management |
+| `/survey` | Take pending surveys |
+| `/survey-report` | Survey admin reports |
+| `/survey-create` | Create survey banks |
+| `/tutorial` | Run interactive tutorial |
+| `/tutorial-create` | Create new tutorial |
+| `/tutorial-report` | Tutorial completion reports |
+| `/tutorial-key` | Tutorial answer key management |
 
 ## File Locations
 
@@ -19,6 +29,11 @@
 | `quiz/banks/` | Question banks (shareable) |
 | `quiz/keys/` | Answer keys (admin-only, encrypted) |
 | `quiz/results/` | Session results (committed) |
+| `tutorials/banks/` | Tutorial content |
+| `tutorials/keys/` | Tutorial answer keys (gitignored) |
+| `tutorials/sessions/` | Tutorial session results |
+| `surveys/banks/` | Survey question banks |
+| `surveys/results/` | Survey session results |
 | `team.json` | Participant registry |
 | `id.json` | Quick ID lookup |
 | `quiz/results/_index.json` | Session index |
@@ -47,6 +62,7 @@
 | `q-` | Live quiz |
 | `p-` | Practice |
 | `s-` | Survey |
+| `t-` | Tutorial |
 
 ## Key Scripts
 
@@ -61,6 +77,16 @@ node quiz/cli/create-key.js --bank banks/topic.json
 node quiz/cli/validate-key.js --key keys/topic.json --bank banks/topic.json
 node quiz/cli/encrypt-key.js keys/topic.json
 
+# Multi-person key management
+node quiz/cli/manage-keys.js --upload-key --id ID --public-key KEY
+node quiz/cli/manage-keys.js --approve --id ID
+node quiz/cli/manage-keys.js --reject --id ID --reason "..."
+node quiz/cli/manage-keys.js --grant --key KEY --read ID,GROUP
+node quiz/cli/manage-keys.js --revoke --key KEY --read ID
+node quiz/cli/manage-keys.js --list-keys
+node quiz/cli/manage-keys.js --list-access
+node quiz/cli/manage-keys.js --who-access-for --id ID
+
 # Participant management
 node quiz/cli/manage-participants.js --list
 node quiz/cli/manage-participants.js --add --id ID --name "Name"
@@ -71,7 +97,17 @@ node quiz/cli/evaluate.js --bank javascript.json --all
 node quiz/cli/admin-report.js --bank javascript.json
 node quiz/cli/admin-report.js --participant STU-001
 
+# Survey admin
+node quiz/cli/survey-admin-report.js --list
+node quiz/cli/survey-admin-report.js --bank feedback.json
+node quiz/cli/survey-admin-report.js --bank feedback.json --csv report.csv
+
 # Results
 node quiz/cli/send-results.js --bank javascript.json --list
 node quiz/cli/send-results.js --bank javascript.json --all
+
+# Tutorial key management
+node tutorials/cli/create-key.js --bank banks/tutorial.json
+node tutorials/cli/create-key.js --key keys/tutorial.json --add step-001 --correct 1
+node tutorials/cli/create-key.js --list
 ```

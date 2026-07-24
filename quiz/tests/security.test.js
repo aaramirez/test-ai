@@ -24,7 +24,8 @@ const ACCESS_ENC_PATH = join(KEYS_DIR, 'access.json.enc');
 const APPROVALS_ENC_PATH = join(KEYS_DIR, 'approvals.json.enc');
 const BACKUP_DIR = join(KEYS_DIR, '.test-backup-sec');
 
-const { uploadKey, approveKey, rejectKey, removeKey, getActiveMembers, canAccess, getAuthorizedMembers, loadTeamPublic, loadTeam, loadAccess, saveAccess, grantAccess, revokeAccess, listAccess, loadApprovals, saveApprovals, addApproval, processApproval, listPendingApprovals } = await import('../cli/manage-keys.js');
+const mod = await import('../cli/manage-keys.js');
+const { uploadKey, approveKey, rejectKey, removeKey, getActiveMembers, canAccess, getAuthorizedMembers, loadTeamPublic, loadTeam, loadAccess, saveAccess, grantAccess, revokeAccess, listAccess, loadApprovals, saveApprovals, addApproval, processApproval, listPendingApprovals } = mod;
 const { encryptKeyForMembers, getActivePublicKeys } = await import('../cli/encrypt-key.js');
 
 function safeUnlink(p) { try { unlinkSync(p); } catch {} }
@@ -494,5 +495,82 @@ describe('Security: approvals.json.enc encrypted storage', () => {
     delete process.env.SOPS_ADMIN_AGE_KEY;
     assert.throws(() => loadApprovals(), /SOPS_ADMIN_AGE_KEY/);
     process.env.SOPS_ADMIN_AGE_KEY = savedKey;
+  });
+});
+
+// ==================== Who Access For Tests ====================
+
+describe('Security: whoAccessFor — find keys accessible to a member', () => {
+  let adminKey;
+
+  beforeEach(() => {
+    setupDescribe();
+    adminKey = createTempAdminKey();
+  });
+
+  afterEach(() => {
+    removeTempAdminKey(adminKey);
+    teardownDescribe();
+  });
+
+  it('returns keys where member has direct read access', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['100'] });
+    grantAccess({ key: 'quiz/keys/other.json', read: ['200'] });
+
+    const result = mod.whoAccessFor({ id: '100' });
+    assert.equal(result.length, 1);
+    assert.equal(result[0].key, 'quiz/keys/test.json');
+    assert.ok(result[0].access.read.includes('100'));
+  });
+
+  it('returns keys where member has write access', () => {
+    grantAccess({ key: 'quiz/keys/test.json', write: ['100'] });
+
+    const result = mod.whoAccessFor({ id: '100' });
+    assert.equal(result.length, 1);
+    assert.ok(result[0].access.write.includes('100'));
+  });
+
+  it('returns keys where member has both read and write', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['100'], write: ['100'] });
+
+    const result = mod.whoAccessFor({ id: '100' });
+    assert.equal(result.length, 1);
+    assert.ok(result[0].access.read.includes('100'));
+    assert.ok(result[0].access.write.includes('100'));
+  });
+
+  it('resolves group membership for access', () => {
+    writeTeam({
+      participants: { '100': { id: '100', name: 'A' } },
+      groups: { 'evaluadores': ['100'] }
+    });
+    grantAccess({ key: 'quiz/keys/test.json', read: ['evaluadores'] });
+
+    const result = mod.whoAccessFor({ id: '100' });
+    assert.equal(result.length, 1);
+  });
+
+  it('returns multiple keys for a member', () => {
+    grantAccess({ key: 'quiz/keys/a.json', read: ['100'] });
+    grantAccess({ key: 'quiz/keys/b.json', read: ['100'] });
+    grantAccess({ key: 'quiz/keys/c.json', read: ['100'] });
+
+    const result = mod.whoAccessFor({ id: '100' });
+    assert.equal(result.length, 3);
+  });
+
+  it('returns empty array for member with no access', () => {
+    grantAccess({ key: 'quiz/keys/test.json', read: ['200'] });
+
+    const result = mod.whoAccessFor({ id: '999' });
+    assert.equal(result.length, 0);
+  });
+
+  it('returns empty array when no access.json.enc exists', () => {
+    safeUnlink(ACCESS_ENC_PATH);
+
+    const result = mod.whoAccessFor({ id: '100' });
+    assert.equal(result.length, 0);
   });
 });

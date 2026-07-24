@@ -370,6 +370,27 @@ export function listPendingApprovals() {
   return loadApprovals().pending;
 }
 
+export function whoAccessFor({ id } = {}) {
+  if (!id) throw new Error('id is required');
+  const access = loadAccess();
+  if (!access) return [];
+
+  const team = loadTeam();
+  const memberGroups = Object.keys(team.groups || {}).filter(g => (team.groups[g] || []).includes(id));
+
+  const result = [];
+  for (const [key, entry] of Object.entries(access)) {
+    const readTargets = entry.read || [];
+    const writeTargets = entry.write || [];
+    const readAccess = readTargets.some(t => t === id || memberGroups.includes(t));
+    const writeAccess = writeTargets.some(t => t === id || memberGroups.includes(t));
+    if (readAccess || writeAccess) {
+      result.push({ key, access: { read: readAccess ? readTargets.filter(t => t === id || memberGroups.includes(t)) : [], write: writeAccess ? writeTargets.filter(t => t === id || memberGroups.includes(t)) : [] } });
+    }
+  }
+  return result;
+}
+
 // ==================== CLI ====================
 
 function parseArgs(args) {
@@ -387,6 +408,7 @@ function parseArgs(args) {
     else if (args[i] === '--list-pending') opts.action = 'list-pending';
     else if (args[i] === '--add-approval') opts.action = 'add-approval';
     else if (args[i] === '--process-approval') opts.action = 'process-approval';
+    else if (args[i] === '--who-access-for') opts.action = 'who-access-for';
     else if (args[i] === '--id' && args[i + 1]) opts.id = args[++i];
     else if (args[i] === '--public-key' && args[i + 1]) opts.publicKey = args[++i];
     else if (args[i] === '--approved-by' && args[i + 1]) opts.approvedBy = args[++i];
@@ -484,6 +506,17 @@ function main() {
         console.log(`Approval ${opts.approvalAction}d for ${opts.id}`);
         break;
       }
+      case 'who-access-for': {
+        const result = whoAccessFor({ id: opts.id });
+        if (result.length === 0) {
+          console.log(`No keys accessible for ${opts.id}`);
+        } else {
+          for (const r of result) {
+            console.log(`${r.key}: read=[${r.access.read}] write=[${r.access.write}]`);
+          }
+        }
+        break;
+      }
       default:
         console.log('Usage: node manage-keys.js <action> [options]');
         console.log('  --upload-key --id ID --public-key KEY');
@@ -497,6 +530,7 @@ function main() {
         console.log('  --list-pending');
         console.log('  --add-approval --id ID --public-key KEY [--reason REASON]');
         console.log('  --process-approval --id ID --action approve|reject [--reason REASON]');
+        console.log('  --who-access-for --id ID');
     }
   } catch (err) {
     console.error(err.message);

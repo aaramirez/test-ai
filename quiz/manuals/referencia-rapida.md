@@ -13,6 +13,14 @@
 | `/quiz-migrate` | Migrar banco heredado |
 | `/quiz-install` | Instalar sistema en otro directorio |
 | `/quiz-install-update` | Actualizar instalación existente |
+| `/key-mgmt` | Gestión de claves multi-persona |
+| `/survey` | Tomar encuestas pendientes |
+| `/survey-report` | Reportes de admin de encuestas |
+| `/survey-create` | Crear bancos de encuestas |
+| `/tutorial` | Ejecutar tutorial interactivo |
+| `/tutorial-create` | Crear nuevo tutorial |
+| `/tutorial-report` | Reportes de completado de tutoriales |
+| `/tutorial-key` | Gestión de claves de tutoriales |
 
 ## Ubicación de Archivos
 
@@ -21,6 +29,11 @@
 | `quiz/banks/` | Bancos de preguntas (compartibles) |
 | `quiz/keys/` | Claves de respuesta (solo admin, cifradas) |
 | `quiz/results/` | Resultados de sesiones (commiteados) |
+| `tutorials/banks/` | Contenido de tutoriales |
+| `tutorials/keys/` | Claves de tutoriales (gitignored) |
+| `tutorials/sessions/` | Resultados de sesiones de tutoriales |
+| `surveys/banks/` | Bancos de encuestas |
+| `surveys/results/` | Resultados de sesiones de encuestas |
 | `team.json` | Registro de participantes |
 | `id.json` | Lookup rápido por cédula |
 | `quiz/results/_index.json` | Índice de sesiones |
@@ -49,6 +62,7 @@
 | `q-` | Quiz en vivo |
 | `p-` | Práctica |
 | `s-` | Encuesta |
+| `t-` | Tutorial |
 
 ## Scripts Principales
 
@@ -63,6 +77,16 @@ node quiz/cli/create-key.js --bank banks/tema.json
 node quiz/cli/validate-key.js --key keys/tema.json --bank banks/tema.json
 node quiz/cli/encrypt-key.js keys/tema.json
 
+# Gestión de claves multi-persona
+node quiz/cli/manage-keys.js --upload-key --id ID --public-key KEY
+node quiz/cli/manage-keys.js --approve --id ID
+node quiz/cli/manage-keys.js --reject --id ID --reason "..."
+node quiz/cli/manage-keys.js --grant --key KEY --read ID,GROUP
+node quiz/cli/manage-keys.js --revoke --key KEY --read ID
+node quiz/cli/manage-keys.js --list-keys
+node quiz/cli/manage-keys.js --list-access
+node quiz/cli/manage-keys.js --who-access-for --id ID
+
 # Gestión de participantes
 node quiz/cli/manage-participants.js --list
 node quiz/cli/manage-participants.js --add --id ID --name "Nombre"
@@ -73,9 +97,19 @@ node quiz/cli/evaluate.js --bank javascript.json --all
 node quiz/cli/admin-report.js --bank javascript.json
 node quiz/cli/admin-report.js --participant EST-001
 
+# Admin de encuestas
+node quiz/cli/survey-admin-report.js --list
+node quiz/cli/survey-admin-report.js --bank feedback.json
+node quiz/cli/survey-admin-report.js --bank feedback.json --csv reporte.csv
+
 # Resultados
 node quiz/cli/send-results.js --bank javascript.json --list
 node quiz/cli/send-results.js --bank javascript.json --all
+
+# Gestión de claves de tutoriales
+node tutorials/cli/create-key.js --bank banks/tutorial.json
+node tutorials/cli/create-key.js --key keys/tutorial.json --add step-001 --correct 1
+node tutorials/cli/create-key.js --list
 
 # Instalación
 node quiz/cli/install.js --dry-run --verbose --dir /ruta/destino
