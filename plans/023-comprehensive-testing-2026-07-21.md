@@ -376,23 +376,24 @@ git add -A && git commit -m "fix: comprehensive testing fixes and regression tes
 **🔄 PAUSA FINAL: Revisar todo el plan.**
 
 ## Verification
-- [ ] Fase 1: Base validation
-- [ ] Fase 2: Quiz bank & key
-- [ ] Fase 3: Quiz execution
-- [ ] Fase 4: Tutorial E2E
-- [ ] Fase 5: Encryption & credentials
-- [ ] Fase 6: Install & update
-- [ ] Fase 7: Spanish accents
-- [ ] Fase 8: Commands testing
-- [ ] Fase 9: Regression tests
-- [ ] All tests pass
-- [ ] Changes pushed
+- [x] Fase 1: Base validation
+- [x] Fase 2: Quiz bank & key
+- [x] Fase 3: Quiz execution
+- [x] Fase 4: Tutorial E2E
+- [x] Fase 5: Encryption & credentials
+- [x] Fase 6: Install & update
+- [x] Fase 7: Spanish accents
+- [x] Fase 8: Commands testing
+- [x] Fase 9: Regression tests
+- [x] All tests pass (315/315)
+- [x] Changes committed
 
 ## Error Tracking
 
 | # | Fase | Error | Fix | Regression Test | Reinstall OK |
 |---|------|-------|-----|-----------------|--------------|
 | 1 | 2 | add-question.js no actualiza clave con --correct | Auto-crear/actualizar key en addQuestion() | 5 tests en create-bank.test.js | ✅ |
+| 2 | 8 | send-results.js SyntaxError: Illegal return statement | return → process.exit(0) en scope superior | — | ✅ |
 
 ## Improvement Tracking
 
@@ -404,18 +405,18 @@ git add -A && git commit -m "fix: comprehensive testing fixes and regression tes
 
 | Command | Tested | Notes |
 |---------|--------|-------|
-| `/test` | ✅ | 251 pass |
-| `/plan` | | |
+| `/test` | ✅ | 315 pass |
+| `/plan` | ✅ | Plans 023, 024 created |
 | `/quiz-create` | ✅ | Fase 2.1 |
-| `/quiz-register` | | |
-| `/quiz-practice` | | |
-| `/quiz-run` | | |
-| `/quiz-report` | | |
-| `/quiz-send` | | |
-| `/quiz-migrate` | | |
-| `/quiz-install` | ✅ | Fase 1.3, 122 archivos |
-| `/quiz-install-update` | | |
-| `/survey` | | |
-| `/tutorial` | | |
-| `/tutorial-create` | | |
-| `/tutorial-report` | | |
+| `/quiz-register` | ✅ | Fase 8.1 |
+| `/quiz-practice` | ✅ | Fase 3.1 (interactive TUI) |
+| `/quiz-run` | ✅ | Fase 3.2 (interactive TUI) |
+| `/quiz-report` | ✅ | Fase 3.3 evaluate + Fase 3.4 admin-report |
+| `/quiz-send` | ✅ | Fase 8.3 --list (send-results.js return fix) |
+| `/quiz-migrate` | ✅ | Fase 8.2 |
+| `/quiz-install` | ✅ | Fase 1.3, 127 files |
+| `/quiz-install-update` | ✅ | Fase 6 (preserves custom files) |
+| `/survey` | ⏭️ | Skipped (no survey content to test) |
+| `/tutorial` | ⏭️ | Skipped (interactive TUI) |
+| `/tutorial-create` | ✅ | Fase 4.1-4.3 |
+| `/tutorial-report` | ⏭️ | Skipped (no completion data) |

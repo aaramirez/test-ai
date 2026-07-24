@@ -60,7 +60,7 @@ if (opts.list && opts.bank) {
       console.log(`Subject: ${payload.subject}`);
       console.log(`Body:\n${payload.body}`);
       console.log('\n[Email would be sent via send-email.js]');
-      return;
+      process.exit(0);
     }
   }
   console.error(`Session not found: ${opts.session}`);
